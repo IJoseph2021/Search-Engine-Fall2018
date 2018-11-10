@@ -1,7 +1,9 @@
 //owner: patrick
 #ifndef AVLTREE_H
 #define AVLTREE_H
+#include <iostream>
 
+using namespace std;
 template <typename fontenot>
 class AVLTree {
 private:
@@ -37,16 +39,18 @@ public:
     AVLTree(const AVLTree<fontenot>& rhs);
     AVLTree operator=(const AVLTree<fontenot>& val);
     ~AVLTree();
+    void printInOrder(ostream &out);
     void insert(const fontenot& val);
 
 private:
+    void printInOrder(ostream& out, TreeNode<fontenot>* t);
     void insert(const fontenot& val, TreeNode<fontenot> *& t);
     void rotateWithLeftChild(TreeNode<fontenot>*& k2);
     void doubleWithLeftChild(TreeNode<fontenot>*& k3);
     void rotateWithRightChild(TreeNode<fontenot>*& k2);
     void doubleWithRightChild(TreeNode<fontenot>*& k3);
     int max(int l, int r);
-
+    int height(TreeNode<fontenot> *t);
 };
 
 template<typename fontenot>
@@ -63,10 +67,32 @@ AVLTree<fontenot>::~AVLTree()
 }
 
 template<typename fontenot>
+void AVLTree<fontenot>::printInOrder(ostream& out)
+{
+    printInOrder(out, root);
+}
+
+template<typename fontenot>
 void AVLTree<fontenot>::insert(const fontenot &val)
 {
     insert(val, root);
 }
+
+template <typename fontenot>
+void AVLTree<fontenot>::printInOrder(ostream &out, TreeNode<fontenot>* t)
+{
+    if (t != nullptr)
+    {
+        if (t->left != nullptr)
+            printInOrder(out, t->left);
+
+        out << t->data << endl;
+
+        if (t->right != nullptr)
+            printInOrder(out, t->right);
+    }
+}
+
 
 template<typename fontenot>
 void AVLTree<fontenot>::insert(const fontenot& val, TreeNode<fontenot> *& t)
@@ -78,7 +104,7 @@ void AVLTree<fontenot>::insert(const fontenot& val, TreeNode<fontenot> *& t)
     else if(val < t->data)
     {
         insert(val, t->left);
-        if (t->left->height - t->right->height == 2)
+        if (height(t->left) - height(t->right)== 2)
         {
             if (val < t->left->data)
                 rotateWithLeftChild(t);
@@ -89,9 +115,9 @@ void AVLTree<fontenot>::insert(const fontenot& val, TreeNode<fontenot> *& t)
     else if (val > t->data)
     {
         insert(val, t->right);
-        if (t->right->height - t->left->height == 2)
+        if (height(t->right) - height(t->left) == 2)
         {
-            if (val < t->right->data)
+            if (val > t->right->data)
                 rotateWithRightChild(t);
             else
                 doubleWithRightChild(t);
@@ -102,17 +128,17 @@ void AVLTree<fontenot>::insert(const fontenot& val, TreeNode<fontenot> *& t)
         t->data = t->data + val;
     }
 
-    t->height = max(t->left->height, t->right->height) + 1;
+    t->height = max(height(t->left), height(t->right)) + 1;
 }
 
 template <typename fontenot>
 void AVLTree<fontenot>::rotateWithLeftChild(TreeNode<fontenot> *& k2)
 {
-    TreeNode<fontenot> k1 = k2->left;
+    TreeNode<fontenot>* k1 = k2->left;
     k2->left = k1->right;
     k1->right = k2;
-    k2->height = max(k2->left->height, k2->right->height) + 1;
-    k1->height = max(k1->left->height, k2->height) + 1;
+    k2->height = max(height(k2->left), height(k2->right)) + 1;
+    k1->height = max(height(k1->left), height(k2)) + 1;
     k2 = k1;
 }
 
@@ -126,9 +152,12 @@ void AVLTree<fontenot>::doubleWithLeftChild(TreeNode<fontenot> *&k3)
 template <typename fontenot>
 void AVLTree<fontenot>::rotateWithRightChild(TreeNode<fontenot> *& k2)
 {
-    TreeNode<fontenot> k1 = k2->right;
+    TreeNode<fontenot>* k1 = k2->right;
     k2->right = k1->left;
-
+    k1->left = k2;
+    k2->height = max(height(k2->left), height(k2->right)) + 1;
+    k1->height = max(height(k1->right), height(k2)) + 1;
+    k2 = k1;
 }
 
 template <typename fontenot>
@@ -148,4 +177,14 @@ int AVLTree<fontenot>::max(int l, int r)
             return r;
     }
 }
+
+template <typename fontenot>
+int AVLTree<fontenot>::height(TreeNode<fontenot> *t)
+{
+    if (t == nullptr)
+        return -1;
+    else
+        return t->height;
+}
+
 #endif // AVLTREE_H
