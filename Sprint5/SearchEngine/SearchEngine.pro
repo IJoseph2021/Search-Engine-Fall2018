@@ -8,5 +8,4 @@ SOURCES += \
 
 HEADERS += \
     indexerface.h \
-    avltree.h \
-    treenode.h
+    avltree.h
