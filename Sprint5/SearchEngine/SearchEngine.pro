@@ -5,3 +5,8 @@ CONFIG -= qt
 
 SOURCES += \
         main.cpp
+
+HEADERS += \
+    indexerface.h \
+    avltree.h \
+    treenode.h
