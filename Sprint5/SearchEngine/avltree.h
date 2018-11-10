@@ -29,18 +29,54 @@ private:
                 height = right->height+1;
             }
         }
+        TreeNode(const TreeNode<T>& val )
+        {
+            left = nullptr;
+            right = nullptr;
+            data = val.data;
+            if (val.left != nullptr)
+                left = new TreeNode(val.left);
+            if (val.right != nullptr)
+                right = new TreeNode (val.right);
 
+        }
+        TreeNode& operator =(const TreeNode<T>& val)
+        {
+            data = val.data;
+
+            TreeNode<T>* left2 = left;
+            left = new TreeNode<T>(val.left);
+            delete left2;
+
+            TreeNode<T>* right2 = right;
+            right = new TreeNode<T>(val.right);
+            delete right2;
+
+            return *this;
+
+        }
+        ~TreeNode()
+        {
+            if (left != nullptr)
+                delete left;
+            if (right != nullptr)
+                delete right;
+        }
     };
 
     TreeNode<fontenot>* root;
 
 public:
     AVLTree():root(nullptr){}
-    AVLTree(const AVLTree<fontenot>& rhs);
-    AVLTree operator=(const AVLTree<fontenot>& val);
+    AVLTree(const AVLTree<fontenot>& val);
+    AVLTree& operator=(const AVLTree<fontenot>& val);
     ~AVLTree();
     void printInOrder(ostream &out);
     void insert(const fontenot& val);
+    void clear();
+    fontenot& findMin();
+    fontenot& findMax();
+    bool contains(fontenot val);
 
 private:
     void printInOrder(ostream& out, TreeNode<fontenot>* t);
@@ -54,28 +90,45 @@ private:
 };
 
 template<typename fontenot>
-AVLTree<fontenot>::AVLTree(const AVLTree<fontenot>& rhs)
+AVLTree<fontenot>::AVLTree(const AVLTree<fontenot>& val)
 {
     root = nullptr;
-    *this = rhs;
+    *this = val;
+}
+
+template<typename fontenot>
+AVLTree<fontenot>& AVLTree<fontenot>::operator =(const AVLTree<fontenot>& val)
+{
+    root = val.root;
 }
 
 template<typename fontenot>
 AVLTree<fontenot>::~AVLTree()
 {
-
+    delete root;
+    root = nullptr;
 }
 
 template<typename fontenot>
 void AVLTree<fontenot>::printInOrder(ostream& out)
 {
-    printInOrder(out, root);
+    if (root != nullptr)
+        printInOrder(out, root);
+    else
+        out << "Empty tree" << endl;
 }
 
 template<typename fontenot>
 void AVLTree<fontenot>::insert(const fontenot &val)
 {
     insert(val, root);
+}
+
+template <typename fontenot>
+void AVLTree<fontenot>::clear()
+{
+    delete root;
+    root = nullptr;
 }
 
 template <typename fontenot>
@@ -185,6 +238,54 @@ int AVLTree<fontenot>::height(TreeNode<fontenot> *t)
         return -1;
     else
         return t->height;
+}
+
+template <typename fontenot>
+fontenot& AVLTree<fontenot>::findMin()
+{
+    TreeNode<fontenot>* temp = root;
+    while (temp->left != nullptr)
+    {
+        temp = temp->left;
+    }
+    return temp->data;
+}
+
+template <typename fontenot>
+fontenot& AVLTree<fontenot>::findMax()
+{
+    TreeNode<fontenot>* temp = root;
+    while (temp->right != nullptr)
+    {
+        temp = temp->right;
+    }
+    return temp->data;
+}
+
+template <typename fontenot>
+bool AVLTree<fontenot>::contains(fontenot val)
+{
+    TreeNode<fontenot>* temp = root;
+    while (temp->left != nullptr || temp->right != nullptr)
+    {
+        if (temp->data == val)
+            return true;
+        if (val < temp->data)
+        {
+            if (temp->left != nullptr)
+                temp = temp->left;
+            else
+                return false;
+        }
+
+        if (val > temp->data)
+        {
+            if (temp->right != nullptr)
+                temp = temp->left;
+            else
+                return false;
+        }
+    }
 }
 
 #endif // AVLTREE_H
