@@ -7,18 +7,18 @@ using namespace std;
 template <typename fontenot>
 class AVLTree {
 private:
-    template<typename T>
+    template<typename mark>
     class TreeNode
     {
     public:
         fontenot data;
-        TreeNode<T>* left;
-        TreeNode<T>* right;
+        TreeNode<mark>* left;
+        TreeNode<mark>* right;
         int height;
 
         TreeNode(): left(nullptr), right(nullptr), height(0){}
-        TreeNode(T val): data(val), left(nullptr), right(nullptr), height(0){}
-        TreeNode(T val, TreeNode* l, TreeNode* r): data(val), left(l), right(r)
+        TreeNode(mark val): data(val), left(nullptr), right(nullptr), height(0){}
+        TreeNode(mark val, TreeNode* l, TreeNode* r): data(val), left(l), right(r)
         {
             if (left->height > right->height)
             {
@@ -29,7 +29,7 @@ private:
                 height = right->height+1;
             }
         }
-        TreeNode(const TreeNode<T>& val )
+        TreeNode(const TreeNode<mark>& val )
         {
             left = nullptr;
             right = nullptr;
@@ -40,16 +40,16 @@ private:
                 right = new TreeNode (val.right);
 
         }
-        TreeNode& operator =(const TreeNode<T>& val)
+        TreeNode& operator =(const TreeNode<mark>& val)
         {
             data = val.data;
 
-            TreeNode<T>* left2 = left;
-            left = new TreeNode<T>(val.left);
+            TreeNode<mark>* left2 = left;
+            left = new TreeNode<mark>(val.left);
             delete left2;
 
-            TreeNode<T>* right2 = right;
-            right = new TreeNode<T>(val.right);
+            TreeNode<mark>* right2 = right;
+            right = new TreeNode<mark>(val.right);
             delete right2;
 
             return *this;
@@ -87,6 +87,7 @@ private:
     void doubleWithRightChild(TreeNode<fontenot>*& k3);
     int max(int l, int r);
     int height(TreeNode<fontenot> *t);
+    bool contains(TreeNode<fontenot>*&t, fontenot val);
 };
 
 template<typename fontenot>
@@ -265,27 +266,32 @@ fontenot& AVLTree<fontenot>::findMax()
 template <typename fontenot>
 bool AVLTree<fontenot>::contains(fontenot val)
 {
-    TreeNode<fontenot>* temp = root;
-    while (temp->left != nullptr || temp->right != nullptr)
-    {
-        if (temp->data == val)
-            return true;
-        if (val < temp->data)
-        {
-            if (temp->left != nullptr)
-                temp = temp->left;
-            else
-                return false;
-        }
+    if (root == nullptr)
+        return false;
+    else
+        return contains(root, val);
+}
 
-        if (val > temp->data)
-        {
-            if (temp->right != nullptr)
-                temp = temp->left;
-            else
-                return false;
-        }
+template <typename fontenot>
+bool AVLTree<fontenot>::contains(TreeNode<fontenot> *& t, fontenot val)
+{
+    if (t->data == val)
+        return true;
+    if (t->data > val)
+    {
+        if (t->left != nullptr)
+            return contains(t->left, val);
+        else
+            return false;
     }
+    if (t->data < val)
+    {
+        if (t->right != nullptr)
+            return contains(t->right, val);
+        else
+            return false;
+    }
+    return false;
 }
 
 #endif // AVLTREE_H
