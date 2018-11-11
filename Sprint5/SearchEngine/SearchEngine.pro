@@ -4,6 +4,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+<<<<<<< HEAD
     StemmerFiles/porter2_stemmer.cpp \
     main.cpp
 
@@ -17,3 +18,10 @@ HEADERS += \
     StemmerFiles/util/hash.h \
     StemmerFiles/util/string_view.h \
     StemmerFiles/porter2_stemmer.h
+=======
+        main.cpp
+
+HEADERS += \
+    indexerface.h \
+    avltree.h
+>>>>>>> feature/indexer-Data-Structures
