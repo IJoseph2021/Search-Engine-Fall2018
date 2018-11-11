@@ -46,3 +46,15 @@ vector<string> Parser::get_files_at_path_with_extn() {
 
 string Parser::getPath() { return path; }
 string Parser::getExt() { return extn; }
+
+void Parser::readStopWords(char *filename){
+    ifstream input;
+    input.open(filename);
+    vector <string> temp;
+    if(input.is_open()){
+        string hold;
+        while(!input.eof()){
+            getline(hold)
+        }
+    }
+}
