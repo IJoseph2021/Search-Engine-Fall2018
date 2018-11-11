@@ -18,6 +18,7 @@ void testTree()
 
     AVLTree<int> tree2 = tree;
     tree2.printInOrder(cout);
+
     tree.clear();
     tree.printInOrder(cout);
 }
