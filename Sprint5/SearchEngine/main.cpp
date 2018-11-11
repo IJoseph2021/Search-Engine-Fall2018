@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 {
     string toStem = "crackalacking";
     stem(toStem);
-    cout << toStem;
+    cout << toStem << endl;
     cout << "Hello World!" << endl;
     return 0;
 }
