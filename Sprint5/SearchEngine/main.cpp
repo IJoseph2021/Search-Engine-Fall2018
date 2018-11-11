@@ -1,10 +1,6 @@
 #include <iostream>
-<<<<<<< HEAD
 #include "StemmerFiles/porter2_stemmer.h"
-=======
 #include "avltree.h"
-
->>>>>>> feature/indexer-Data-Structures
 using namespace std;
 void testTree()
 {
@@ -33,10 +29,12 @@ void stem(string& toStem)
 
 int main(int argc, char* argv[])
 {
+    cout << "Testing stemmer:" << endl;
     string toStem = "crackalacking";
     stem(toStem);
     cout << toStem << endl;
-    cout << "Hello World!" << endl;
+
+    cout << "\nTesting tree:" << endl;
     testTree();
     return 0;
 }
