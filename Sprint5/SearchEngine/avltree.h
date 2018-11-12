@@ -77,6 +77,7 @@ public:
     fontenot& findMin();
     fontenot& findMax();
     bool contains(fontenot val);
+    void remove(fontenot val);
 
 private:
     void printInOrder(ostream& out, TreeNode<fontenot>* t);
@@ -88,6 +89,8 @@ private:
     int max(int l, int r);
     int height(TreeNode<fontenot> *t);
     bool contains(TreeNode<fontenot>*&t, fontenot val);
+    void remove(TreeNode<fontenot>*& toRemove);
+    TreeNode<fontenot>*& find(fontenot val, TreeNode<fontenot> *t);
 };
 
 template<typename fontenot>
@@ -101,6 +104,7 @@ template<typename fontenot>
 AVLTree<fontenot>& AVLTree<fontenot>::operator =(const AVLTree<fontenot>& val)
 {
     root = val.root;
+    return *this;
 }
 
 template<typename fontenot>
@@ -277,21 +281,88 @@ bool AVLTree<fontenot>::contains(TreeNode<fontenot> *& t, fontenot val)
 {
     if (t->data == val)
         return true;
-    if (t->data > val)
+    else if (t->data > val)
     {
         if (t->left != nullptr)
             return contains(t->left, val);
         else
             return false;
     }
-    if (t->data < val)
+    else if (t->data < val)
     {
         if (t->right != nullptr)
             return contains(t->right, val);
         else
             return false;
     }
-    return false;
+    else
+    {
+        return false;
+    }
+}
+
+template <typename fontenot>
+void AVLTree<fontenot>::remove(fontenot val)
+{
+    TreeNode<fontenot>* toRemove = new TreeNode<fontenot>;
+    toRemove = find(val, root);
+    remove(toRemove);
+}
+
+template <typename fontenot>
+void AVLTree<fontenot>::remove(TreeNode<fontenot>*& toRemove)
+{
+    if (toRemove->height == 0)
+    {
+        delete toRemove;
+        return;
+    }
+    else if (toRemove->height == 1 && (toRemove->left == nullptr || toRemove->right == nullptr))
+    {
+        if (toRemove->left == nullptr)
+            toRemove = toRemove->right;
+        else
+            toRemove = toRemove->left;
+        return;
+    }
+    else
+    {
+        if (toRemove->right != nullptr)
+        {
+            TreeNode<fontenot>* replacement = toRemove->right;
+            while (replacement->left != nullptr)
+            {
+                replacement = replacement->left;
+            }
+            toRemove->data = replacement->data;
+            remove(replacement);
+        }
+        else
+        {
+           toRemove = toRemove->left;
+        }
+    }
+}
+
+template <typename fontenot>
+AVLTree<fontenot>::TreeNode<fontenot>*& AVLTree<fontenot>::find(fontenot val, TreeNode<fontenot>* t)
+{
+    if (t->data == val)
+        return t;
+    if (t->data > val)
+    {
+        if (t->left != nullptr)
+            return find(val, t->left);
+        else
+            throw logic_error("Value not in tree [in find()]");
+    }
+    if (t->data < val)
+    {
+        if (t->right != nullptr)
+            return find(val, t->right);
+        else
+            throw logic_error("Value not in tree [in find()]");
+    }
 }
 
 #endif // AVLTREE_H

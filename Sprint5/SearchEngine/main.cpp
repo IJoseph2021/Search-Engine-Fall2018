@@ -11,11 +11,12 @@ void testTree()
     tree.printInOrder(cout);
 
     cout << tree.findMin() << endl;
-    cout << tree.findMax() << endl;
+    cout << tree.findMax() << endl << endl;
 
     cout << tree.contains(5) << endl;
-    cout << tree.contains(10) << endl;
+    cout << tree.contains(10) << endl << endl;
 
+    cout << endl;
     AVLTree<int> tree2 = tree;
     tree2.printInOrder(cout);
 
