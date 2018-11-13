@@ -90,7 +90,8 @@ ostream & operator <<(ostream out, word& w)
     out << w.getPrev() << '|' << w.getWord() << "|";
     for (int i = 0; i < w.getNumDocs(); i++)
     {
-        out << w.getDoc(i) << '|';
+        out << w.getDoc(i);
+        out << '|';
     }
     out << endl;
     return out;

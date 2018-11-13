@@ -27,9 +27,12 @@ bool docu::operator ==(const docu& val)
         return false;
 }
 
-ostream& operator <<(ostream& out, docu d)
+ostream& operator <<(ostream& out, docu& d)
 {
-    out << d.getFileName() << '|' << d.getUseCount() << '|';
+    out << d.getFileName();
+    out << '|';
+    out << d.getUseCount();
+    out << '|';
     return out;
 }
 
