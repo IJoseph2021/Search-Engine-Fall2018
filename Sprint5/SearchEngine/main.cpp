@@ -63,6 +63,11 @@ void testWord()
     tester = tester + tester2;
     cout << tester;
 
+    word tester3("Charles", "Sriracha", "file3");
+    if (tester3 < tester)
+        cout << "Correct" << endl;
+
+
 }
 
 int main(int argc, char* argv[])
