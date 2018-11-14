@@ -1,6 +1,7 @@
 #include <iostream>
 #include "StemmerFiles/porter2_stemmer.h"
 #include "avltree.h"
+#include "stopper.h"
 using namespace std;
 void testTree()
 {
@@ -31,12 +32,16 @@ void stem(string& toStem)
 
 int main(int argc, char* argv[])
 {
-    cout << "Testing stemmer:" << endl;
+   /* cout << "Testing stemmer:" << endl;
     string toStem = "crackalacking";
     stem(toStem);
     cout << toStem << endl;
 
     cout << "\nTesting tree:" << endl;
-    testTree();
+    testTree();*/
+    Stopper testing;
+    testing.readStopWords("StopWordList.txt");
+    bool k = testing.isStopWord("Husband");
+    cout<<"bool"<<k<<endl;
     return 0;
 }

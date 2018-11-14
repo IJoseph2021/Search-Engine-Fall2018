@@ -14,7 +14,7 @@ using namespace std;
 class Stopper
 {
 private:
-    vector <vector<string>> stopWord;
+    vector <vector<string>> stopWord ;
 public:
     Stopper();
     bool isStopWord(string a);
