@@ -9,6 +9,7 @@ using namespace std;
 
 class word
 {
+    template <typename fontenot>
     friend class AVLTree;
 private:
     string thisWord;
@@ -18,6 +19,7 @@ public:
     word();
     word(const word& val);
     word(string prev, string curr);
+    word(string prev, string curr, string doc);
     word& operator=(const word& val);
     ~word();
     word& operator+(const word& val);
@@ -25,11 +27,12 @@ public:
     bool operator>(const word& val);
     bool operator==(const word& val);
     friend ostream& operator<<(ostream& out, const word& w);
-    int getNumDocs();
-    string getPrev();
-    string getWord();
-    docu& getDoc(int x);
-
+    int getNumDocs() const;
+    string getPrev() const;
+    string getWord() const;
+    docu getDoc(int x) const;
+    void addDoc(string docName);
+    void addDoc(docu& doc);
 };
 
 #endif // WORD_H

@@ -13,11 +13,13 @@ private:
     int useCount;
 public:
     docu();
+    docu(string name);
     docu(const docu& val);
     docu& operator=(const docu& val);
     ~docu();
     bool operator==(const docu& val);
     friend ostream& operator<<(ostream& out, docu& d);
+
     string getFileName();
     int getUseCount();
 };

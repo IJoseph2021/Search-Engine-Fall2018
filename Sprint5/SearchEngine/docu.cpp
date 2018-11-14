@@ -4,6 +4,11 @@ docu::docu()
 {
 
 }
+docu::docu(string name)
+{
+    fileName = name;
+    useCount = 1;
+}
 docu::docu(const docu& val)
 {
     fileName = val.fileName;
