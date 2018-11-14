@@ -20,7 +20,7 @@ void testTree()
     AVLTree<int> tree2 = tree;
     tree2.printInOrder(cout);
 
-    cout << tree.find(4) << endl;
+    cout << endl << tree.find(4) << endl;
     tree.find(4)++;
     tree.printInOrder(cout);
 

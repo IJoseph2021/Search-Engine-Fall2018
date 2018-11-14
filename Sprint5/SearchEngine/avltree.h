@@ -7,9 +7,11 @@ using namespace std;
 template <typename fontenot>
 class AVLTree {
 private:
+    //templated treeNode class for the tree
     template<typename mark>
     class TreeNode
     {
+    //public to the tree only
     public:
         fontenot data;
         TreeNode<mark>* left;
@@ -18,17 +20,31 @@ private:
 
         TreeNode(): left(nullptr), right(nullptr), height(0){}
         TreeNode(mark val): data(val), left(nullptr), right(nullptr), height(0){}
+
+        //create a tree node from a value and pointers to the nodes to its left and right
         TreeNode(mark val, TreeNode* l, TreeNode* r): data(val), left(l), right(r)
         {
-            if (left->height > right->height)
+            if (left == nullptr && right != nullptr)
             {
-                height = left->height+1;
+                height = right->height;
             }
-            else
+            else if (right == nullptr && left != nullptr)
             {
-                height = right->height+1;
+                height = left->height;
+            }
+            else if (right != nullptr  && left != nullptr)
+            {
+                if (left->height > right->height)
+                {
+                    height = left->height+1;
+                }
+                else
+                {
+                    height = right->height+1;
+                }
             }
         }
+
         TreeNode(const TreeNode<mark>& val)
         {
             left = nullptr;
@@ -39,6 +55,7 @@ private:
             if (val.right != nullptr)
                 right = new TreeNode(*val.right);
         }
+
         TreeNode& operator =(const TreeNode<mark>& val)
         {
             data = val.data;
@@ -58,6 +75,8 @@ private:
             }
             return *this;
         }
+
+        //note that deleting a node will delete all of its descendants
         ~TreeNode()
         {
             if (left != nullptr)
@@ -67,6 +86,9 @@ private:
         }
     };
 
+    //resume AVLTree class
+private:
+    //tree root and node counter
     TreeNode<fontenot>* root;
     int nodes;
 
@@ -96,22 +118,19 @@ private:
     bool contains(TreeNode<fontenot>*&t, fontenot val);
     void remove(TreeNode<fontenot>*& toRemove);
     TreeNode<fontenot>& find(fontenot &val, TreeNode<fontenot> *t);
+    AVLTree<fontenot>::TreeNode<fontenot> *copyNodes(TreeNode<fontenot> *t);
 };
 
 template<typename fontenot>
 AVLTree<fontenot>::AVLTree(const AVLTree<fontenot>& val)
 {
-    root = nullptr;
-    nodes = val.nodes;
-    *this = val;
+    root = copyNodes(val.root);
 }
 
 template<typename fontenot>
 AVLTree<fontenot>& AVLTree<fontenot>::operator =(const AVLTree<fontenot>& val)
 {
-    root = val.root;
-    nodes = val.nodes;
-    return *this;
+     root = copyNodes(val.root);
 }
 
 template<typename fontenot>
@@ -361,6 +380,22 @@ AVLTree<fontenot>::TreeNode<fontenot>& AVLTree<fontenot>::find(fontenot& val, Tr
         else
             throw logic_error("Value not in tree [in find()]");
     }
+}
+
+template <typename fontenot>
+AVLTree<fontenot>::TreeNode<fontenot>* AVLTree<fontenot>::copyNodes(TreeNode<fontenot> *t)
+{
+    if (t!= nullptr)
+    {
+        TreeNode<fontenot>* left = copyNodes(t->left);
+        TreeNode<fontenot>* right = copyNodes(t->right);
+        return new TreeNode<fontenot>(t->data, left, right);
+    }
+    else
+    {
+        return nullptr;
+    }
+
 }
 
 #endif // AVLTREE_H
