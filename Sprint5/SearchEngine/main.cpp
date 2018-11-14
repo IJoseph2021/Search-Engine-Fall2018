@@ -55,6 +55,9 @@ void testWord()
     cout << tester;
 
     word tester2("Mark", "Fontenot", "file4");
+    tester2.addDoc("file3");
+    tester2.addDoc("file5");
+    tester2.addDoc("file5");
     cout << tester2;
 
     tester = tester + tester2;

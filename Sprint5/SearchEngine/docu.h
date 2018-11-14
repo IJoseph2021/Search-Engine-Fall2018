@@ -1,3 +1,5 @@
+//owner:Patrick
+//created: 11/13/18
 #ifndef DOCU_H
 #define DOCU_H
 #include <string>
@@ -20,8 +22,8 @@ public:
     bool operator==(const docu& val);
     friend ostream& operator<<(ostream& out, docu& d);
 
-    string getFileName();
-    int getUseCount();
+    string getFileName() const;
+    int getUseCount() const;
 };
 
 #endif // DOCU_H

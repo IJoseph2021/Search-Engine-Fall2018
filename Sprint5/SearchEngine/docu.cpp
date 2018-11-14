@@ -41,12 +41,12 @@ ostream& operator<<(ostream& out, docu& d)
     return out;
 }
 
-string docu::getFileName()
+string docu::getFileName() const
 {
     return fileName;
 }
 
-int docu::getUseCount()
+int docu::getUseCount() const
 {
     return useCount;
 }

@@ -1,3 +1,5 @@
+//owner:Patrick
+//created 11/13/18
 #ifndef WORD_H
 #define WORD_H
 #include <vector>

@@ -22,20 +22,17 @@ word::word(const word& val)
 {
     thisWord = val.thisWord;
     previous = val.previous;
-    for (int i = 0; i < val.documents.size(); i++)
-    {
-        documents.push_back(val.documents[i]);
-    }
+    vector<docu> tempVec= val.documents;
+    documents.swap(tempVec);
 }
 
 word& word::operator=(const word& val)
 {
     thisWord = val.thisWord;
     previous = val.previous;
-    for (int i = 0; i < val.documents.size(); i++)
-    {
-        documents.push_back(val.documents[i]);
-    }
+    vector<docu> tempVec= val.documents;
+    documents.swap(tempVec);
+    return *this;
 }
 
 word::~word()
@@ -45,34 +42,26 @@ word::~word()
 
 word& word::operator +(const word& val)
 {
-    //if words are the same
-    if (thisWord.compare(val.thisWord) == 0)
+    for (int i = 0; i < val.getNumDocs(); i++)
     {
-        for (int i = 0; i < val.documents.size(); i++)
+        bool found = false;;
+        bool loc;
+        for (int j = 0; j < getNumDocs(); j++)
         {
-            bool found = false;
-            int j;
-            for (j = 0; j < documents.size(); j++)
+            if (val.getDoc(i).getFileName().compare(documents[j].getFileName()) == 0)
             {
-                if (documents[j] == val.documents[i])
-                {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found)
-            {
-                documents.push_back(val.documents[i]);
-            }
-            else
-            {
-                documents[j].useCount++;
+                found = true;
+                loc = i;
             }
         }
-    }
-    else
-    {
-        throw logic_error("not the same word in word::operator+");
+        if (found)
+        {
+            documents[loc].useCount++;
+        }
+        else
+        {
+            documents.push_back(val.getDoc(i));
+        }
     }
     return *this;
 }
