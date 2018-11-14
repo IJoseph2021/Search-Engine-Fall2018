@@ -65,9 +65,10 @@ private:
     };
 
     TreeNode<fontenot>* root;
+    int nodes;
 
 public:
-    AVLTree():root(nullptr){}
+    AVLTree():root(nullptr), nodes(0){}
     AVLTree(const AVLTree<fontenot>& val);
     AVLTree& operator=(const AVLTree<fontenot>& val);
     ~AVLTree();
@@ -97,6 +98,7 @@ template<typename fontenot>
 AVLTree<fontenot>::AVLTree(const AVLTree<fontenot>& val)
 {
     root = nullptr;
+    nodes = val.nodes;
     *this = val;
 }
 
@@ -104,6 +106,7 @@ template<typename fontenot>
 AVLTree<fontenot>& AVLTree<fontenot>::operator =(const AVLTree<fontenot>& val)
 {
     root = val.root;
+    nodes = val.nodes;
     return *this;
 }
 
@@ -127,6 +130,7 @@ template<typename fontenot>
 void AVLTree<fontenot>::insert(const fontenot &val)
 {
     insert(val, root);
+    nodes++;
 }
 
 template <typename fontenot>
@@ -134,6 +138,7 @@ void AVLTree<fontenot>::clear()
 {
     delete root;
     root = nullptr;
+    nodes = 0;
 }
 
 template <typename fontenot>
