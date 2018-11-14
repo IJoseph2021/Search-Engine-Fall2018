@@ -330,23 +330,6 @@ void AVLTree<fontenot>::remove(TreeNode<fontenot>*& toRemove)
             toRemove = toRemove->left;
         return;
     }
-    else
-    {
-        if (toRemove->right != nullptr)
-        {
-            TreeNode<fontenot>* replacement = toRemove->right;
-            while (replacement->left != nullptr)
-            {
-                replacement = replacement->left;
-            }
-            toRemove->data = replacement->data;
-            remove(replacement);
-        }
-        else
-        {
-           toRemove = toRemove->left;
-        }
-    }
 }
 
 template <typename fontenot>
