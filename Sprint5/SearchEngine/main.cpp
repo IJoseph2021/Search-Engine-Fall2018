@@ -32,16 +32,9 @@ void stem(string& toStem)
 
 int main(int argc, char* argv[])
 {
-   /* cout << "Testing stemmer:" << endl;
-    string toStem = "crackalacking";
-    stem(toStem);
-    cout << toStem << endl;
-
-    cout << "\nTesting tree:" << endl;
-    testTree();*/
     Stopper testing;
     testing.readStopWords("StopWordList.txt");
-    bool k = testing.isStopWord("Husband");
+    bool k = testing.isStopWord("about");
     cout<<"bool"<<k<<endl;
     return 0;
 }

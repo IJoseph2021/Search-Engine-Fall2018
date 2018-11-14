@@ -26,11 +26,11 @@ void Stopper::readStopWords(char *filename){
         string hold;
         while(!input.eof()){
             getline(input, hold);
-            /*for(int i = 0; i<hold.length(); i++){
+            for(int i = 0; i<hold.length(); i++){
                if(hold[i] == ' ' || hold[i] == '\r'){
                     hold.erase(i);
                 }
-            }*/
+            }
             temp.push_back(hold);
         }
     }
