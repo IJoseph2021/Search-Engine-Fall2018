@@ -5,7 +5,8 @@ CONFIG -= qt
 
 SOURCES += \
     StemmerFiles/porter2_stemmer.cpp \
-    main.cpp
+    main.cpp \
+    stopper.cpp
 
 DISTFILES += \
     porter2_stemmer/diffs.txt
@@ -15,7 +16,8 @@ HEADERS += \
     StemmerFiles/util/string_view.h \
     StemmerFiles/porter2_stemmer.h \
     avltree.h \
-    indexerface.h
+    indexerface.h \
+    stopper.h
 
 HEADERS += \
     indexerface.h \
