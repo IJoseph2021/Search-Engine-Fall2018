@@ -66,8 +66,21 @@ void testWord()
     word tester3("Charles", "Sriracha", "file3");
     if (tester3 < tester)
         cout << "Correct" << endl;
+}
 
+void testWordTree()
+{
+    AVLTree<word> data;
+    word first("Mark", "Fontenot");
+    word second("Charles", "Sriracha");
+    word third("Karaj", "Watkins");
+    word fourth("Rick", "Devries");
+    data.insert(fourth);
+    data.insert(first);
+    data.insert(second);
+    data.insert(third);
 
+    data.printInOrder(cout);
 }
 
 int main(int argc, char* argv[])
@@ -80,5 +93,6 @@ int main(int argc, char* argv[])
     cout << "\nTesting tree:" << endl;
     testTree();*/
     testWord();
+    testWordTree();
     return 0;
 }
