@@ -1,7 +1,10 @@
 #include <iostream>
 #include "StemmerFiles/porter2_stemmer.h"
 #include "avltree.h"
+#include "word.h"
+
 using namespace std;
+
 void testTree()
 {
     AVLTree<int> tree;
@@ -27,6 +30,11 @@ void testTree()
 void stem(string& toStem)
 {
     Porter2Stemmer::stem(toStem);
+}
+
+void testWord()
+{
+    word tester = new word();
 }
 
 int main(int argc, char* argv[])

@@ -27,7 +27,7 @@ bool docu::operator ==(const docu& val)
         return false;
 }
 
-ostream& operator <<(ostream& out, docu& d)
+ostream& operator<<(ostream& out, docu& d)
 {
     out << d.getFileName();
     out << '|';

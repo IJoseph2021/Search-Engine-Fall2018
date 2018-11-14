@@ -5,6 +5,11 @@ word::word()
 
 }
 
+word::word(string prev, string curr)
+{
+    previous = prev;
+    thisWord = curr;
+}
 
 word::word(const word& val)
 {
@@ -85,12 +90,13 @@ bool word::operator==(const word& val)
         return false;
 }
 
-ostream & operator <<(ostream out, word& w)
+ostream& operator<<(ostream out, word& w)
 {
     out << w.getPrev() << '|' << w.getWord() << "|";
     for (int i = 0; i < w.getNumDocs(); i++)
     {
-        out << w.getDoc(i);
+        docu tempDoc = w.getDoc(i);
+        out << tempDoc;
         out << '|';
     }
     out << endl;

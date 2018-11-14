@@ -17,7 +17,7 @@ public:
     docu& operator=(const docu& val);
     ~docu();
     bool operator==(const docu& val);
-    friend ostream& operator<<(ostream& out, const docu& d);
+    friend ostream& operator<<(ostream& out, docu& d);
     string getFileName();
     int getUseCount();
 };

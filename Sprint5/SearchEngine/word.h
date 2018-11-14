@@ -17,6 +17,7 @@ private:
 public:
     word();
     word(const word& val);
+    word(string prev, string curr);
     word& operator=(const word& val);
     ~word();
     word& operator+(const word& val);
