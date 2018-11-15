@@ -9,7 +9,6 @@
 #include <fstream>
 #include "document.h"
 #include "rapidjson.h"
-#include "istreamwrapper.h"
 
 using namespace std;
 using namespace rapidjson;
@@ -27,12 +26,12 @@ void Parser::parse() {
 
     vector<string> files = get_files_at_path_with_extn();
 
-    for(int j = 0; j < 2/*files.size()*/; j++) {
+    for(int j = 0; j < files.size(); j++) {
         openPath = this->getPath()+ "/" + files[j];
         iFile.open(openPath);
         if(iFile.is_open()) {
             Document doc;
-            //IStreamWrapper iws(iFile);
+//            IStreamWrapper iws(iFile);
             iFile.seekg(0, ios::end);
             long file_length = iFile.tellg();
             iFile.clear();
@@ -40,13 +39,21 @@ void Parser::parse() {
 
             char str[file_length];
             iFile.read(str, file_length);
-            doc.Parse(str);
-            //cout << doc["plaintext"].GetString() << endl;
-            //cout << doc["html"].GetString() << endl;
+            doc.Parse<kParseStopWhenDoneFlag>(str);
+//            doc.ParseStream<kParseStopWhenDoneFlag>(iws);
+
+
+            assert(doc.HasMember("plain_text")); //if it has member plain_text it will always be a string
+            //cout << doc["plain_text"].GetString() << endl;
+            //printf(doc["plain_text"].GetString());
+            cout << files[j] << endl;
+            if(doc["html"].IsString())           //All files have html member but some are writeen as NULL
+               cout << doc["html"].GetString() << endl;
+
             iFile.close();
-        }
-    }
-}
+        } //end iFile is_open
+    } //end for loop
+} //end parse function
 
 vector<string> Parser::get_files_at_path_with_extn() {
     vector<string> result;
