@@ -71,15 +71,18 @@ void testWord()
 void testWordTree()
 {
     AVLTree<word> data;
-    word first("Mark", "Fontenot");
-    word second("Charles", "Sriracha");
-    word third("Karaj", "Watkins");
-    word fourth("Rick", "Devries");
+    word first("Mark", "Fontenot", "doc1");
+    word second("Charles", "Sriracha", "doc1");
+    word third("Karaj", "Watkins", "doc1");
+    word fourth("Rick", "Devries", "doc1");
+    word fifth("Rick", "Devries", "doc1");
     data.insert(fourth);
     data.insert(first);
     data.insert(second);
     data.insert(third);
 
+    data.printInOrder(cout);
+    data.insert(fifth);
     data.printInOrder(cout);
 }
 
