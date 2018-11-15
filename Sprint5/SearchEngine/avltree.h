@@ -98,7 +98,7 @@ public:
     AVLTree& operator=(const AVLTree<fontenot>& val);
     ~AVLTree();
     void printInOrder(ostream &out);
-    void insert(const fontenot& val);
+    void insert(fontenot& val);
     void clear();
     fontenot& findMin();
     fontenot& findMax();
@@ -108,7 +108,7 @@ public:
 
 private:
     void printInOrder(ostream& out, TreeNode<fontenot>* t);
-    void insert(const fontenot& val, TreeNode<fontenot> *& t);
+    void insert(fontenot &val, TreeNode<fontenot> *& t);
     void rotateWithLeftChild(TreeNode<fontenot>*& k2);
     void doubleWithLeftChild(TreeNode<fontenot>*& k3);
     void rotateWithRightChild(TreeNode<fontenot>*& k2);
@@ -155,7 +155,7 @@ void AVLTree<fontenot>::printInOrder(ostream& out)
 //public insert which calls private recursive insert algorithm
 //then increments node counter
 template<typename fontenot>
-void AVLTree<fontenot>::insert(const fontenot &val)
+void AVLTree<fontenot>::insert(fontenot &val)
 {
     insert(val, root);
     nodes++;
@@ -190,7 +190,7 @@ void AVLTree<fontenot>::printInOrder(ostream &out, TreeNode<fontenot>* t)
 //recursive calls in the appropriate direction, then checking balance
 //and rebalancing as the recursion stack is popped
 template<typename fontenot>
-void AVLTree<fontenot>::insert(const fontenot& val, TreeNode<fontenot> *& t)
+void AVLTree<fontenot>::insert(fontenot& val, TreeNode<fontenot> *& t)
 {
     //if no value at current node, create node at that point
     if (t == nullptr)
