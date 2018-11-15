@@ -36,7 +36,7 @@ void stem(string& toStem)
 int main(int argc, char* argv[])
 {
     cout << "Testing stemmer:" << endl;
-    string toStem = "crackalacking";
+    string toStem = "adjudication";
     stem(toStem);
     cout << toStem << endl;
 
