@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <stdexcept>
 #include <dirent.h>
 
@@ -53,6 +54,7 @@ void Stopper::readStopWords(char *filename){
 
 
 bool Stopper::isStopWord(string a){
+    transform(a.begin(), a.end(), a.begin(), ::tolower);
     int x = a.length() - 1;
     for(int i = 0; i<stopWord[x].size(); i++){
         if(a == stopWord[x][i]){
