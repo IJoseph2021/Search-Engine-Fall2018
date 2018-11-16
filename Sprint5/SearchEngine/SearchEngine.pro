@@ -8,6 +8,7 @@ SOURCES += \
     main.cpp \
     docu.cpp \
     word.cpp
+    stopper.cpp
 
 DISTFILES += \
     porter2_stemmer/diffs.txt
@@ -20,6 +21,7 @@ HEADERS += \
     indexerface.h \
     docu.h \
     word.h
+    stopper.h
 
 HEADERS += \
     indexerface.h \

@@ -2,6 +2,7 @@
 #include "StemmerFiles/porter2_stemmer.h"
 #include "avltree.h"
 #include "word.h"
+#include "stopper.h"
 #include <iostream>
 
 using namespace std;
@@ -93,6 +94,7 @@ void testWordTree()
 
 int main(int argc, char* argv[])
 {
+
     cout << "Testing stemmer:" << endl;
     string toStem = "adjudication";
     stem(toStem);
@@ -106,5 +108,8 @@ int main(int argc, char* argv[])
 
     cout << "\nTesting words in tree" << endl;
     testWordTree();
+
+    Stopper k;
+
     return 0;
 }
