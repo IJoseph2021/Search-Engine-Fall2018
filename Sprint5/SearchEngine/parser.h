@@ -21,6 +21,7 @@ private:
     string path;
     string extn;
     vector<string> get_files_at_path_with_extn();
+    void parseHTML(string html); //needs to also have instance of IndexerFace
 
 public:
     Parser(string p, string ex = ".json");

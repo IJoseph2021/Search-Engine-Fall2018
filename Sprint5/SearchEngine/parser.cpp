@@ -9,6 +9,7 @@
 #include <fstream>
 #include "document.h"
 #include "rapidjson.h"
+#include "istreamwrapper.h"
 
 using namespace std;
 using namespace rapidjson;
@@ -26,34 +27,53 @@ void Parser::parse() {
 
     vector<string> files = get_files_at_path_with_extn();
 
+
     for(int j = 0; j < files.size(); j++) {
-        openPath = this->getPath()+ "/" + files[j];
-        iFile.open(openPath);
+        iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
-//            IStreamWrapper iws(iFile);
+
             iFile.seekg(0, ios::end);
             long file_length = iFile.tellg();
             iFile.clear();
             iFile.seekg(0, ios::beg);
 
             char str[file_length];
+
             iFile.read(str, file_length);
             doc.Parse<kParseStopWhenDoneFlag>(str);
-//            doc.ParseStream<kParseStopWhenDoneFlag>(iws);
 
-
-            assert(doc.HasMember("plain_text")); //if it has member plain_text it will always be a string
-            //cout << doc["plain_text"].GetString() << endl;
-            //printf(doc["plain_text"].GetString());
-            cout << files[j] << endl;
-            if(doc["html"].IsString())           //All files have html member but some are writeen as NULL
-               cout << doc["html"].GetString() << endl;
+            if(doc["html"].IsString()) {      //All files have html member but some are writeen as NULL
+                parseHTML(doc["html"].GetString());
+            }
 
             iFile.close();
         } //end iFile is_open
     } //end for loop
 } //end parse function
+
+void Parser::parseHTML(string html) {
+    int find;
+    string word;
+    string previousString;
+    for(int j = 0; j < html.length(); j++) {
+        if(strcmp(html[j], ' ') == 0) {
+            word += html[j];
+        } else {
+            find = word.find_last_of(">");
+            if(find != -1)
+                word = word.substr(find+1, word.length()-find);
+
+            find = word.find_first_of("<");
+            if(find == -1) {
+                //make word object
+                //update previousString
+            }
+
+            word = NULL;
+        }  //finding complete word
+    }  //end for loop through buffer
+} //end parseHTML
 
 vector<string> Parser::get_files_at_path_with_extn() {
     vector<string> result;
