@@ -422,7 +422,7 @@ AVLTree<fontenot>::TreeNode<fontenot>& AVLTree<fontenot>::find(fontenot& val, Tr
     {
         if (t->left != nullptr)
             return find(val, t->left);
-        else            
+        else
             //if the value is less than the current node but there is no left node throw error
             throw logic_error("Value not in tree [in find()]");
     }
