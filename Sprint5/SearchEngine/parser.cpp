@@ -63,8 +63,9 @@ void Parser::parseHTML(string html, string fileN, int& count) {
     string word = "";
     string previousString;
     for(unsigned int j = 0; j < html.length(); j++) {
-        if(isspace((int)html[j]) == 0 && !ispunct(html[j])) {
-            word += html[j];
+        if(isspace((int)html[j]) == 0) {
+            if(checkPunct(html[j]))
+                word += html[j];
         } else {
             //only do shit if string is != ""
             if(!word.empty()) {
@@ -75,6 +76,7 @@ void Parser::parseHTML(string html, string fileN, int& count) {
                 find = word.find_first_of("<");
                 if(find == -1 && !word.empty()) {
                     count++;
+                    cout << word <<endl;
                     //make word object
                     //update previousString
                 }
@@ -104,6 +106,10 @@ vector<string> Parser::get_files_at_path_with_extn() {
         throw invalid_argument("Provided path could not be opened");
     }
     return result;
+}
+
+bool Parser::checkPunct(char a) {
+    return (a!='.' && a!=',' && a!='\"' && a!=';' && a!=':' && a!='?' && a!='/' && a!='*');
 }
 
 string Parser::getPath() { return path; }
