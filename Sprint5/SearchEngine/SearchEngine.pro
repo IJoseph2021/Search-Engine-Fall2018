@@ -7,8 +7,34 @@ INCLUDEPATH += $$PWD/../../rapidjson
 INCLUDEPATH += $$PWD/../../JSON
 
 SOURCES += \
-        main.cpp \
+    StemmerFiles/porter2_stemmer.cpp \
+    main.cpp \
+    docu.cpp \
+    word.cpp \
+    stopper.cpp \
+    avlindex.cpp \
+    parser.cpp
+    stopper.cpp
     parser.cpp
 
+DISTFILES += \
+    porter2_stemmer/diffs.txt
+
 HEADERS += \
+    StemmerFiles/util/hash.h \
+    StemmerFiles/util/string_view.h \
+    StemmerFiles/porter2_stemmer.h \
+    avltree.h \
+    indexerface.h \
+    docu.h \
+    word.h \
+    stopper.h \
+    avlindex.h \
+    hashindex.h \
     parser.h
+    stopper.h
+    parser.h
+
+HEADERS += \
+    indexerface.h \
+    avltree.h
