@@ -23,8 +23,8 @@ private:
 
 public:
     virtual void insert(std::string val, std::string docname) = 0;
-    virtual word& findWord(std::string a);
-    virtual vector<docu> findDocWithWord(std::string a);
+    virtual word& findWord(std::string a) = 0;
+    virtual vector<docu> findDocWithWord(std::string a) = 0;
 };
 
 #endif // INDEXERFACE_H

@@ -13,43 +13,28 @@
 
 using namespace std;
 
+//inherit from Pure Virtual class IndexerFace
 class AVLIndex: public IndexerFace{
 private:
+    //specific implementation of AVLTree template
     AVLTree <word> wordTree;
-
 public:
-    void insert(string val, string docname){
-        word a(val, docname);
-        try{
-            wordTree.find(a).addDoc(docname);
-        }
-        catch(exception e){
-            wordTree.insert(a);
-        }
-    }
-    word& findWord(string a){
-        word b(a, "Fontenot");
-        try{
-            return wordTree.find(b);
-        }
-        catch (exception e){
-            cout<<"Value not in tree [in find()]"<<endl;
-        }
-    }
-
-    vector<docu> findDocWithWord(string a){
-        word b(a, "Fontenot");
-        try{
-            return wordTree.find(b).returnDocVector();
-        }
-        catch (exception e){
-            cout<<"Value not in tree [in find()]"<<endl;
-            return vector <docu> c;
-        }
-    }
-    int returnSize(){
-        return wordTree.returnNumberNodes();
-    }
+    //constructor
+    AVLIndex();
+    //destructor
+    ~AVLIndex();
+    //overloaded copy constructor
+    AVLIndex(const AVLIndex& a);
+    //overloaded assignment operator
+    AVLIndex& operator=(const AVLIndex& a);
+    //overload pure virtual insert
+    void insert(string val, string docname);
+    //overload pure virtual
+    word& findWord(string a);
+    //overloaded pure virtual
+    vector<docu> findDocWithWord(string a);
+    //overloaded pure virtual
+    int returnSize();
 };
 
 #endif // AVLINDEX_H

@@ -8,7 +8,8 @@ SOURCES += \
     main.cpp \
     docu.cpp \
     word.cpp \
-    stopper.cpp
+    stopper.cpp \
+    avlindex.cpp
     stopper.cpp
 
 DISTFILES += \
