@@ -4,6 +4,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 INCLUDEPATH += $$PWD/../../rapidjson
+INCLUDEPATH += $$PWD/../../JSON
 
 SOURCES += \
         main.cpp \

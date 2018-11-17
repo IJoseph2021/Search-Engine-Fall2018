@@ -9,10 +9,11 @@ int main(int argc, char* argv[])
     float duration;
 
     cout << "Hello World!" << endl;
+    int x = 0;
 
     start = clock();
     Parser dirParser("../../../scotus");
-    dirParser.parse();
+    dirParser.parse(x);
 
     duration = (clock() - start) / (float) CLOCKS_PER_SEC;
     cout << duration << endl;

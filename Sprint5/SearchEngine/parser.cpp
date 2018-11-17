@@ -1,3 +1,8 @@
+/*Author: Nathan Srirama
+ * created 11/09/18
+ * 11/13/18 added RapidJSON
+ * 11/15/18 Started HTML parsing to add to Index data structure
+ */
 #include "parser.h"
 #include <iostream>
 #include <cstring>
@@ -9,26 +14,27 @@
 #include <fstream>
 #include "document.h"
 #include "rapidjson.h"
-#include "istreamwrapper.h"
+//#include "json.hpp"
 
 using namespace std;
 using namespace rapidjson;
+//using json = nlohmann::json;
 
 Parser::Parser(string p, string ex)
 {
     path = p;
     extn = ex;
-    vector <vector<string>> (40);
+    //vector <vector<string>> (40);
 }
 
-void Parser::parse() {
+void Parser::parse(int& count) {
     ifstream iFile;
     string openPath;
 
     vector<string> files = get_files_at_path_with_extn();
 
 
-    for(int j = 0; j < files.size(); j++) {
+    for(unsigned int j = 0; j < files.size(); j++) {
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
@@ -43,8 +49,8 @@ void Parser::parse() {
             iFile.read(str, file_length);
             doc.Parse<kParseStopWhenDoneFlag>(str);
 
-            if(doc["html"].IsString()) {      //All files have html member but some are writeen as NULL
-                parseHTML(doc["html"].GetString());
+            if(doc["html"].IsString()) {      //All files have html member but some are written as NULL
+                parseHTML(doc["html"].GetString(), files[j], count);
             }
 
             iFile.close();
@@ -52,25 +58,30 @@ void Parser::parse() {
     } //end for loop
 } //end parse function
 
-void Parser::parseHTML(string html) {
+void Parser::parseHTML(string html, string fileN, int& count) {
     int find;
-    string word;
+    string word = "";
     string previousString;
-    for(int j = 0; j < html.length(); j++) {
-        if(strcmp(html[j], ' ') == 0) {
+    for(unsigned int j = 0; j < html.length(); j++) {
+        if(isspace((int)html[j]) == 0 && !ispunct(html[j])) {
             word += html[j];
         } else {
-            find = word.find_last_of(">");
-            if(find != -1)
-                word = word.substr(find+1, word.length()-find);
+            //only do shit if string is != ""
+            if(!word.empty()) {
+                find = word.find_last_of(">");
+                if(find != -1)
+                    word = word.substr(find+1, word.length()-find);
 
-            find = word.find_first_of("<");
-            if(find == -1) {
-                //make word object
-                //update previousString
+                find = word.find_first_of("<");
+                if(find == -1 && !word.empty()) {
+                    count++;
+                    //make word object
+                    //update previousString
+                }
+
+                word = "";
             }
 
-            word = NULL;
         }  //finding complete word
     }  //end for loop through buffer
 } //end parseHTML
