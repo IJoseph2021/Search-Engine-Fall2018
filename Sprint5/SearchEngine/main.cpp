@@ -110,6 +110,8 @@ int main(int argc, char* argv[])
     testWordTree();
 
     Stopper k;
+    k.readStopWords("StopWordList.txt");
+
 
     return 0;
 }

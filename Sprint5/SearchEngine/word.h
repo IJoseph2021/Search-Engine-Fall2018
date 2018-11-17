@@ -20,8 +20,9 @@ private:
 public:
     word();
     word(const word& val);
-    word(string prev, string curr);
+    //word(string prev, string curr);
     word(string prev, string curr, string doc);
+    word(string curr, string doc);
     word& operator=(const word& val);
     ~word();
     word& operator+(const word& val);
@@ -35,6 +36,7 @@ public:
     docu getDoc(int x) const;
     void addDoc(string docName);
     void addDoc(docu& doc);
+    vector<docu> returnDocVector();
 };
 
 #endif // WORD_H

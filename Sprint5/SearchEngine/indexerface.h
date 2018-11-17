@@ -1,5 +1,7 @@
 /*
  * Interface for AVLTree and HashTable
+ * Owner: Isaac
+ * created 11/16/2018
  *
  *
  *
@@ -10,14 +12,19 @@
 #ifndef INDEXERFACE_H
 #define INDEXERFACE_H
 
-template <typename fontenot>
+#include <string>
+#include "word.h"
+#include "docu.h"
+#include <vector>
+
+
 class IndexerFace {
 private:
 
 public:
-    virtual void insert(fontenot val) = 0;
-    virtual fontenot remove() = 0;
-    virtual bool search() = 0;
+    virtual void insert(std::string val, std::string docname) = 0;
+    virtual word& findWord(std::string a);
+    virtual vector<docu> findDocWithWord(std::string a);
 };
 
 #endif // INDEXERFACE_H

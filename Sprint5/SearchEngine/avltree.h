@@ -105,6 +105,7 @@ public:
     bool contains(fontenot val);
     void remove(fontenot val);
     fontenot& find(fontenot val);
+    int returnNumberNodes();
 
 private:
     void printInOrder(ostream& out, TreeNode<fontenot>* t);
@@ -457,6 +458,11 @@ AVLTree<fontenot>::TreeNode<fontenot>* AVLTree<fontenot>::copyNodes(TreeNode<fon
     {
         return nullptr;
     }
+}
+
+template <typename fontenot>
+int AVLTree<fontenot>::returnNumberNodes(){
+    return nodes;
 }
 
 #endif // AVLTREE_H

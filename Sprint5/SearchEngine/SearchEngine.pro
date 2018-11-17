@@ -7,7 +7,8 @@ SOURCES += \
     StemmerFiles/porter2_stemmer.cpp \
     main.cpp \
     docu.cpp \
-    word.cpp
+    word.cpp \
+    stopper.cpp
     stopper.cpp
 
 DISTFILES += \
@@ -20,7 +21,10 @@ HEADERS += \
     avltree.h \
     indexerface.h \
     docu.h \
-    word.h
+    word.h \
+    stopper.h \
+    avlindex.h \
+    hashindex.h
     stopper.h
 
 HEADERS += \

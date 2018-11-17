@@ -3,16 +3,23 @@
 word::word(){}
 
 //create a word from the previous word and the current word
-word::word(string prev, string curr)
+/*word::word(string prev, string curr)
 {
     previous = prev;
     thisWord = curr;
-}
+}*/
+
 
 //create a word with both words and the document filename
 word::word(string prev, string curr, string doc)
 {
     previous = prev;
+    thisWord = curr;
+    docu tempDoc(doc);
+    documents.push_back(tempDoc);
+}
+
+word::word(string curr, string doc){
     thisWord = curr;
     docu tempDoc(doc);
     documents.push_back(tempDoc);
@@ -184,6 +191,10 @@ void word::addDoc(docu& doc)
     {
         documents[loc].useCount++;
     }
+}
+
+vector<docu> word::returnDocVector(){
+    return documents;
 }
 
 
