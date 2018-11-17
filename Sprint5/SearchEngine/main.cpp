@@ -5,6 +5,8 @@
 #include "avltree.h"
 #include "word.h"
 #include "stopper.h"
+#include "indexerface.h"
+#include "avlindex.h"
 
 using namespace std;
 
@@ -119,8 +121,9 @@ int main(int argc, char* argv[])
     int x = 0;
 
     start = clock();
-    Parser dirParser("../../../scotus");
-    dirParser.parse(x);
+    Parser dirParser("../../../scotus", "StopWordList.txt");
+    IndexerFace* fr = new AVLIndex();
+    dirParser.parse(x, fr);
 
     duration = (clock() - start) / (float) CLOCKS_PER_SEC;
     cout << duration << endl;

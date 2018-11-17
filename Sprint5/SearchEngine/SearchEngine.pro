@@ -14,8 +14,6 @@ SOURCES += \
     stopper.cpp \
     avlindex.cpp \
     parser.cpp
-    stopper.cpp
-    parser.cpp
 
 DISTFILES += \
     porter2_stemmer/diffs.txt
@@ -31,8 +29,6 @@ HEADERS += \
     stopper.h \
     avlindex.h \
     hashindex.h \
-    parser.h
-    stopper.h
     parser.h
 
 HEADERS += \

@@ -15,17 +15,18 @@
 #include <fstream>
 #include "document.h"
 #include "rapidjson.h"
+#include "StemmerFiles/porter2_stemmer.h"
 //#include "json.hpp"
 
 using namespace std;
 using namespace rapidjson;
 //using json = nlohmann::json;
 
-Parser::Parser(string p, string ex)
+Parser::Parser(string p, char* st, string ex)
 {
     path = p;
     extn = ex;
-    //vector <vector<string>> (40);
+    stahp.readStopWords(st);
 }
 
 
@@ -35,14 +36,14 @@ Parser::Parser(string p, string ex)
  * retreived and passed to HTML parser to be parsed into Tree data structure
  */
 
-void Parser::parse(int& count) {        //count used solely to find number of words parsed
+void Parser::parse(int& count, IndexerFace*& index) {        //count used solely to find number of words parsed
     ifstream iFile;
     string openPath;
 
     vector<string> files = get_files_at_path_with_extn();
 
 
-    for(unsigned int j = 0; j < files.size(); j++) {
+    for(unsigned int j = 0; j < 1/*files.size()*/; j++) {
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
@@ -58,7 +59,7 @@ void Parser::parse(int& count) {        //count used solely to find number of wo
             doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
 
             if(doc["html"].IsString()) {      //All files have html member but some are written as NULL
-                parseHTML(doc["html"].GetString(), files[j], count);    //pass HTML off to separate parser, along with document name
+                parseHTML(doc["html"].GetString(), files[j], count, index);    //pass HTML off to separate parser, along with document name
             }                                                           //and counter for words parsed
 
             iFile.close();
@@ -72,7 +73,7 @@ void Parser::parse(int& count) {        //count used solely to find number of wo
  * at that point tags are parsed out, and if a string remains it is stored in the Tree alongside
  * the document it was found in. Punctuation is handled to an extent.
  */
-void Parser::parseHTML(string html, string fileN, int& count) {
+void Parser::parseHTML(string html, string fileN, int& count, IndexerFace*& index) {
     int find;
     string word = "";
     string previousString;
@@ -89,10 +90,15 @@ void Parser::parseHTML(string html, string fileN, int& count) {
 
                 find = word.find_first_of("<");
                 if(find == -1 && !word.empty()) {
-                    count++;
-                    cout << word <<endl;
-                    //make word object
-                    //update previousString
+                    if(!stahp.isStopWord(word)) {
+                        count++;
+                        Porter2Stemmer::stem(word);
+                        index->insert(word, fileN);
+                        //previousString = word
+                        //cout << word <<endl;
+                        //make word object
+                        //update previousString
+                    }
                 }
 
                 word = "";
