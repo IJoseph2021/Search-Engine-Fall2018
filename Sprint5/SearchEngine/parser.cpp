@@ -34,7 +34,7 @@ void Parser::parse(int& count) {
     vector<string> files = get_files_at_path_with_extn();
 
 
-    for(unsigned int j = 0; j < files.size(); j++) {
+    for(unsigned int j = 0; j < 1/*files.size()*/; j++) {
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
@@ -109,7 +109,7 @@ vector<string> Parser::get_files_at_path_with_extn() {
 }
 
 bool Parser::checkPunct(char a) {
-    return (a!='.' && a!=',' && a!='\"' && a!=';' && a!=':' && a!='?' && a!='/' && a!='*');
+    return (a!='.' && a!=',' && a!='\"' && a!=';' && a!=':' && a!='?' && a!='/' && a!='*' && a!='(' && a!=')');
 }
 
 string Parser::getPath() { return path; }
