@@ -13,6 +13,7 @@
 
 using namespace std;
 
+
 //inherit from Pure Virtual class IndexerFace
 class AVLIndex: public IndexerFace{
 private:
