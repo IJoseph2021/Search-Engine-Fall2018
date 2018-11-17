@@ -2,6 +2,7 @@
  * created 11/09/18
  * 11/13/18 added RapidJSON
  * 11/15/18 Started HTML parsing to add to Index data structure
+ * 11/16/18 Finished HTML parsing, ready to merge with word class and data structures
  */
 #include "parser.h"
 #include <iostream>
@@ -27,14 +28,21 @@ Parser::Parser(string p, string ex)
     //vector <vector<string>> (40);
 }
 
-void Parser::parse(int& count) {
+
+/*
+ * parse handles all parse functionality. Reads all files to be parsed from directory into vector of strings,
+ * then iterates through vector. FIles are opened and read into a DOM tree, from which the html attribrute is
+ * retreived and passed to HTML parser to be parsed into Tree data structure
+ */
+
+void Parser::parse(int& count) {        //count used solely to find number of words parsed
     ifstream iFile;
     string openPath;
 
     vector<string> files = get_files_at_path_with_extn();
 
 
-    for(unsigned int j = 0; j < 1/*files.size()*/; j++) {
+    for(unsigned int j = 0; j < files.size(); j++) {
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
@@ -47,17 +55,23 @@ void Parser::parse(int& count) {
             char str[file_length];
 
             iFile.read(str, file_length);
-            doc.Parse<kParseStopWhenDoneFlag>(str);
+            doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
 
             if(doc["html"].IsString()) {      //All files have html member but some are written as NULL
-                parseHTML(doc["html"].GetString(), files[j], count);
-            }
+                parseHTML(doc["html"].GetString(), files[j], count);    //pass HTML off to separate parser, along with document name
+            }                                                           //and counter for words parsed
 
             iFile.close();
         } //end iFile is_open
     } //end for loop
 } //end parse function
 
+/*
+ * takes string representing the HTML document, file name, and integer count for total words parsed
+ * the html is parsed using character comparisons, and strings are built until spaces are found.
+ * at that point tags are parsed out, and if a string remains it is stored in the Tree alongside
+ * the document it was found in. Punctuation is handled to an extent.
+ */
 void Parser::parseHTML(string html, string fileN, int& count) {
     int find;
     string word = "";
