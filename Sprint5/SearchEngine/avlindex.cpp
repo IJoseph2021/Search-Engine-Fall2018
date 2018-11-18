@@ -26,13 +26,15 @@ void AVLIndex::insert(string val, string docname){
     //create temp object a and search tree to see if an object with the same word already exists in the tree
     //if it does then just update the documents in that object
     word a(val, docname);
-    try{
+    /*try{
         wordTree.find(a).addDoc(docname);
     }
     //if an object is not found with that word then add it to the tree
     catch(exception e){
         wordTree.insert(a);
-    }
+    }*/
+
+    wordTree.insert(a);
 }
 
 vector <docu> AVLIndex::findDocWithWord(string a){

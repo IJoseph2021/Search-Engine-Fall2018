@@ -12,7 +12,7 @@ using namespace std;
 
 Stopper::Stopper()
 {
-    stopWord.resize(100);
+    //stopWord.resize(100);
 }
 
 
@@ -48,7 +48,8 @@ void Stopper::readStopWords(char *filename){
     }
     for(int i = 0; i<temp2.size() ; i++){
         if(temp2[i].length() != 0){
-            stopWord[temp2[i].length() - 1].push_back(temp2[i]);
+            //stopWord[temp2[i].length() - 1].push_back(temp2[i]);
+            stopWord.insert(temp2[i]);
         }
     }
 }
@@ -56,11 +57,12 @@ void Stopper::readStopWords(char *filename){
 
 bool Stopper::isStopWord(string a){
     transform(a.begin(), a.end(), a.begin(), ::tolower);
-    int x = a.length() - 1;
+    /*int x = a.length() - 1;
     for(int i = 0; i<stopWord[x].size(); i++){
         if(a == stopWord[x][i] || a == "\n"){
             return true;
         }
-    }
-    return false;
+    }*/
+    return stopWord.contains(a);
+    //return false;
 }

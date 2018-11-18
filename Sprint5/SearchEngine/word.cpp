@@ -65,6 +65,7 @@ word& word::operator +(const word& val)
             {
                 found = true;
                 loc = i;
+                break;
             }
         }
         //if the doc was already in the lhs's documents vector
@@ -154,6 +155,7 @@ void word::addDoc(string docName)
         {
             found = true;
             loc = i;
+            break;
         }
     }
 
