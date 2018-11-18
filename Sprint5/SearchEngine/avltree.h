@@ -201,6 +201,14 @@ void AVLTree<fontenot>::insert(fontenot& val, TreeNode<fontenot> *& t)
     {
         t = new TreeNode<fontenot>(val);
     }
+    //if the item already exists in the tree combine it into the existing item
+    //this is implemented for the sake of the word class to track duplicate words
+    //number of appearances in each document
+    else if(val == t->data)
+    {
+        t->data = t->data + val;
+    }
+
     //if the passed value is less than the value of the current node's data
     else if(val < t->data)
     {
@@ -217,7 +225,7 @@ void AVLTree<fontenot>::insert(fontenot& val, TreeNode<fontenot> *& t)
         }
     }
     //if passed value is greater than the value of the current node's data
-    else if (val > t->data)
+    else
     {
         //descend right
         insert(val, t->right);
@@ -231,14 +239,6 @@ void AVLTree<fontenot>::insert(fontenot& val, TreeNode<fontenot> *& t)
                 doubleWithRightChild(t);
         }
     }
-    //if the item already exists in the tree combine it into the existing item
-    //this is implemented for the sake of the word class to track duplicate words
-    //number of appearances in each document
-    else
-    {
-        t->data = t->data + val;
-    }
-
     //find new height of node
     t->height = max(height(t->left), height(t->right)) + 1;
 }

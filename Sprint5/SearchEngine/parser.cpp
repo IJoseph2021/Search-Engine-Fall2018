@@ -113,7 +113,7 @@ void Parser::parseHTML(string html, string fileN, int& count, map<string, string
     }  //end for loop through buffer
 } //end parseHTML
 
-string Parser::stemWord(string word, map<string, string> &aStem) {
+inline string Parser::stemWord(string word, map<string, string> &aStem) {
     if(aStem.find(word) != aStem.end()) {
         return aStem[word];
     } else {
