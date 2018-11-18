@@ -78,7 +78,7 @@ void Parser::parseHTML(string html, string fileN, int& count, IndexerFace*& inde
     string word = "";
     string previousString;
     for(unsigned int j = 0; j < html.length(); j++) {
-        cout << j << endl;
+        //cout << j << endl;
         if(isspace((int)html[j]) == 0) {
             if(checkPunct(html[j]))
                 word += html[j];

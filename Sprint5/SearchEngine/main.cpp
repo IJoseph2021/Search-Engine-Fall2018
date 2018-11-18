@@ -124,6 +124,7 @@ int main(int argc, char* argv[])
     Parser dirParser("../../../scotus", "StopWordList.txt");
     IndexerFace* fr = new AVLIndex();
     dirParser.parse(x, fr);
+    fr->printIndex(cout);
 
     duration = (clock() - start) / (float) CLOCKS_PER_SEC;
     cout << duration << endl;
