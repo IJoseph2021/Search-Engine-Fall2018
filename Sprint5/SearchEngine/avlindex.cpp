@@ -70,6 +70,11 @@ int AVLIndex::returnSize(){
     return wordTree.returnNumberNodes();
 }
 
+//overloadd virtual function
+//print data structure
+void AVLIndex::printIndex(ostream &out){
+    wordTree.printInOrder(out);
+}
 //copy constructor
 AVLIndex::AVLIndex(const AVLIndex& a){
     this->wordTree = a.wordTree;

@@ -13,6 +13,7 @@
 
 using namespace std;
 
+
 //inherit from Pure Virtual class IndexerFace
 class AVLIndex: public IndexerFace{
 private:
@@ -35,6 +36,8 @@ public:
     vector<docu> findDocWithWord(string a);
     //overloaded pure virtual
     int returnSize();
+    //overlaoded pure virtual
+    void printIndex(ostream &out);
 };
 
 #endif // AVLINDEX_H
