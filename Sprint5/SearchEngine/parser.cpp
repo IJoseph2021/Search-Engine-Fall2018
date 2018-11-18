@@ -16,6 +16,7 @@
 #include <stdexcept>
 #include <dirent.h>
 #include <fstream>
+#include <map>
 #include "document.h"
 #include "rapidjson.h"
 #include "StemmerFiles/porter2_stemmer.h"
@@ -42,6 +43,8 @@ Parser::Parser(string p, char* st, string ex)
 void Parser::parse(int& count, IndexerFace*& index) {        //count used solely to find number of words parsed
     ifstream iFile;
     string openPath;
+    //typedef map<string, string> mapType;
+    map<string, string> stemmap;
 
     vector<string> files = get_files_at_path_with_extn();
 
@@ -61,7 +64,7 @@ void Parser::parse(int& count, IndexerFace*& index) {        //count used solely
             iFile.read(str, file_length);
             doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
             if(doc["html"].IsString()) {      //All files have html member but some are written as NULL
-                parseHTML(doc["html"].GetString(), files[j], count, index);    //pass HTML off to separate parser, along with document name
+                parseHTML(doc["html"].GetString(), files[j], count, stemmap, index);    //pass HTML off to separate parser, along with document name
             }                                                           //and counter for words parsed
 
             iFile.close();
@@ -75,7 +78,7 @@ void Parser::parse(int& count, IndexerFace*& index) {        //count used solely
  * at that point tags are parsed out, and if a string remains it is stored in the Tree alongside
  * the document it was found in. Punctuation is handled to an extent.
  */
-void Parser::parseHTML(string html, string fileN, int& count, IndexerFace*& index) {
+void Parser::parseHTML(string html, string fileN, int& count, map<string, string>& aStem, IndexerFace*& index) {
     int find;
     string word = "";
     string previousString;
@@ -94,7 +97,7 @@ void Parser::parseHTML(string html, string fileN, int& count, IndexerFace*& inde
                 if(find == -1 && !word.empty()) {
                     if(!stahp.isStopWord(word)) {
                         count++;
-                        Porter2Stemmer::stem(word);
+                        word = stemWord(word, aStem);//Porter2Stemmer::stem(word);
                         index->insert(word, fileN);
                         //previousString = word
                         //cout << word <<endl;
@@ -109,6 +112,17 @@ void Parser::parseHTML(string html, string fileN, int& count, IndexerFace*& inde
         }  //finding complete word
     }  //end for loop through buffer
 } //end parseHTML
+
+string Parser::stemWord(string word, map<string, string> &aStem) {
+    if(aStem.find(word) != aStem.end()) {
+        return aStem[word];
+    } else {
+        string key = word;
+        Porter2Stemmer::stem(word);
+        aStem.insert(pair<string, string>(key, word));
+        return word;
+    }
+}
 
 vector<string> Parser::get_files_at_path_with_extn() {
     vector<string> result;

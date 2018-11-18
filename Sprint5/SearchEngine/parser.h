@@ -5,6 +5,7 @@
 #include <vector>
 #include <stdexcept>
 #include <dirent.h>
+#include <map>
 #include "document.h"
 #include "rapidjson.h"
 #include "stopper.h"
@@ -27,7 +28,8 @@ private:
     Stopper stahp;
 
     vector<string> get_files_at_path_with_extn();
-    void parseHTML(string html, string fileN, int& count, IndexerFace*& index);
+    void parseHTML(string html, string fileN, int& count, map<string, string>& aStem, IndexerFace*& index);
+    string stemWord(string word, map<string, string>& aStem);
     bool checkPunct(char a);
 
 public:
