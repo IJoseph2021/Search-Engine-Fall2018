@@ -49,7 +49,7 @@ void Parser::parse(int& count, IndexerFace*& index) {        //count used solely
     vector<string> files = get_files_at_path_with_extn();
 
 
-    for(unsigned int j = 0; j < 5000/*files.size()*/; j++) {
+    for(unsigned int j = 0; j < 300/*files.size()*/; j++) {
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
@@ -60,6 +60,8 @@ void Parser::parse(int& count, IndexerFace*& index) {        //count used solely
             iFile.seekg(0, ios::beg);
 
             char str[file_length];
+//            string strT = str;
+//            strT = strT.substr(strT.find_first_of("\"html\": \""));
 
             iFile.read(str, file_length);
             doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
@@ -73,10 +75,11 @@ void Parser::parse(int& count, IndexerFace*& index) {        //count used solely
 } //end parse function
 
 /*
- * takes string representing the HTML document, file name, and integer count for total words parsed
- * the html is parsed using character comparisons, and strings are built until spaces are found.
- * at that point tags are parsed out, and if a string remains it is stored in the Tree alongside
- * the document it was found in. Punctuation is handled to an extent.
+ * takes string representing the HTML document, file name, integer count for total words parsed,
+ * and a map for the stemmed words. The html is parsed using character comparisons, and strings
+ * are built until spaces are found. At that point tags are parsed out, and if a string remains
+ * it is checked against stop words and stemmed with the map. Whatever's left stored in the Tree
+ * alongside the document it was found in. Punctuation is handled to an extent.
  */
 void Parser::parseHTML(string html, string fileN, int& count, map<string, string>& aStem, IndexerFace*& index) {
     int find;
