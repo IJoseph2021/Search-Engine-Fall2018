@@ -254,7 +254,7 @@ void AVLTree<fontenot>::rotateWithLeftChild(TreeNode<fontenot> *& k2)
 
     //readjust heights
     k2->height = max(height(k2->left), height(k2->right)) + 1;
-    k1->height = max(height(k1->left), height(k2)) + 1;         //max(height(k1->left), height(k2)) + 1
+    k1->height = max(height(k1->left), height(k1->right)) + 1;         //max(height(k1->left), height(k2)) + 1
 
     //replace k2 with final k1 node
     k2 = k1;
@@ -265,7 +265,7 @@ void AVLTree<fontenot>::rotateWithLeftChild(TreeNode<fontenot> *& k2)
 template <typename fontenot>
 void AVLTree<fontenot>::doubleWithLeftChild(TreeNode<fontenot> *&k3)
 {
-    rotateWithRightChild(k3->right);       //rotateWithRightChild(k3->right)
+    rotateWithRightChild(k3->left);       //rotateWithRightChild(k3->right)
     rotateWithLeftChild(k3);
 }
 
@@ -277,7 +277,7 @@ void AVLTree<fontenot>::rotateWithRightChild(TreeNode<fontenot> *& k2)
     k2->right = k1->left;
     k1->left = k2;
     k2->height = max(height(k2->left), height(k2->right)) + 1;
-    k1->height = max(height(k1->right), height(k2)) + 1;            //max(height(k1->right), height(k2)) + 1
+    k1->height = max(height(k1->right), height(k1->left)) + 1;            //max(height(k1->right), height(k2)) + 1
     k2 = k1;
 }
 
@@ -286,7 +286,7 @@ void AVLTree<fontenot>::rotateWithRightChild(TreeNode<fontenot> *& k2)
 template <typename fontenot>
 void AVLTree<fontenot>::doubleWithRightChild(TreeNode<fontenot> *&k3)
 {
-    rotateWithLeftChild(k3->left);         //rotateWithLeftChild(k3->left)
+    rotateWithLeftChild(k3->right);         //rotateWithLeftChild(k3->left)
     rotateWithRightChild(k3);
 }
 
