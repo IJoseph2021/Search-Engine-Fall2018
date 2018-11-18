@@ -12,7 +12,7 @@ using namespace std;
 
 Stopper::Stopper()
 {
-    stopWord.resize(30);
+    stopWord.resize(60);
 }
 
 
