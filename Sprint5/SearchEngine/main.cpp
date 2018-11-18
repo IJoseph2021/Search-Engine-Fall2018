@@ -7,6 +7,7 @@
 #include "stopper.h"
 #include "indexerface.h"
 #include "avlindex.h"
+#include <fstream>
 
 using namespace std;
 
@@ -121,10 +122,10 @@ int main(int argc, char* argv[])
     int x = 0;
 
     start = clock();
-    Parser dirParser("../../../scotus", "StopWordList.txt");
+    Parser dirParser("../../../scotus", "../../StopWordList.txt");
     IndexerFace* fr = new AVLIndex();
     dirParser.parse(x, fr);
-    fr->printIndex(cout);
+    //fr->printIndex(cout);
 
     duration = (clock() - start) / (float) CLOCKS_PER_SEC;
     cout << duration << endl;

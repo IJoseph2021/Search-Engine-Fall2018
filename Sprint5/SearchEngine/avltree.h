@@ -1,4 +1,7 @@
 //owner: patrick
+
+//Edited 11/17/18 by Nathan Srirama
+//       Fixed Tree balancing, case 2 and 3 did not work correctly
 #ifndef AVLTREE_H
 #define AVLTREE_H
 #include <iostream>

@@ -3,8 +3,11 @@
  * 11/13/18 added RapidJSON
  * 11/15/18 Started HTML parsing to add to Index data structure
  * 11/16/18 Finished HTML parsing, ready to merge with word class and data structures
+ * 11/17/18 Trees, Index Interface, Stopper & stemmer merged into Parser, parsing complete
+ *          Starting to work on efficiency
  */
 #include "parser.h"
+#include <algorithm>
 #include <iostream>
 #include <cstring>
 #include <string>
@@ -43,7 +46,7 @@ void Parser::parse(int& count, IndexerFace*& index) {        //count used solely
     vector<string> files = get_files_at_path_with_extn();
 
 
-    for(unsigned int j = 165/*0*/; j < 166/*files.size()*/; j++) {
+    for(unsigned int j = 0; j < 1000/*files.size()*/; j++) {
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
@@ -57,7 +60,6 @@ void Parser::parse(int& count, IndexerFace*& index) {        //count used solely
 
             iFile.read(str, file_length);
             doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
-            cout <<files[j] <<endl;
             if(doc["html"].IsString()) {      //All files have html member but some are written as NULL
                 parseHTML(doc["html"].GetString(), files[j], count, index);    //pass HTML off to separate parser, along with document name
             }                                                           //and counter for words parsed
@@ -78,7 +80,6 @@ void Parser::parseHTML(string html, string fileN, int& count, IndexerFace*& inde
     string word = "";
     string previousString;
     for(unsigned int j = 0; j < html.length(); j++) {
-        //cout << j << endl;
         if(isspace((int)html[j]) == 0) {
             if(checkPunct(html[j]))
                 word += html[j];
@@ -129,7 +130,7 @@ vector<string> Parser::get_files_at_path_with_extn() {
     return result;
 }
 
-bool Parser::checkPunct(char a) {
+inline bool Parser::checkPunct(char a) {
     return (a!='.' && a!=',' && a!='\"' && a!=';' && a!=':' && a!='?' && a!='/' && a!='*' && a!='(' && a!=')');
 }
 

@@ -46,9 +46,10 @@ void Stopper::readStopWords(char *filename){
             }
             check = false;
     }
-    for(int i = 0; i<temp2.size(); i++){
-        stopWord[temp2[i].length() - 1].push_back(temp2[i]);
-
+    for(int i = 0; i<temp2.size() ; i++){
+        if(temp2[i].length() != 0){
+            stopWord[temp2[i].length() - 1].push_back(temp2[i]);
+        }
     }
 }
 
