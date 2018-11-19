@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <dirent.h>
+#include <set>
 
 using namespace std;
 
@@ -55,7 +56,7 @@ void Stopper::readStopWords(char *filename){
 }
 
 
-bool Stopper::isStopWord(string a){
+bool Stopper::isStopWord(string &a){
     transform(a.begin(), a.end(), a.begin(), ::tolower);
     /*int x = a.length() - 1;
     for(int i = 0; i<stopWord[x].size(); i++){
@@ -64,5 +65,9 @@ bool Stopper::isStopWord(string a){
         }
     }*/
     return stopWord.contains(a);
+//    if(stopWord.find(a) != stopWord.end())
+//        return true;
+//    else
+//        return false;
     //return false;
 }
