@@ -49,7 +49,7 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
     vector<string> files = get_files_at_path_with_extn();
 
 
-    for(unsigned int j = 0; j < 1000/*files.size()*/; j++) {
+    for(unsigned int j = 0; j < 1500/*files.size()*/; j++) {
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
@@ -60,15 +60,17 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
             iFile.seekg(0, ios::beg);
 
             char str[file_length];
-//            string strT = str;
-//            strT = strT.substr(strT.find_first_of("\"html\": \""));
 
             iFile.read(str, file_length);
-            doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
+            string strT = str;
+            strT = strT.substr(strT.find("\"html\": \"") + 9);
+            strT = strT.substr(0, strT.find("\","));
+            //cout << strT << "\n\n" << endl;
+/*            doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
             if(doc["html"].IsString()) {      //All files have html member but some are written as NULL
                 parseHTML(doc["html"].GetString(), files[j], count, stemmap, index);    //pass HTML off to separate parser, along with document name
-            }                                                           //and counter for words parsed
-
+            }*/                                                           //and counter for words parsed
+            parseHTML(strT, files[j], count, stemmap, index);
             iFile.close();
         } //end iFile is_open
     } //end for loop
