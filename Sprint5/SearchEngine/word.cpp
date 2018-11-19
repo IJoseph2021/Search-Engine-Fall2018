@@ -31,16 +31,14 @@ word::word(const word& val)
     thisWord = val.thisWord;
     previous = val.previous;
     //create a temporary vector with the contents of val's vector and swap them into documents
-    vector<docu> tempVec= val.documents;
-    documents.swap(tempVec);
+    documents = val.documents;
 }
 
 word& word::operator=(const word& val)
 {
     thisWord = val.thisWord;
     previous = val.previous;
-    vector<docu> tempVec= val.documents;
-    documents.swap(tempVec);
+    documents = val.documents;
     return *this;
 }
 
