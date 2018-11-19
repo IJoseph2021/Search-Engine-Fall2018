@@ -40,7 +40,7 @@ Parser::Parser(string p, char* st, string ex)
  * retreived and passed to HTML parser to be parsed into Tree data structure
  */
 
-void Parser::parse(int& count, IndexerFace*& index) {        //count used solely to find number of words parsed
+int Parser::parse(int& count, IndexerFace*& index) {        //count used solely to find number of words parsed
     ifstream iFile;
     string openPath;
     //typedef map<string, string> mapType;
@@ -49,7 +49,7 @@ void Parser::parse(int& count, IndexerFace*& index) {        //count used solely
     vector<string> files = get_files_at_path_with_extn();
 
 
-    for(unsigned int j = 0; j < 300/*files.size()*/; j++) {
+    for(unsigned int j = 0; j < 2000/*files.size()*/; j++) {
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
@@ -72,6 +72,7 @@ void Parser::parse(int& count, IndexerFace*& index) {        //count used solely
             iFile.close();
         } //end iFile is_open
     } //end for loop
+    return files.size();
 } //end parse function
 
 /*

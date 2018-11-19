@@ -122,10 +122,19 @@ int main(int argc, char* argv[])
     int x = 0;
 
     start = clock();
-    Parser dirParser("../../../scotus", "../../StopWordList.txt");
+    Parser dirParser(argv[1], "../../StopWordList.txt");
     IndexerFace* fr = new AVLIndex();
-    dirParser.parse(x, fr);
+    int numFiles = dirParser.parse(x, fr);
     //fr->printIndex(cout);
+
+    string adju = argv[2];
+    Porter2Stemmer::stem(adju);
+
+    cout << "Number of words parsed: " << x << endl;
+    cout << "Number of unique words: " << fr->returnSize() << endl;
+    cout << "Number of documents parsed: " << numFiles << endl;
+    cout << "Number of documents " << argv[2] << " was found in: ";
+    cout << fr->findWord(adju).getNumDocs() << endl;
 
     duration = (clock() - start) / (float) CLOCKS_PER_SEC;
     cout << duration << endl;

@@ -36,7 +36,7 @@ public:
     Parser(string p, char* st, string ex = ".json");
     string getPath();
     string getExt();
-    void parse(int& count, IndexerFace*& index);
+    int parse(int& count, IndexerFace*& index);
 
 };
 
