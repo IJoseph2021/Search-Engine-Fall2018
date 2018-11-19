@@ -16,8 +16,8 @@ class Stopper
 {
 private:
     //vector <vector<string>> stopWord ;
-    //AVLTree <string> stopWord;
-    set<string> stopWord;
+    AVLTree <string> stopWord;
+    //set<string> stopWord;
 public:
     Stopper();
     bool isStopWord(string &a);
