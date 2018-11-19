@@ -410,6 +410,10 @@ void AVLTree<fontenot>::remove(TreeNode<fontenot>*& toRemove)
 template <typename fontenot>
 fontenot& AVLTree<fontenot>::find(fontenot val)
 {
+    if (root == nullptr)
+    {
+        throw logic_error("Value not in tree [in find()]");
+    }
     return find(val,root).data;
 }
 
@@ -418,9 +422,6 @@ fontenot& AVLTree<fontenot>::find(fontenot val)
 template <typename fontenot>
 AVLTree<fontenot>::TreeNode<fontenot>& AVLTree<fontenot>::find(fontenot& val, TreeNode<fontenot>* t)
 {
-    if(t == nullptr) {
-        throw logic_error("Value not in tree [in find()]");
-    }
     //if this is the target value return the node
     if (t->data == val)
         return *t;
@@ -438,7 +439,7 @@ AVLTree<fontenot>::TreeNode<fontenot>& AVLTree<fontenot>::find(fontenot& val, Tr
     {
         if (t->right != nullptr)
             return find(val, t->right);
-        else
+       else
             //if the value is greater but there is no right node throw error
             throw logic_error("Value not in tree [in find()]");
     }
