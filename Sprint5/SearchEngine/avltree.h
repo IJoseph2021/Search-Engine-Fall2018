@@ -119,7 +119,7 @@ private:
     void doubleWithRightChild(TreeNode<fontenot>*& k3);
     int max(int l, int r);
     int height(TreeNode<fontenot> *t);
-    bool contains(TreeNode<fontenot>*&t, fontenot val);
+    bool contains(TreeNode<fontenot>*&t, fontenot& val);
     void remove(TreeNode<fontenot>*& toRemove);
     TreeNode<fontenot>& find(fontenot &val, TreeNode<fontenot> *t);
     AVLTree<fontenot>::TreeNode<fontenot> *copyNodes(TreeNode<fontenot> *t);
@@ -352,7 +352,7 @@ bool AVLTree<fontenot>::contains(fontenot val)
 //private recursive contains which uses binary search to search the avl
 //tree for an item and return true if it exists
 template <typename fontenot>
-bool AVLTree<fontenot>::contains(TreeNode<fontenot> *& t, fontenot val)
+bool AVLTree<fontenot>::contains(TreeNode<fontenot> *& t, fontenot &val)
 {
     //return that it exists if this node data is the value
     if (t->data == val)
