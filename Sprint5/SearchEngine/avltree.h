@@ -307,7 +307,7 @@ int AVLTree<fontenot>::max(int l, int r)
 
 //get the height with precaution for uninitialized nodes
 template <typename fontenot>
-int AVLTree<fontenot>::height(TreeNode<fontenot> *t)
+inline int AVLTree<fontenot>::height(TreeNode<fontenot> *t)
 {
     if (t == nullptr)
         return -1;
