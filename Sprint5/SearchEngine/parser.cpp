@@ -49,7 +49,7 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
     vector<string> files = get_files_at_path_with_extn();
 
 
-    for(unsigned int j = 0; j < 2000/*files.size()*/; j++) {
+    for(unsigned int j = 0; j < 1000/*files.size()*/; j++) {
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
@@ -70,6 +70,7 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
             }                                                           //and counter for words parsed
 
             iFile.close();
+
         } //end iFile is_open
     } //end for loop
     return files.size();
