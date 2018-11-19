@@ -63,15 +63,11 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
             char str[file_length];
 
             iFile.read(str, file_length);
-            string strT = str;
-            strT = strT.substr(strT.find("\"html\": \"") + 9);
-            strT = strT.substr(0, strT.find("\","));
-            //cout << strT << "\n\n" << endl;
-/*            doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
+
+            doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
             if(doc["html"].IsString()) {      //All files have html member but some are written as NULL
                 parseHTML(doc["html"].GetString(), files[j], count, stemmap, index);    //pass HTML off to separate parser, along with document name
-            }*/                                                           //and counter for words parsed
-            parseHTML(strT, files[j], count, stemmap, index);
+            }                                                           //and counter for words parsed
             iFile.close();
 
         } //end iFile is_open
