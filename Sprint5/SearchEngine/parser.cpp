@@ -50,19 +50,19 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
 
 
 
-    for(unsigned int j = 0; j < 1000/*file.size()*/; j++) {
+    for(unsigned int j = 0; j < 100/*file.size()*/; j++) {
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
-
+            streampos file_length = iFile.tellg();
             iFile.seekg(0, ios::end);
-            long file_length = iFile.tellg();
+            file_length = iFile.tellg() - file_length;
+            long file_len = (long)file_length;
+            //cout<<"file length:"<<file_length<<endl;
             iFile.clear();
             iFile.seekg(0, ios::beg);
-
-            char str[file_length];
-
-            iFile.read(str, file_length);
+            char str[file_len];
+            iFile.read(str, file_len);
 
             doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
             if(doc["html"].IsString()) {      //All files have html member but some are written as NULL
