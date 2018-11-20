@@ -214,9 +214,10 @@ void AVLTree<fontenot>::insert(fontenot& val, TreeNode<fontenot> *& t)
     //if no value at current node, create node at that point
     if (t == nullptr)
     {
-        TreeNode<fontenot>* temp = new TreeNode<fontenot>(val);
+        /*TreeNode<fontenot>* temp = new TreeNode<fontenot>(val);
         t = temp;
-        delete temp;
+        delete temp;*/
+        t = new TreeNode<fontenot>(val);
     }
     //if the item already exists in the tree combine it into the existing item
     //this is implemented for the sake of the word class to track duplicate words
