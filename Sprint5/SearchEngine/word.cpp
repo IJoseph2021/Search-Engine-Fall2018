@@ -145,7 +145,7 @@ docu word::getDoc(int x) const
 void word::addDoc(string docName)
 {
     //loop through documents to see if the document is already contained
-    bool found;
+    bool found = false;
     int loc = -1;
     for (int i = 0; i < documents.size(); i++)
     {

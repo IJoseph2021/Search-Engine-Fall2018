@@ -46,6 +46,9 @@ private:
                     height = right->height+1;
                 }
             }
+            else{
+                height = 0;
+            }
         }
 
         TreeNode(const TreeNode<mark>& val)
@@ -123,7 +126,18 @@ private:
     void remove(TreeNode<fontenot>*& toRemove);
     TreeNode<fontenot>& find(fontenot &val, TreeNode<fontenot> *t);
     AVLTree<fontenot>::TreeNode<fontenot> *copyNodes(TreeNode<fontenot> *t);
+    void clear(TreeNode<fontenot>*& t);
 };
+
+template <typename fontenot>
+void AVLTree<fontenot>::clear(TreeNode<fontenot>*& t){
+    if(t!=nullptr){
+        clear(t->left);
+        clear(t->right);
+        delete t;
+    }
+    t= nullptr;
+}
 
 template<typename fontenot>
 AVLTree<fontenot>::AVLTree(const AVLTree<fontenot>& val)
@@ -141,8 +155,9 @@ template<typename fontenot>
 AVLTree<fontenot>::~AVLTree()
 {
     //only delete root because nodes delete all descendants
-    delete root;
-    root = nullptr;
+    clear();
+    /*delete root;
+    root = nullptr;*/
     nodes = 0;
 }
 
@@ -199,7 +214,9 @@ void AVLTree<fontenot>::insert(fontenot& val, TreeNode<fontenot> *& t)
     //if no value at current node, create node at that point
     if (t == nullptr)
     {
-        t = new TreeNode<fontenot>(val);
+        TreeNode<fontenot>* temp = new TreeNode<fontenot>(val);
+        t = temp;
+        delete temp;
     }
     //if the item already exists in the tree combine it into the existing item
     //this is implemented for the sake of the word class to track duplicate words

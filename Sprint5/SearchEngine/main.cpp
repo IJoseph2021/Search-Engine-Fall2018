@@ -27,7 +27,9 @@ int main(int argc, char* argv[])
     cout << "Number of unique words: " << fr->returnSize() << endl;
     cout << "Number of documents parsed: " << numFiles << endl;
     cout << "Number of documents " << argv[2] << " was found in: ";
-    cout << fr->findWord(adju).getNumDocs() << endl;
+    int numDocs = fr->findWord(adju).getNumDocs();
+    cout << numDocs << endl;
 
+    delete fr;
     return 0;
 }
