@@ -15,6 +15,9 @@ using namespace std;
 AVLIndex::AVLIndex(){
 
 }
+void AVLIndex::clearStuff(){
+    wordTree.~AVLTree();
+}
 
 //destructor
 AVLIndex::~AVLIndex(){

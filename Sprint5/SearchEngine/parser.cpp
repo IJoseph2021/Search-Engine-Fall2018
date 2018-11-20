@@ -63,7 +63,6 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
             iFile.seekg(0, ios::beg);
             char str[file_len];
             iFile.read(str, file_len);
-
             doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
             if(doc["html"].IsString()) {      //All files have html member but some are written as NULL
                 parseHTML(doc["html"].GetString(), files[j], count, stemmap, index);    //pass HTML off to separate parser, along with document name

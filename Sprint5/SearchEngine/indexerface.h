@@ -27,6 +27,7 @@ public:
     virtual vector<docu> findDocWithWord(std::string a) = 0;
     virtual int returnSize() = 0;
     virtual void printIndex(ostream &out) = 0;
+    virtual void clearStuff() = 0;
 };
 
 #endif // INDEXERFACE_H
