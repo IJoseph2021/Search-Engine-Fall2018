@@ -37,6 +37,7 @@ public:
     void addDoc(string docName);
     void addDoc(docu& doc);
     vector<docu> returnDocVector();
+    string getStop(int x);
 };
 
 #endif // WORD_H

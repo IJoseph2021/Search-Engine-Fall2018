@@ -5,6 +5,7 @@
 #ifndef AVLTREE_H
 #define AVLTREE_H
 #include <iostream>
+#include <vector>
 
 using namespace std;
 template <typename fontenot>
@@ -94,7 +95,7 @@ private:
     //tree root and node counter
     TreeNode<fontenot>* root;
     int nodes;
-
+    vector <fontenot> unique;
 public:
     AVLTree():root(nullptr), nodes(0){}
     AVLTree(const AVLTree<fontenot>& val);
@@ -109,6 +110,7 @@ public:
     void remove(fontenot val);
     fontenot& find(fontenot val);
     int returnNumberNodes();
+    fontenot& returnVector(int x);
 
 private:
     void printInOrder(ostream& out, TreeNode<fontenot>* t);
@@ -123,12 +125,29 @@ private:
     void remove(TreeNode<fontenot>*& toRemove);
     TreeNode<fontenot>& find(fontenot &val, TreeNode<fontenot> *t);
     AVLTree<fontenot>::TreeNode<fontenot> *copyNodes(TreeNode<fontenot> *t);
+    void clear(TreeNode<fontenot>*& t);
 };
+
+template <typename fontenot>
+fontenot& AVLTree<fontenot>::returnVector(int x){
+    return unique[x];
+}
 
 template<typename fontenot>
 AVLTree<fontenot>::AVLTree(const AVLTree<fontenot>& val)
 {
     root = copyNodes(val.root);
+}
+
+template<typename fontenot>
+void AVLTree<fontenot>::clear(TreeNode<fontenot> *&t){
+    if(t != nullptr){
+        clear(t->left);
+        clear(t->right);
+        delete t;
+    }
+
+    t = nullptr;
 }
 
 template<typename fontenot>
@@ -141,8 +160,7 @@ template<typename fontenot>
 AVLTree<fontenot>::~AVLTree()
 {
     //only delete root because nodes delete all descendants
-    delete root;
-    root = nullptr;
+    clear();
     nodes = 0;
 }
 
@@ -200,6 +218,8 @@ void AVLTree<fontenot>::insert(fontenot& val, TreeNode<fontenot> *& t)
     if (t == nullptr)
     {
         t = new TreeNode<fontenot>(val);
+        nodes++;
+        //unique.push_back(val);
     }
     //if the item already exists in the tree combine it into the existing item
     //this is implemented for the sake of the word class to track duplicate words
@@ -412,6 +432,7 @@ fontenot& AVLTree<fontenot>::find(fontenot val)
 {
     if (root == nullptr)
     {
+        insert(val, root);
         throw logic_error("Value not in tree [in find()]");
     }
     return find(val,root).data;
@@ -430,18 +451,22 @@ AVLTree<fontenot>::TreeNode<fontenot>& AVLTree<fontenot>::find(fontenot& val, Tr
     {
         if (t->left != nullptr)
             return find(val, t->left);
-        else
+        else{
             //if the value is less than the current node but there is no left node throw error
+            insert(val, root);
             throw logic_error("Value not in tree [in find()]");
+        }
     }
     //if the value is greater than the current node go right
     else if (t->data < val)
     {
         if (t->right != nullptr)
             return find(val, t->right);
-       else
+       else{
             //if the value is greater but there is no right node throw error
+            insert(val, root);
             throw logic_error("Value not in tree [in find()]");
+        }
     }
 }
 

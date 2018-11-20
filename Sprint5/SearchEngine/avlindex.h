@@ -38,6 +38,7 @@ public:
     int returnSize();
     //overlaoded pure virtual
     void printIndex(ostream &out);
+    void clear();
 };
 
 #endif // AVLINDEX_H

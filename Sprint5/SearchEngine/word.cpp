@@ -145,7 +145,7 @@ docu word::getDoc(int x) const
 void word::addDoc(string docName)
 {
     //loop through documents to see if the document is already contained
-    bool found;
+    bool found = false;
     int loc = -1;
     for (int i = 0; i < documents.size(); i++)
     {
@@ -195,6 +195,15 @@ void word::addDoc(docu& doc)
 
 vector<docu> word::returnDocVector(){
     return documents;
+}
+
+string word::getStop(int x){
+    if(documents.size() == x){
+        return thisWord;
+    }
+    else{
+        return "-1+69";
+    }
 }
 
 
