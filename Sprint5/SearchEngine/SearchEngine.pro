@@ -16,7 +16,8 @@ SOURCES += \
     parser.cpp
 
 DISTFILES += \
-    porter2_stemmer/diffs.txt
+    porter2_stemmer/diffs.txt \
+    ../StopWordList.txt
 
 HEADERS += \
     StemmerFiles/util/hash.h \

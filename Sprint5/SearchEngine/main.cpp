@@ -16,9 +16,13 @@ int main(int argc, char* argv[])
 
     int x = 0;
 
-    Parser dirParser(argv[1], "../../StopWordList.txt");
+    clock_t start;
+    float duration;
+    start = clock();
+    Parser dirParser(argv[1], "../StopWordList.txt");
     IndexerFace* fr = new AVLIndex();
     int numFiles = dirParser.parse(x, fr);
+    duration = (clock() - start) / (float) CLOCKS_PER_SEC;
 
     string adju = argv[2];
     Porter2Stemmer::stem(adju);
@@ -29,6 +33,7 @@ int main(int argc, char* argv[])
     cout << "Number of documents " << argv[2] << " was found in: ";
     int numDocs = fr->findWord(adju).getNumDocs();
     cout << numDocs << endl;
+    cout<<"time: "<<duration<<endl;
     fr->clearStuff();
     delete fr;
     return 0;
