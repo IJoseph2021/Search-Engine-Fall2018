@@ -22,7 +22,7 @@ class IndexerFace {
 private:
 
 public:
-    virtual void insert(std::string val, std::string docname) = 0;
+    virtual void insert(std::string val, std::string prev, std::string docname) = 0;
     virtual word& findWord(std::string a) = 0;
     virtual vector<docu> findDocWithWord(std::string a) = 0;
     virtual int returnSize() = 0;

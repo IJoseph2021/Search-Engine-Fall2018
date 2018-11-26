@@ -50,7 +50,7 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
 
 
 
-    for(unsigned int j = 0; j < files.size(); j++) {
+    for(unsigned int j = 0; j < 100; j++) {
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
@@ -101,8 +101,8 @@ void Parser::parseHTML(string html, string fileN, int& count, map<string, string
                     if(!stahp.isStopWord(word)) {
                         count++;
                         word = stemWord(word, aStem);//Porter2Stemmer::stem(word);
-                        index->insert(word, fileN);
-                        //previousString = word
+                        index->insert(word, previousString, fileN);
+                         previousString = word;
                         //cout << word <<endl;
                         //make word object
                         //update previousString

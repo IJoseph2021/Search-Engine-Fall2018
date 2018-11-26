@@ -25,10 +25,10 @@ AVLIndex::~AVLIndex(){
 }
 
 //overloaded insert
-void AVLIndex::insert(string val, string docname){
+void AVLIndex::insert(string val, string prev, string docname){
     //create temp object a and search tree to see if an object with the same word already exists in the tree
     //if it does then just update the documents in that object
-    word a(val, docname);
+    word a(prev, val, docname);
     try{
         wordTree.find(a).addDoc(docname);
     }
@@ -57,7 +57,7 @@ vector <docu> AVLIndex::findDocWithWord(string a){
 
 word& AVLIndex::findWord(string a){
     //create temp object to allow search in tree
-    word b(a, "Fontenot");
+    word b("s34rching", a, "Fontenot");
     //return object with that string if found
     try{
         return wordTree.find(b);

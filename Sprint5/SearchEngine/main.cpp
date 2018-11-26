@@ -33,7 +33,10 @@ int main(int argc, char* argv[])
     cout << "Number of documents " << argv[2] << " was found in: ";
     int numDocs = fr->findWord(adju).getNumDocs();
     cout << numDocs << endl;
-    cout<<"time: "<<duration<<endl;
+    cout<<"time: "<<duration<<endl;    
+    ofstream ofile("Index.txt");
+    fr->printIndex(ofile);
+    ofile.close();
     fr->clearStuff();
     delete fr;
     return 0;

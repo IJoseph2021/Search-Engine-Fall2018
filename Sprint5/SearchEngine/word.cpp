@@ -21,6 +21,7 @@ word::word(string prev, string curr, string doc)
 
 word::word(string curr, string doc){
     thisWord = curr;
+    previous = "noPrev";
     docu tempDoc(doc);
     documents.push_back(tempDoc);
 }
@@ -84,7 +85,8 @@ word& word::operator +(const word& val)
 //returns true if it is smaller
 bool word::operator < (const word& val)
 {
-    if (thisWord.compare(val.thisWord) < 0)
+    if (thisWord.compare(val.thisWord) < 0 ||
+        (thisWord.compare(val.thisWord) == 0 && previous.compare(val.previous) < 0))
         return true;
     else
         return false;
@@ -93,7 +95,8 @@ bool word::operator < (const word& val)
 //overloaded > operator functions the same as <
 bool word::operator > (const word& val)
 {
-    if (thisWord.compare(val.thisWord) > 0)
+    if (thisWord.compare(val.thisWord) > 0 ||
+       (thisWord.compare(val.thisWord) == 0 && previous.compare(val.previous) > 0))
         return true;
     else
         return false;
@@ -102,7 +105,8 @@ bool word::operator > (const word& val)
 //overloaded comparison operator to see if two words have the same word string
 bool word::operator==(const word& val)
 {
-    if (thisWord.compare(val.thisWord) == 0)
+    if ((thisWord.compare(val.thisWord) == 0) &&
+       ((previous.compare(val.previous) == 0) || val.previous.compare("s34rching") == 0))
         return true;
     else
         return false;
@@ -111,7 +115,7 @@ bool word::operator==(const word& val)
 //print the previous word, this word, and document vector to ostream out
 ostream& operator<<(ostream& out, const word& w)
 {
-    out << w.getPrev() << '|' << w.getWord() << "|";
+    out << w.getWord() << '|' << w.getPrev() << "|";
     for (int i = 0; i < w.getNumDocs(); i++)
     {
         out << "-|";
