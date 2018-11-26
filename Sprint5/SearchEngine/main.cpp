@@ -22,7 +22,9 @@ int main(int argc, char* argv[])
     Parser dirParser(argv[1], "../StopWordList.txt");
     IndexerFace* fr = new AVLIndex();
     int numFiles = dirParser.parse(x, fr);
+
     duration = (clock() - start) / (float) CLOCKS_PER_SEC;
+    cout << "original parse time: " << duration << endl;
 
     string adju = argv[2];
     Porter2Stemmer::stem(adju);
@@ -33,17 +35,27 @@ int main(int argc, char* argv[])
     fr->clearStuff();
 
     ofile.open("Index2.txt");
-    fr->readIndex();
+    fr->readIndexNoPrev();
     fr->printIndex(ofile);
     ofile.close();
 
+
     cout << "Number of words parsed: " << x << endl;
     cout << "Number of unique words: " << fr->returnSize() << endl;
-    cout << "Number of documents parsed: " << numFiles << endl;
+    //cout << "Number of documents parsed: " << numFiles << endl;
     cout << "Number of documents " << argv[2] << " was found in: ";
     int numDocs = fr->findWord(adju).getNumDocs();
     cout << numDocs << endl;
+
+     duration = (clock() - start) / (float) CLOCKS_PER_SEC;
     cout<<"time: "<<duration<<endl;    
+
+    fr->clearStuff();
+
+    ofile.open("Index3.txt");
+    fr->readIndexWithPrev();
+    fr->printIndex(ofile);
+    ofile.close();
 
     fr->clearStuff();
     delete fr;

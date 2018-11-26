@@ -25,11 +25,9 @@ word::word(string prev, string curr, string doc)
     documents.push_back(tempDoc);
 }
 
-word::word(string curr, string doc){
+word::word(string prev, string curr){
     thisWord = curr;
-    previous = "noPrev";
-    docu tempDoc(doc);
-    documents.push_back(tempDoc);
+    previous = prev;
 }
 
 //copy constructor
