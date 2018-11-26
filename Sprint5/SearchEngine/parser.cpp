@@ -50,7 +50,7 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
 
 
 
-    for(unsigned int j = 0; j < 100; j++) {
+    for(unsigned int j = 0; j < 1000; j++) {
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
@@ -84,7 +84,7 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
 void Parser::parseHTML(string html, string fileN, int& count, map<string, string>& aStem, IndexerFace*& index) {
     int find;
     string word = "";
-    string previousString;
+    string previousString = "";
     for(unsigned int j = 0; j < html.length(); j++) {
         if(isspace((int)html[j]) == 0) {
             if(checkPunct(html[j]))

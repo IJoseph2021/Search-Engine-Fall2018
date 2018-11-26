@@ -27,13 +27,6 @@ int main(int argc, char* argv[])
     string adju = argv[2];
     Porter2Stemmer::stem(adju);
 
-    cout << "Number of words parsed: " << x << endl;
-    cout << "Number of unique words: " << fr->returnSize() << endl;
-    cout << "Number of documents parsed: " << numFiles << endl;
-    cout << "Number of documents " << argv[2] << " was found in: ";
-    int numDocs = fr->findWord(adju).getNumDocs();
-    cout << numDocs << endl;
-    cout<<"time: "<<duration<<endl;    
     ofstream ofile("Index.txt");
     fr->printIndex(ofile);
     ofile.close();
@@ -43,6 +36,15 @@ int main(int argc, char* argv[])
     fr->readIndex();
     fr->printIndex(ofile);
     ofile.close();
+
+    cout << "Number of words parsed: " << x << endl;
+    cout << "Number of unique words: " << fr->returnSize() << endl;
+    cout << "Number of documents parsed: " << numFiles << endl;
+    cout << "Number of documents " << argv[2] << " was found in: ";
+    int numDocs = fr->findWord(adju).getNumDocs();
+    cout << numDocs << endl;
+    cout<<"time: "<<duration<<endl;    
+
     fr->clearStuff();
     delete fr;
 

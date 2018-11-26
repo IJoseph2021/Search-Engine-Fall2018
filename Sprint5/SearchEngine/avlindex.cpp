@@ -58,7 +58,7 @@ vector <docu> AVLIndex::findDocWithWord(string a){
 
 word& AVLIndex::findWord(string a){
     //create temp object to allow search in tree
-    word b("s34rching", a, "Fontenot");
+    word b("s34rch", a);
     //return object with that string if found
     try{
         return wordTree.find(b);

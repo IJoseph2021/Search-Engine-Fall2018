@@ -91,8 +91,9 @@ word& word::operator +(const word& val)
 //returns true if it is smaller
 bool word::operator < (const word& val)
 {
-    if (thisWord.compare(val.thisWord) < 0 ||
-        (thisWord.compare(val.thisWord) == 0 && previous.compare(val.previous) < 0))
+    if (thisWord.compare(val.thisWord) < 0)
+        return true;
+    else if ((thisWord.compare(val.thisWord) == 0 && previous.compare(val.previous) < 0))
         return true;
     else
         return false;
@@ -101,8 +102,9 @@ bool word::operator < (const word& val)
 //overloaded > operator functions the same as <
 bool word::operator > (const word& val)
 {
-    if (thisWord.compare(val.thisWord) > 0 ||
-       (thisWord.compare(val.thisWord) == 0 && previous.compare(val.previous) > 0))
+    if (thisWord.compare(val.thisWord) > 0)
+        return true;
+    else if ((thisWord.compare(val.thisWord) == 0 && previous.compare(val.previous) > 0))
         return true;
     else
         return false;
@@ -112,7 +114,7 @@ bool word::operator > (const word& val)
 bool word::operator==(const word& val)
 {
     if ((thisWord.compare(val.thisWord) == 0) &&
-       ((previous.compare(val.previous) == 0) || val.previous.compare("s34rching") == 0))
+       ((previous.compare(val.previous) == 0) || val.previous.compare("s34rch") == 0))
         return true;
     else
         return false;
