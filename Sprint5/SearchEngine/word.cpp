@@ -10,6 +10,12 @@ word::word(){}
 }*/
 
 
+word::word(string curr)
+{
+    previous = curr;
+    thisWord = curr;
+}
+
 //create a word with both words and the document filename
 word::word(string prev, string curr, string doc)
 {
@@ -141,6 +147,11 @@ string word::getWord() const
 }
 
 docu word::getDoc(int x) const
+{
+    return documents[x];
+}
+
+docu& word::getLitDoc(int x)
 {
     return documents[x];
 }

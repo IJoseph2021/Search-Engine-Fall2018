@@ -39,6 +39,7 @@ public:
     //overlaoded pure virtual
     void printIndex(ostream &out);
     void clearStuff();
+    void readIndex();
 };
 
 #endif // AVLINDEX_H

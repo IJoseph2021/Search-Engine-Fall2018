@@ -28,6 +28,7 @@ public:
     virtual int returnSize() = 0;
     virtual void printIndex(ostream &out) = 0;
     virtual void clearStuff() = 0;
+    virtual void readIndex() = 0;
 };
 
 #endif // INDEXERFACE_H

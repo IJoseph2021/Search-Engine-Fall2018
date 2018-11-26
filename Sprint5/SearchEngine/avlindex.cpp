@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <exception>
+#include <fstream>
 
 using namespace std;
 
@@ -89,4 +90,41 @@ AVLIndex::AVLIndex(const AVLIndex& a){
 AVLIndex& AVLIndex::operator=(const AVLIndex& a){
     this->wordTree = a.wordTree;
     return *this;
+}
+
+void AVLIndex::readIndex()
+{
+    ifstream ifile ("Index.txt");
+    while (!ifile.eof())
+    {
+        //read in the new word and its previous word
+        string thisWord;
+        string prev;
+        getline(ifile, thisWord, '|');
+        getline(ifile, prev, '|');
+        word currWord(thisWord);
+        string docs;
+        getline(ifile, prev, '|');
+        getline(ifile, docs);
+        while(!docs.empty())
+        {
+            int pos = docs.find('|');
+            string thisDoc = docs.substr(0, pos);
+            docs.erase(0, pos+1);
+            pos = docs.find('|');
+            int uses = stoi(docs.substr(0, pos), nullptr, 10);
+            docs.erase(0,pos+1);
+            docu doc(thisDoc, uses);
+            currWord.addDoc(doc);
+            pos = docs.find('|');
+            docs.erase(0, pos+1);
+        }
+        try{
+            wordTree.find(currWord).addDoc(currWord.getLitDoc(0));
+        }
+        //if an object is not found with that word then add it to the tree
+        catch(exception e){
+            wordTree.insert(currWord);
+        }
+    }
 }

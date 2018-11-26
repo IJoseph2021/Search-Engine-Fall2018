@@ -38,6 +38,13 @@ int main(int argc, char* argv[])
     fr->printIndex(ofile);
     ofile.close();
     fr->clearStuff();
+
+    ofile.open("Index2.txt");
+    fr->readIndex();
+    fr->printIndex(ofile);
+    ofile.close();
+    fr->clearStuff();
     delete fr;
+
     return 0;
 }
