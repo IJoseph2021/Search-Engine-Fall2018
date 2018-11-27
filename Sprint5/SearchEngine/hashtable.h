@@ -57,14 +57,15 @@ public:
     ~HashTable();
     HashTable(const HashTable<mark, fontenot>& a);
     HashTable& operator =(const HashTable<mark, fontenot>& a);
-    int hashResize(mark& key);
-    void insertNode(mark& key, fontenot& value);
+    unsigned long hashResize(mark &key);
+    void insertNode(mark key, fontenot& value);
     void removeNode(mark key, fontenot value);
     void clearTable();
     bool isEmpty();
     fontenot& find(mark& key, fontenot& value);
     void printOut(ostream &out);
     int returnSize();
+    void stats();
 };
 
 template<typename mark, typename fontenot>
@@ -104,14 +105,16 @@ HashTable<mark, fontenot>::~HashTable(){
 }
 
 template<typename mark, typename fontenot>
-int HashTable<mark, fontenot>::hashResize(mark &key){
-    return key%capacity;
+unsigned long HashTable<mark, fontenot>::hashResize(mark& key){
+    return key % capacity;
 }
 
+
 template<typename mark, typename fontenot>
-void HashTable<mark, fontenot>::insertNode(mark &key, fontenot &value){
+void HashTable<mark, fontenot>::insertNode(mark key, fontenot &value){
+    cout<<"key: "<<key<<endl;
     HashNode<mark, fontenot>* temp = new HashNode<mark, fontenot>(key, value);
-    int index = hashResize(key);
+    unsigned int index = hashResize(key);
     bool check = false;
     for(int i = 0; i<table[index].size(); i++){
         if(temp->returnValue() == (table[index][i]).returnValue()){
@@ -137,11 +140,11 @@ void HashTable<mark, fontenot>::removeNode(mark key, fontenot value){
 }
 
 template<typename mark, typename fontenot>
-fontenot& HashTable<mark, fontenot>::find(mark& key, fontenot& value){
+fontenot &HashTable<mark, fontenot>::find(mark& key, fontenot& value){
     int index = hashResize(key);
     for(int i = 0; i<table[index].size(); i++){
-        if(value == table[index][i]){
-            return table[index][i];
+        if(value == table[index][i].returnValue()){
+            return table[index][i].returnValue();
         }
     }
     throw logic_error("Value not in tree [in find()]");
@@ -176,10 +179,38 @@ void HashTable<mark, fontenot>::printOut(ostream &out){
     }
 }
 
+template<typename mark, typename fontenot>
+void HashTable<mark, fontenot>::stats(){
+    cout<<"Hash Table Stats: "<<endl;
+    float counter = 0;
+    for(int i = 0; i<capacity;i++){
+        if(table[i].size() != 0){
+            counter++;
+        }
+    }
+    cout<<"Number of indices used: "<<counter<<endl;
+    cout<<"Total Capacity: "<<capacity<<endl;
+    float ratio = (float) (counter*100) / (float) capacity;
+    cout<<ratio<<"% used"<<endl;
 
-
-
-
-
+    float collisionCounterSum = 0;
+    float collisionCounter = 0;
+    float largestCollision = 0;
+    for(int i = 0; i<capacity;i++){
+        if(table[i].size() > 1){
+            collisionCounter++;
+            collisionCounterSum = collisionCounterSum + table[i].size();
+            if(table[i].size()>largestCollision){
+                largestCollision = table[i].size();
+            }
+        }
+    }
+    float p = 100;
+    float collisionRatio = (collisionCounter*p)/counter;
+    float averageCollision = collisionCounterSum/collisionCounter;
+    cout<<"Of the used indices, collisions occured in: "<<collisionRatio<<"%"<<endl;
+    cout<<"For indices that had collisions, the average length was: "<<averageCollision<<endl;
+    cout<<"The largest collision is: "<<largestCollision<<endl;
+}
 
 #endif // HASHTABLE_H
