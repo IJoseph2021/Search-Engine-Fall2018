@@ -13,7 +13,8 @@ SOURCES += \
     word.cpp \
     stopper.cpp \
     avlindex.cpp \
-    parser.cpp
+    parser.cpp \
+    hashindex.cpp
 
 DISTFILES += \
     porter2_stemmer/diffs.txt \

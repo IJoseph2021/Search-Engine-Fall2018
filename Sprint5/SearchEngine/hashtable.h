@@ -112,7 +112,7 @@ unsigned long HashTable<mark, fontenot>::hashResize(mark& key){
 
 template<typename mark, typename fontenot>
 void HashTable<mark, fontenot>::insertNode(mark key, fontenot &value){
-    cout<<"key: "<<key<<endl;
+    //cout<<"key: "<<key<<endl;
     HashNode<mark, fontenot>* temp = new HashNode<mark, fontenot>(key, value);
     unsigned int index = hashResize(key);
     bool check = false;
