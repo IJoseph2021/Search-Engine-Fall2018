@@ -20,7 +20,7 @@ private:
     HashTable <int, word> wordTable;
 public:
     //constructor
-    HashIndex();
+    HashIndex(int a);
     //destructor
     ~HashIndex();
     //overloaded copy constructor

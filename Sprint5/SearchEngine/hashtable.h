@@ -53,6 +53,7 @@ private:
     int size;
 
 public:
+    HashTable();
     HashTable(int a);
     ~HashTable();
     HashTable(const HashTable<mark, fontenot>& a);
@@ -66,7 +67,19 @@ public:
     void printOut(ostream &out);
     int returnSize();
     void stats();
+    void reSize(int a);
 };
+
+template<typename mark, typename fontenot>
+HashTable<mark, fontenot>::HashTable(){
+
+}
+
+template<typename mark, typename fontenot>
+void HashTable<mark, fontenot>::reSize(int a){
+    table.resize(a);
+}
+
 
 template<typename mark, typename fontenot>
 HashTable<mark, fontenot>::HashTable(int a){
@@ -123,6 +136,7 @@ void HashTable<mark, fontenot>::insertNode(mark key, fontenot &value){
     }
     if(check == false){
         table[index].push_back(*temp);
+        size++;
     }
     else{
         cout<<"val already inserted"<<endl;

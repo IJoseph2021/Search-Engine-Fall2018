@@ -2,6 +2,7 @@
 //created:11/16/2018
 
 #include "hashindex.h"
+#include "hashtable.h"
 #include "indexerface.h"
 #include "word.h"
 #include "docu.h"
@@ -13,8 +14,8 @@
 using namespace std;
 
 //constructor
-HashIndex::HashIndex(){
-
+HashIndex::HashIndex(int a){
+    wordTable.reSize(a);
 }
 void HashIndex::clearStuff(){
     wordTable.~HashTable();
@@ -31,7 +32,7 @@ void HashIndex::insert(string val, string docname){
     //if it does then just update the documents in that object
     word a(val, docname);
     hash<string>str_hash;
-    int x = str_hash(a);
+    int x = str_hash(val);
     if(x<0){
         x = -1*x;
     }
@@ -47,9 +48,14 @@ void HashIndex::insert(string val, string docname){
 vector <docu> HashIndex::findDocWithWord(string a){
     //make temp object to allow search in tree
     word b(a, "Fontenot");
+    hash<string>str_hash;
+    int x = str_hash(a);
+    if(x<0){
+        x = -1*x;
+    }
     //if an object of that word is found, then return that object's vector
     try{
-        return wordTree.find(b).returnDocVector();
+        return wordTable.find(x, b).returnDocVector();
     }
     //else return an empty vector
     catch (exception e){
@@ -62,9 +68,14 @@ vector <docu> HashIndex::findDocWithWord(string a){
 word& HashIndex::findWord(string a){
     //create temp object to allow search in tree
     word b(a, "Fontenot");
+    hash<string>str_hash;
+    int x = str_hash(a);
+    if(x<0){
+        x = -1*x;
+    }
     //return object with that string if found
     try{
-        return wordTree.find(b);
+        return wordTable.find(x, b);
     }
     //else inform user
     catch (exception e){
@@ -76,21 +87,21 @@ word& HashIndex::findWord(string a){
 //overloaded virtual function
 //return size of data structure
 int HashIndex::returnSize(){
-    return wordTree.returnNumberNodes();
+    return wordTable.returnSize();
 }
 
 //overloadd virtual function
 //print data structure
 void HashIndex::printIndex(ostream &out){
-    wordTree.printInOrder(out);
+    wordTable.printOut(out);
 }
 //copy constructor
 HashIndex::HashIndex(const HashIndex& a){
-    this->wordTree = a.wordTree;
+    this->wordTable = a.wordTable;
 }
 
 //overloaded assignment operator
 HashIndex& HashIndex::operator=(const HashIndex& a){
-    this->wordTree = a.wordTree;
+    this->wordTable = a.wordTable;
     return *this;
 }
