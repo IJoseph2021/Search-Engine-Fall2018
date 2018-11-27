@@ -39,6 +39,9 @@ public:
     void addDoc(string docName);
     void addDoc(docu& doc);
     vector<docu> returnDocVector();
+    word& operator &(const word& val);
+    word& operator |(const word& val);
+    word& logicalNot(const word& val);
 };
 
 #endif // WORD_H

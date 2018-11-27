@@ -212,4 +212,50 @@ vector<docu> word::returnDocVector(){
     return documents;
 }
 
+word& word::operator &(const word& val)
+{
+    thisWord = thisWord + "&" + val.thisWord;
+    for(int i = 0; i < documents.size(); i++)
+    {
+        bool found = false;
+        for(int j = 0; j < val.documents.size(); j++)
+        {
+            if (documents[i].getFileName().compare(val.documents[j].getFileName()) == 0)
+            {
+                found = true;
+            }
+        }
+        if (!found)
+        {
+            documents.erase(documents.begin() + i - 1);
+        }
+    }
+    return *this;
+}
+
+word& word::operator |(const word& val)
+{
+    thisWord = thisWord + "|" + val.thisWord;
+    for(int i = 0; i < val.documents.size(); i++)
+    {
+        bool found = false;
+        for (int j = 0; j < documents.size(); j++)
+        {
+            if (documents[j].getFileName().compare(val.documents[i].getFileName()) == 0)
+            {
+                found = true;
+            }
+        }
+        if(!found)
+        {
+            docu temp = val.documents[i];
+            documents.push_back(temp);
+        }
+    }
+}
+
+word& word::logicalNot(const word& val)
+{
+
+}
 
