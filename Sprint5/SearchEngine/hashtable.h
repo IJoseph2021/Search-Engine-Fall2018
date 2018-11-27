@@ -58,7 +58,7 @@ public:
     ~HashTable();
     HashTable(const HashTable<mark, fontenot>& a);
     HashTable& operator =(const HashTable<mark, fontenot>& a);
-    unsigned long hashResize(mark &key);
+    int hashResize(mark& key);
     void insertNode(mark key, fontenot& value);
     void removeNode(mark key, fontenot value);
     void clearTable();
@@ -78,6 +78,7 @@ HashTable<mark, fontenot>::HashTable(){
 template<typename mark, typename fontenot>
 void HashTable<mark, fontenot>::reSize(int a){
     table.resize(a);
+    capacity = a;
 }
 
 
@@ -118,7 +119,7 @@ HashTable<mark, fontenot>::~HashTable(){
 }
 
 template<typename mark, typename fontenot>
-unsigned long HashTable<mark, fontenot>::hashResize(mark& key){
+int HashTable<mark, fontenot>::hashResize(mark &key){
     return key % capacity;
 }
 
@@ -127,7 +128,7 @@ template<typename mark, typename fontenot>
 void HashTable<mark, fontenot>::insertNode(mark key, fontenot &value){
     //cout<<"key: "<<key<<endl;
     HashNode<mark, fontenot>* temp = new HashNode<mark, fontenot>(key, value);
-    unsigned int index = hashResize(key);
+    int index = hashResize(key);
     bool check = false;
     for(int i = 0; i<table[index].size(); i++){
         if(temp->returnValue() == (table[index][i]).returnValue()){

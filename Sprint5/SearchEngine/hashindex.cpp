@@ -93,7 +93,8 @@ int HashIndex::returnSize(){
 //overloadd virtual function
 //print data structure
 void HashIndex::printIndex(ostream &out){
-    wordTable.printOut(out);
+    //wordTable.printOut(out);
+    wordTable.stats();
 }
 //copy constructor
 HashIndex::HashIndex(const HashIndex& a){
