@@ -148,7 +148,7 @@ vector<string> Parser::get_files_at_path_with_extn() {
 }
 
 inline bool Parser::checkPunct(char a) {
-    return (a!='.' && a!=',' && a!='\"' && a!=';' && a!=':' && a!='?' && a!='/' && a!='*' && a!='(' && a!=')');
+    return (a!='.' && a!=',' && a!='\"' && a!=';' && a!=':' && a!='?' && a!='/' && a!='*' && a!='(' && a!=')' && a!='|');
 }
 
 string Parser::getPath() { return path; }

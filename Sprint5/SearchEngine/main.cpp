@@ -56,6 +56,11 @@ int main(int argc, char* argv[])
     fr->readIndexWithPrev();
     fr->printIndex(ofile);
     ofile.close();
+/*
+    word adju = fr->findWord(adju);
+    string plea = "plea";
+    word pleaW = fr->findWord(plea);
+    word anded = adju&pleaW;*/
 
     fr->clearStuff();
     delete fr;

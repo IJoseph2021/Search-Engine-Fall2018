@@ -223,6 +223,7 @@ word& word::operator &(const word& val)
             if (documents[i].getFileName().compare(val.documents[j].getFileName()) == 0)
             {
                 found = true;
+                break;
             }
         }
         if (!found)
@@ -244,6 +245,7 @@ word& word::operator |(const word& val)
             if (documents[j].getFileName().compare(val.documents[i].getFileName()) == 0)
             {
                 found = true;
+                break;
             }
         }
         if(!found)
@@ -252,10 +254,30 @@ word& word::operator |(const word& val)
             documents.push_back(temp);
         }
     }
+    return *this;
 }
 
 word& word::logicalNot(const word& val)
 {
+
+    thisWord = thisWord + "~" + val.thisWord;
+    for(int i = 0; i < documents.size(); i++)
+    {
+        bool found = false;
+        for(int j = 0; j < val.documents.size(); j++)
+        {
+            if (documents[i].getFileName().compare(val.documents[j].getFileName()) == 0)
+            {
+                found = true;
+                break;
+            }
+        }
+        if (found)
+        {
+            documents.erase(documents.begin() + i - 1);
+        }
+    }
+    return *this;
 
 }
 
