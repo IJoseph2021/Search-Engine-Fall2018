@@ -6,6 +6,7 @@
 #include "stopper.h"
 #include "indexerface.h"
 #include "avlindex.h"
+#include "hashtable.h"
 #include <fstream>
 
 using namespace std;
