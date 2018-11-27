@@ -136,6 +136,8 @@ void AVLIndex::readIndexNoPrev()
 void AVLIndex::readIndexWithPrev()
 {
     ifstream ifile ("Index.txt");
+    ifile >> wordCount;
+    ifile >> docCount;
     while (!ifile.eof())
     {
         //read in the new word and its previous word
