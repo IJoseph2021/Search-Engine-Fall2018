@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <exception>
+#include <functional>
 
 using namespace std;
 
@@ -29,16 +30,18 @@ void HashIndex::insert(string val, string docname){
     //create temp object a and search tree to see if an object with the same word already exists in the tree
     //if it does then just update the documents in that object
     word a(val, docname);
-
+    hash<string>str_hash;
+    int x = str_hash(a);
+    if(x<0){
+        x = -1*x;
+    }
     try{
-        wordTable.find(a).addDoc(docname);
+        wordTable.find(x, a).addDoc(docname);
     }
     //if an object is not found with that word then add it to the tree
     catch(exception e){
-        wordTree.insert(a);
+        wordTable.insertNode(x, a);
     }
-
-    //wordTree.insert(a);
 }
 
 vector <docu> HashIndex::findDocWithWord(string a){
