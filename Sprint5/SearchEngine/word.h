@@ -42,6 +42,7 @@ public:
     word& operator &(const word& val);
     word& operator |(const word& val);
     word& logicalNot(const word& val);
+    int getNumUses();
 };
 
 #endif // WORD_H

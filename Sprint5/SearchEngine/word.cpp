@@ -228,7 +228,8 @@ word& word::operator &(const word& val)
         }
         if (!found)
         {
-            documents.erase(documents.begin() + i - 1);
+            documents.erase(documents.begin() + i);
+            i--;
         }
     }
     return *this;
@@ -274,10 +275,20 @@ word& word::logicalNot(const word& val)
         }
         if (found)
         {
-            documents.erase(documents.begin() + i - 1);
+            documents.erase(documents.begin() + i);
+            i--;
         }
     }
     return *this;
+}
 
+int word::getNumUses()
+{
+    int uses = 0;
+    for (int i = 0; i < documents.size(); i++)
+    {
+        uses+= documents[i].getUseCount();
+    }
+    return uses;
 }
 

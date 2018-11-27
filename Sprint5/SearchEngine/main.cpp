@@ -50,13 +50,31 @@ int main(int argc, char* argv[])
      duration = (clock() - start) / (float) CLOCKS_PER_SEC;
     cout<<"time: "<<duration<<endl;
 
-/*
-    word adjuW = fr->findWord(adju);
-    string plea = "plea";
-    word pleaW = fr->findWord(plea);
-    word anded = adjuW&pleaW;
-    cout << anded;
-*/
+
+    string officer = "officer";
+    Porter2Stemmer::stem(officer);
+    word lhs = fr->findWord(officer);
+    string uniform = "uniformed";
+    Porter2Stemmer::stem(uniform);
+    word rhs = fr->findWord(uniform);
+    word anded = lhs;
+    word ored = lhs;
+    word noted = lhs;
+    anded & rhs;
+    ored | rhs;
+    noted.logicalNot(rhs);
+    cout << lhs << endl << endl;
+    cout << rhs << endl << endl;
+    cout << anded << endl << endl;
+    cout << ored << endl << endl;
+    cout << noted << endl << endl;
+
+    cout << lhs.getNumUses() << endl;
+    cout << rhs.getNumUses() << endl;
+    cout << anded.getNumUses() << endl;
+    cout << ored.getNumUses() << endl;
+    cout << noted.getNumUses() << endl;
+
     fr->clearStuff();
 
     ofile.open("Index3.txt");
