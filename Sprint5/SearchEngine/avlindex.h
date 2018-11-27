@@ -19,6 +19,8 @@ class AVLIndex: public IndexerFace{
 private:
     //specific implementation of AVLTree template
     AVLTree <word> wordTree;
+    int wordCount;
+    int docCount;
 public:
     //constructor
     AVLIndex();
@@ -41,6 +43,8 @@ public:
     void clearStuff();
     void readIndexNoPrev();
     void readIndexWithPrev();
+    void setWords(int x);
+    void setDocs(int x);
 };
 
 #endif // AVLINDEX_H

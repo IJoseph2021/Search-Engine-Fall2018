@@ -79,6 +79,8 @@ int AVLIndex::returnSize(){
 //overloadd virtual function
 //print data structure
 void AVLIndex::printIndex(ostream &out){
+    out << wordCount << endl;
+    out << docCount << endl;
     wordTree.printInOrder(out);
 }
 //copy constructor
@@ -95,6 +97,8 @@ AVLIndex& AVLIndex::operator=(const AVLIndex& a){
 void AVLIndex::readIndexNoPrev()
 {
     ifstream ifile ("Index.txt");
+    ifile >> wordCount;
+    ifile >> docCount;
     while (!ifile.eof())
     {
         //read in the new word and its previous word
@@ -164,4 +168,14 @@ void AVLIndex::readIndexWithPrev()
             wordTree.insert(currWord);
         }
     }
+}
+
+void AVLIndex::setWords(int x)
+{
+    wordCount = x;
+}
+
+void AVLIndex::setDocs(int x)
+{
+    docCount = x;
 }

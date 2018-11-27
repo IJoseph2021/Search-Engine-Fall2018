@@ -30,6 +30,8 @@ public:
     virtual void clearStuff() = 0;
     virtual void readIndexNoPrev() = 0;
     virtual void readIndexWithPrev() = 0;
+    virtual void setWords(int x) = 0;
+    virtual void setDocs(int x) = 0;
 };
 
 #endif // INDEXERFACE_H
