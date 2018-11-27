@@ -111,6 +111,7 @@ public:
     bool contains(fontenot val);
     void remove(fontenot val);
     fontenot& find(fontenot val);
+    TreeNode<fontenot>* findStar(fontenot val);
     int returnNumberNodes();
 
 private:
@@ -125,6 +126,7 @@ private:
     bool contains(TreeNode<fontenot>*&t, fontenot& val);
     void remove(TreeNode<fontenot>*& toRemove);
     TreeNode<fontenot>& find(fontenot &val, TreeNode<fontenot> *t);
+    AVLTree<fontenot>::TreeNode<fontenot> *findStar(fontenot &val, TreeNode<fontenot> *t);
     AVLTree<fontenot>::TreeNode<fontenot> *copyNodes(TreeNode<fontenot> *t);
     void clear(TreeNode<fontenot>*& t);
 };
@@ -435,6 +437,16 @@ fontenot& AVLTree<fontenot>::find(fontenot val)
     return find(val,root).data;
 }
 
+template <typename fontenot>
+AVLTree<fontenot>::TreeNode<fontenot>* AVLTree<fontenot>::findStar(fontenot val)
+{
+    if (root == nullptr)
+    {
+        throw logic_error("Value not in tree [in find()]");
+    }
+    return findStar(val,root);
+}
+
 //private search function which binary searches for an item by stepping through the tree using comparisons
 //and returning the item it ends on
 template <typename fontenot>
@@ -457,6 +469,32 @@ AVLTree<fontenot>::TreeNode<fontenot>& AVLTree<fontenot>::find(fontenot& val, Tr
     {
         if (t->right != nullptr)
             return find(val, t->right);
+       else
+            //if the value is greater but there is no right node throw error
+            throw logic_error("Value not in tree [in find()]");
+    }
+}
+
+template <typename fontenot>
+AVLTree<fontenot>::TreeNode<fontenot>* AVLTree<fontenot>::findStar(fontenot& val, TreeNode<fontenot>* t)
+{
+    //if this is the target value return the node
+    if (t->data == val)
+        return t;
+    //if the value is less than the current node go left
+    else if (t->data > val)
+    {
+        if (t->left != nullptr)
+            return findStar(val, t->left);
+        else
+            //if the value is less than the current node but there is no left node throw error
+            throw logic_error("Value not in tree [in find()]");
+    }
+    //if the value is greater than the current node go right
+    else if (t->data < val)
+    {
+        if (t->right != nullptr)
+            return findStar(val, t->right);
        else
             //if the value is greater but there is no right node throw error
             throw logic_error("Value not in tree [in find()]");
