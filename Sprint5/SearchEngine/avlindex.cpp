@@ -124,7 +124,9 @@ void AVLIndex::readIndexNoPrev()
             docs.erase(0, pos+1);
         }
         try{
-            wordTree.find(currWord).addDoc(currWord.getLitDoc(0));
+            wordTree.find(currWord);
+            for (int i = 0; i < currWord.getNumDocs(); i++)
+                wordTree.find(currWord).addDoc(currWord.getLitDoc(i));
         }
         //if an object is not found with that word then add it to the tree
         catch(exception e){
