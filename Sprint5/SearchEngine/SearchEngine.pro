@@ -30,7 +30,8 @@ HEADERS += \
     stopper.h \
     avlindex.h \
     hashindex.h \
-    parser.h
+    parser.h \
+    hashtable.h
 
 HEADERS += \
     indexerface.h \
