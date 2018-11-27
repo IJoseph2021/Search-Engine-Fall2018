@@ -48,19 +48,21 @@ int main(int argc, char* argv[])
     cout << numDocs << endl;
 
      duration = (clock() - start) / (float) CLOCKS_PER_SEC;
-    cout<<"time: "<<duration<<endl;    
+    cout<<"time: "<<duration<<endl;
 
+/*
+    word adjuW = fr->findWord(adju);
+    string plea = "plea";
+    word pleaW = fr->findWord(plea);
+    word anded = adjuW&pleaW;
+    cout << anded;
+*/
     fr->clearStuff();
 
     ofile.open("Index3.txt");
     fr->readIndexWithPrev();
     fr->printIndex(ofile);
     ofile.close();
-/*
-    word adju = fr->findWord(adju);
-    string plea = "plea";
-    word pleaW = fr->findWord(plea);
-    word anded = adju&pleaW;*/
 
     fr->clearStuff();
     delete fr;
