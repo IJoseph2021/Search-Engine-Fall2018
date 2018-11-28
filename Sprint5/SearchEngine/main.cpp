@@ -8,6 +8,7 @@
 #include "avlindex.h"
 #include "hashtable.h"
 #include <fstream>
+#include "queryengine.h"
 
 using namespace std;
 
@@ -41,6 +42,15 @@ int main(int argc, char* argv[])
 
     //read index to create one word index
     fr->readIndexNoPrev(x, numFiles);
+    QueryEngine* qe = new QueryEngine();
+    IndexerFace* avD = new AVLIndex();
+    IndexerFace* haS = new AVLIndex();
+    IndexerFace* haD = new AVLIndex();
+    /*IndexerFace* haS = new HashIndex();
+    IndexerFace* haD = new HashIndex();*/
+    bool tree = true;
+    qe->run(fr, haS, avD, haD, tree);
+
     fr->printIndex(ofile2, x, numFiles);
     cout << "Number of words parsed: " << x << endl;
     cout << "Number of unique words: " << fr->returnSize() << endl;
@@ -49,7 +59,7 @@ int main(int argc, char* argv[])
     int numDocs = fr->findWord(adju, adju).getNumDocs();
     cout << numDocs << endl;
 
-     duration = (clock() - start) / (float) CLOCKS_PER_SEC;
+    duration = (clock() - start) / (float) CLOCKS_PER_SEC;
     cout<<"time: "<<duration<<endl;
     ofile2.close();
 
