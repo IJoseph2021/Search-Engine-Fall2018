@@ -9,21 +9,10 @@
 
 class QueryEngine
 {
-private:
-    IndexerFace* avS;
-    IndexerFace* haS;
-    IndexerFace* avD;
-    IndexerFace* haD;
-    bool type;
 public:
     QueryEngine();
-    QueryEngine(IndexerFace*& avS, IndexerFace*& haSx, IndexerFace*& avDx, IndexerFace*& haDx, bool& typex);
-    void takeQuery();
-    void run();
-    bool compareAND();
-    bool compareNOT();
-    bool compareOR();
-
+    void takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& avD, IndexerFace*& haD, bool& type);
+    void run(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& avD, IndexerFace*& haD, bool& type);
 };
 
 #endif // QUERYENGINE_H

@@ -31,7 +31,7 @@ public:
     //overload pure virtual insert
     void insert(string val, string prev, string docname);
     //overload pure virtual
-    word& findWord(string a);
+    word& findWord(string a, string prev);
     //overloaded pure virtual
     vector<docu> findDocWithWord(string a);
     //overloaded pure virtual

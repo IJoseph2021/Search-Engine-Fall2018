@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
     cout << "Number of unique words: " << fr->returnSize() << endl;
     //cout << "Number of documents parsed: " << numFiles << endl;
     cout << "Number of documents " << argv[2] << " was found in: ";
-    int numDocs = fr->findWord(adju).getNumDocs();
+    int numDocs = fr->findWord(adju, adju).getNumDocs();
     cout << numDocs << endl;
 
      duration = (clock() - start) / (float) CLOCKS_PER_SEC;
