@@ -16,6 +16,7 @@ private:
 public:
     docu();
     docu(string name);
+    docu(string name, int used);
     docu(const docu& val);
     docu& operator=(const docu& val);
     ~docu();

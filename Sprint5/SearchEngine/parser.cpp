@@ -50,7 +50,11 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
 
 
 
+<<<<<<< HEAD
     for(unsigned int j = 0; j < 24600/*files.size()*/; j++) {
+=======
+    for(unsigned int j = 0; j < 1000; j++) {
+>>>>>>> word-indexing
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
@@ -84,7 +88,7 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
 void Parser::parseHTML(string html, string fileN, int& count, map<string, string>& aStem, IndexerFace*& index) {
     int find;
     string word = "";
-    string previousString;
+    string previousString = "";
     for(unsigned int j = 0; j < html.length(); j++) {
         if(isspace((int)html[j]) == 0) {
             if(checkPunct(html[j]))
@@ -101,8 +105,8 @@ void Parser::parseHTML(string html, string fileN, int& count, map<string, string
                     if(!stahp.isStopWord(word)) {
                         count++;
                         word = stemWord(word, aStem);//Porter2Stemmer::stem(word);
-                        index->insert(word, fileN);
-                        //previousString = word
+                        index->insert(word, previousString, fileN);
+                         previousString = word;
                         //cout << word <<endl;
                         //make word object
                         //update previousString
@@ -148,7 +152,7 @@ vector<string> Parser::get_files_at_path_with_extn() {
 }
 
 inline bool Parser::checkPunct(char a) {
-    return (a!='.' && a!=',' && a!='\"' && a!=';' && a!=':' && a!='?' && a!='/' && a!='*' && a!='(' && a!=')');
+    return (a!='.' && a!=',' && a!='\"' && a!=';' && a!=':' && a!='?' && a!='/' && a!='*' && a!='(' && a!=')' && a!='|');
 }
 
 string Parser::getPath() { return path; }

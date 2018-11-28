@@ -19,6 +19,8 @@ class AVLIndex: public IndexerFace{
 private:
     //specific implementation of AVLTree template
     AVLTree <word> wordTree;
+    int wordCount;
+    int docCount;
 public:
     //constructor
     AVLIndex();
@@ -29,7 +31,7 @@ public:
     //overloaded assignment operator
     AVLIndex& operator=(const AVLIndex& a);
     //overload pure virtual insert
-    void insert(string val, string docname);
+    void insert(string val, string prev, string docname);
     //overload pure virtual
     word& findWord(string a);
     //overloaded pure virtual
@@ -39,6 +41,10 @@ public:
     //overlaoded pure virtual
     void printIndex(ostream &out);
     void clearStuff();
+    void readIndexNoPrev();
+    void readIndexWithPrev();
+    void setWords(int x);
+    void setDocs(int x);
 };
 
 #endif // AVLINDEX_H

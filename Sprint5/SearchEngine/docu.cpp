@@ -9,6 +9,12 @@ docu::docu(string name)
     useCount = 1;
 }
 
+docu::docu(string name, int used)
+{
+    fileName = name;
+    useCount = used;
+}
+
 //copy constructor
 docu::docu(const docu& val)
 {

@@ -21,6 +21,7 @@ public:
     word();
     word(const word& val);
     //word(string prev, string curr);
+    word(string curr);
     word(string prev, string curr, string doc);
     word(string curr, string doc);
     word& operator=(const word& val);
@@ -34,9 +35,14 @@ public:
     string getPrev() const;
     string getWord() const;
     docu getDoc(int x) const;
+    docu& getLitDoc(int x);
     void addDoc(string docName);
     void addDoc(docu& doc);
     vector<docu> returnDocVector();
+    word& operator &(const word& val);
+    word& operator |(const word& val);
+    word& logicalNot(const word& val);
+    int getNumUses();
 };
 
 #endif // WORD_H

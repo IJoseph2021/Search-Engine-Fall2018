@@ -10,6 +10,12 @@ word::word(){}
 }*/
 
 
+word::word(string curr)
+{
+    previous = curr;
+    thisWord = curr;
+}
+
 //create a word with both words and the document filename
 word::word(string prev, string curr, string doc)
 {
@@ -19,10 +25,9 @@ word::word(string prev, string curr, string doc)
     documents.push_back(tempDoc);
 }
 
-word::word(string curr, string doc){
+word::word(string prev, string curr){
     thisWord = curr;
-    docu tempDoc(doc);
-    documents.push_back(tempDoc);
+    previous = prev;
 }
 
 //copy constructor
@@ -86,6 +91,8 @@ bool word::operator < (const word& val)
 {
     if (thisWord.compare(val.thisWord) < 0)
         return true;
+    else if ((thisWord.compare(val.thisWord) == 0 && previous.compare(val.previous) < 0))
+        return true;
     else
         return false;
 }
@@ -95,6 +102,8 @@ bool word::operator > (const word& val)
 {
     if (thisWord.compare(val.thisWord) > 0)
         return true;
+    else if ((thisWord.compare(val.thisWord) == 0 && previous.compare(val.previous) > 0))
+        return true;
     else
         return false;
 }
@@ -102,7 +111,8 @@ bool word::operator > (const word& val)
 //overloaded comparison operator to see if two words have the same word string
 bool word::operator==(const word& val)
 {
-    if (thisWord.compare(val.thisWord) == 0)
+    if ((thisWord.compare(val.thisWord) == 0) &&
+       ((previous.compare(val.previous) == 0) || val.previous.compare("s34rch") == 0))
         return true;
     else
         return false;
@@ -111,7 +121,7 @@ bool word::operator==(const word& val)
 //print the previous word, this word, and document vector to ostream out
 ostream& operator<<(ostream& out, const word& w)
 {
-    out << w.getPrev() << '|' << w.getWord() << "|";
+    out << w.getWord() << '|' << w.getPrev() << "|";
     for (int i = 0; i < w.getNumDocs(); i++)
     {
         out << "-|";
@@ -137,6 +147,11 @@ string word::getWord() const
 }
 
 docu word::getDoc(int x) const
+{
+    return documents[x];
+}
+
+docu& word::getLitDoc(int x)
 {
     return documents[x];
 }
@@ -197,4 +212,83 @@ vector<docu> word::returnDocVector(){
     return documents;
 }
 
+word& word::operator &(const word& val)
+{
+    thisWord = thisWord + "&" + val.thisWord;
+    for(int i = 0; i < documents.size(); i++)
+    {
+        bool found = false;
+        for(int j = 0; j < val.documents.size(); j++)
+        {
+            if (documents[i].getFileName().compare(val.documents[j].getFileName()) == 0)
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            documents.erase(documents.begin() + i);
+            i--;
+        }
+    }
+    return *this;
+}
+
+word& word::operator |(const word& val)
+{
+    thisWord = thisWord + "|" + val.thisWord;
+    for(int i = 0; i < val.documents.size(); i++)
+    {
+        bool found = false;
+        for (int j = 0; j < documents.size(); j++)
+        {
+            if (documents[j].getFileName().compare(val.documents[i].getFileName()) == 0)
+            {
+                found = true;
+                break;
+            }
+        }
+        if(!found)
+        {
+            docu temp = val.documents[i];
+            documents.push_back(temp);
+        }
+    }
+    return *this;
+}
+
+word& word::logicalNot(const word& val)
+{
+
+    thisWord = thisWord + "~" + val.thisWord;
+    for(int i = 0; i < documents.size(); i++)
+    {
+        bool found = false;
+        for(int j = 0; j < val.documents.size(); j++)
+        {
+            if (documents[i].getFileName().compare(val.documents[j].getFileName()) == 0)
+            {
+                found = true;
+                break;
+            }
+        }
+        if (found)
+        {
+            documents.erase(documents.begin() + i);
+            i--;
+        }
+    }
+    return *this;
+}
+
+int word::getNumUses()
+{
+    int uses = 0;
+    for (int i = 0; i < documents.size(); i++)
+    {
+        uses+= documents[i].getUseCount();
+    }
+    return uses;
+}
 
