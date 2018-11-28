@@ -79,8 +79,8 @@ int AVLIndex::returnSize(){
 //overloadd virtual function
 //print data structure
 void AVLIndex::printIndex(ostream &out){
-    out << wordCount << '\n';
-    out << docCount << '\n';
+    out << wordCount << endl;
+    out << docCount << endl;
     wordTree.printLevelOrder(out);
 }
 //copy constructor
@@ -102,7 +102,7 @@ void AVLIndex::readIndexNoPrev()
     file_length = ifile.tellg() - file_length;
     long file_len = (long)file_length;
     //cout<<"file length:"<<file_length<<endl;
-    ifile.clear();
+    //ifile.clear();
     ifile.seekg(0, ios::beg);
     char str[file_len];
     ifile.read(str, file_len);
@@ -136,6 +136,8 @@ void AVLIndex::readIndexNoPrev()
             }
             i = i + 3;
             word currWord(thisWord);
+            prev = "";
+            thisWord = "";
             while(str[i] != '\n'){
                 docs = docs + str[i];
                 i++;

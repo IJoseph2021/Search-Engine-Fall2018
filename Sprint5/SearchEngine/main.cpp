@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 
      duration = (clock() - start) / (float) CLOCKS_PER_SEC;
     cout<<"time: "<<duration<<endl;
-
+    ofile2.close();
     fr->clearStuff();
     delete fr;
 
