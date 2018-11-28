@@ -12,6 +12,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+    /*
     cout << "PARSING DOCS" << endl;
 
     int x = 0;
@@ -51,8 +52,10 @@ int main(int argc, char* argv[])
      duration = (clock() - start) / (float) CLOCKS_PER_SEC;
     cout<<"time: "<<duration<<endl;
     ofile2.close();
+
     fr->clearStuff();
     delete fr;
+    */
 
     return 0;
 }
