@@ -26,12 +26,10 @@ public:
     virtual word& findWord(std::string a) = 0;
     virtual vector<docu> findDocWithWord(std::string a) = 0;
     virtual int returnSize() = 0;
-    virtual void printIndex(ostream &out) = 0;
+    virtual void printIndex(ostream &out, int& wordCount, int& docCount) = 0;
     virtual void clearStuff() = 0;
-    virtual void readIndexNoPrev() = 0;
-    virtual void readIndexWithPrev() = 0;
-    virtual void setWords(int x) = 0;
-    virtual void setDocs(int x) = 0;
+    virtual void readIndexNoPrev(int& wordCount, int& docCount) = 0;
+    virtual void readIndexWithPrev(int& wordCount, int& docCount) = 0;
 };
 
 #endif // INDEXERFACE_H

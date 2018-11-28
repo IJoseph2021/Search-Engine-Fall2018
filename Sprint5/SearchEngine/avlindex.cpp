@@ -78,7 +78,7 @@ int AVLIndex::returnSize(){
 
 //overloadd virtual function
 //print data structure
-void AVLIndex::printIndex(ostream &out){
+void AVLIndex::printIndex(ostream &out, int &wordCount, int &docCount){
     out << wordCount << endl;
     out << docCount << endl;
     wordTree.printLevelOrder(out);
@@ -94,7 +94,7 @@ AVLIndex& AVLIndex::operator=(const AVLIndex& a){
     return *this;
 }
 
-void AVLIndex::readIndexNoPrev()
+void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
 {
     ifstream ifile ("Index.txt");
     streampos file_length = ifile.tellg();
@@ -206,7 +206,7 @@ void AVLIndex::readIndexNoPrev()
     }
 
 
-void AVLIndex::readIndexWithPrev()
+void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
 {
     ifstream ifile ("Index.txt");
     ifile >> wordCount;
@@ -245,14 +245,4 @@ void AVLIndex::readIndexWithPrev()
             wordTree.insert(currWord);
         }
     }
-}
-
-void AVLIndex::setWords(int x)
-{
-    wordCount = x;
-}
-
-void AVLIndex::setDocs(int x)
-{
-    docCount = x;
 }
