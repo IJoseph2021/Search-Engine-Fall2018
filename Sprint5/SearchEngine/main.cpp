@@ -13,9 +13,6 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-<<<<<<< HEAD
-
-=======
     /*
     cout << "PARSING DOCS" << endl;
 
@@ -62,5 +59,4 @@ int main(int argc, char* argv[])
     */
 
     return 0;
->>>>>>> word-indexing
 }

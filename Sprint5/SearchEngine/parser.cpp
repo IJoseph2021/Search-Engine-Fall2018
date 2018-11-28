@@ -50,11 +50,7 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
 
 
 
-<<<<<<< HEAD
-    for(unsigned int j = 0; j < 24600/*files.size()*/; j++) {
-=======
     for(unsigned int j = 0; j < 1000; j++) {
->>>>>>> word-indexing
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
