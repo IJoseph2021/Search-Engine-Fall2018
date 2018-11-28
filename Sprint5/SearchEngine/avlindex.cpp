@@ -104,7 +104,8 @@ void AVLIndex::readIndexNoPrev()
     //cout<<"file length:"<<file_length<<endl;
     //ifile.clear();
     ifile.seekg(0, ios::beg);
-    char str[file_len];
+    char* str = new char[file_len];
+    //char str[file_len];
     ifile.read(str, file_len);
     //while (!ifile.eof())
     //{
