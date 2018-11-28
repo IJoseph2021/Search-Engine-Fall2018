@@ -1,9 +1,9 @@
 /*Author: Nathan Srirama
  * Created (meaning actual UI created) 11/25/18
  * 11/26/18 Added pointers to index data structures
- * 11/27/18
- *
- *
+ * 11/27/18 Added functionality to swap between user and maitenance mode
+ *          Functionality for clearing index
+ *          Functionality for adding opinions
  *
  *
  */
@@ -154,12 +154,41 @@ void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace*
             cout << "Do you want a(n) \n1. AVLTree \n2. Hash Table" << endl;
             int dataStruc;
             cin >>dataStruc;
-            if(dataStruc == 1)
+            if(dataStruc == 1) {
                 type = true;
-            else if(dataStruc == 2)
+                if(avD->isEmpty()) {
+                    //Parser dirParser("../../../scotus", "../StopWordList.txt");
+                    wordCount = 0;
+                    fileCount = 0;
+                    //fileCount = dirParser.parse(wordCount, avD);
+
+                    //avD->setWords(wordCount);
+                    //avD->setDocs(fileCount);
+                    //avD->printIndex(oFile);
+                    //avS->clearStuff();
+                    avD->readIndexWithPrev();
+                    avS->readIndexNoPrev();
+                    //oFile.close();
+                }
+            } else if(dataStruc == 2) {
                 type = false;
-            else
+                if(haD->isEmpty()) {
+                    //Parser dirParser("../../../scotus", "../StopWordList.txt");
+                    wordCount = 0;
+                    fileCount = 0;
+                    //fileCount = dirParser.parse(wordCount, haD);
+                    //ofstream oFile("Index.txt");
+                    //haD->setWords(wordCount);
+                    //haD->setDocs(fileCount);
+                    //haD->printIndex(oFile);
+                    //haS->clearStuff();
+                    haD->readIndexWithPrev();
+                    haS->readIndexNoPrev();
+                    //oFile.close();
+                }
+            } else {
                 cout << "You entered an invalid number \n\n" << endl;
+            }
             break;
         } //case 1
         case 2: {
@@ -167,7 +196,10 @@ void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace*
             break;
         } //case 2
         case 3: {
-
+            cout << "Rule of Three Search Engine Statistics" << endl;
+            cout << "Total Number of Opinions Indexed: " << fileCount << endl;
+            int avg = wordCount/fileCount;
+            cout << "Average Number of Words Indexed per Opinion: " << avg << endl;
             break;
         } //case 3
         default:
