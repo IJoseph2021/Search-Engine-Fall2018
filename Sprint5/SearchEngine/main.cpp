@@ -1,3 +1,13 @@
+/*Author: Nathan Srirama
+ * Created (meaning actual UI created) 11/25/18
+ * 11/26/18 Added pointers to index data structures
+ * 11/27/18
+ *
+ *
+ *
+ *
+ */
+
 #include <iostream>
 #include "parser.h"
 #include "StemmerFiles/porter2_stemmer.h"
@@ -6,12 +16,14 @@
 #include "stopper.h"
 #include "indexerface.h"
 #include "avlindex.h"
+#include "hashtable.h"
+#include "hashindex.h"
 #include <fstream>
 
 using namespace std;
 
-void maitenanceMode(IndexerFace* av, IndexerFace* ha, bool type);
-void userMode(IndexerFace* av, IndexerFace* ha, bool type);
+void maitenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool &type, int &wordCount, int &fileCount);
+void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool &type, int &wordCount, int &fileCount);
 
 int main(int argc, char* argv[])
 {
@@ -23,9 +35,19 @@ int main(int argc, char* argv[])
 //    float duration;
 //    start = clock();
 //    Parser dirParser(argv[1], "../StopWordList.txt");
-    IndexerFace* avl = new AVLIndex();
-    IndexerFace* hashT = new HashIndex();
+
+    int fileCount = 0;
+    int wordCount = 0;
+
+    IndexerFace* avlSingle = new AVLIndex();
+    IndexerFace* avlDouble = new AVLIndex();
+
+    IndexerFace* hashTSingle = new HashIndex(500009);
+    IndexerFace* hashTDouble = new HashIndex(500009);
     bool type = true;       //true is AVLTree / false is HashTable
+
+    avlDouble->readIndexWithPrev();
+    avlSingle->readIndexNoPrev();
 //    int numFiles = dirParser.parse(x, fr);
 //    duration = (clock() - start) / (float) CLOCKS_PER_SEC;
 
@@ -50,19 +72,22 @@ int main(int argc, char* argv[])
 
         switch(choice) {
         case 1:
-            maitenanceMode(avl, hashT, type);
+            maitenanceMode(avlSingle, hashTSingle, avlDouble, hashTDouble, type, wordCount, fileCount);
             break;
         case 2:
-            userMode(avl, hashT, type);
+            userMode(avlSingle, hashTSingle, avlDouble, hashTDouble, type, wordCount, fileCount);
             break;
         case 3:
             flag = false;
+            break;
+        default:
+            cout << "You entered an invalid number" << endl;
         } //end switch
     } //end while
     return 0;
 } //end main
 
-maitenanceMode(IndexerFace* av, IndexerFace* ha, bool type) {
+void maitenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool type, int &wordCount, int &fileCount) {
     bool maitFlag = true;
     int maitChoice;
     while(maitFlag) {
@@ -70,31 +95,54 @@ maitenanceMode(IndexerFace* av, IndexerFace* ha, bool type) {
         cin >> maitChoice;
 
         switch(maitChoice) {
-        case 1:
-            int numFiles;
+        case 1: {
             cout << "Enter the file path: " << endl;
             string path;
             cin >> path;
             Parser dirParser(path, "../StopWordList.txt");
-            if(type)
-                numFiles = dirParser.parse(x, av);
-            else
-                numFiles = dirParser.parse(x, ha);
+            if(type) {
+                fileCount += dirParser.parse(wordCount, avD);           //print
+                ofstream oFile("Index.txt");
+                //avD->setWords(wordCount);
+                //avD->setDocs(fileCount);
+                avD->printIndex(oFile);
+                avS->clearStuff();
+                avS->readIndexNoPrev();
+                oFile.close();
+            } else {
+                fileCount += dirParser.parse(wordCount, haD);
+                ofstream oFile("Index.txt");
+                //haD->setWords(wordCount);
+                //haD->setDocs(fileCount);
+                haD->printIndex(oFile);
+                haS->clearStuff();
+                haS->readIndexNoPrev();
+                oFile.close();
+            }
             break;
-        case 2:
-            if(type)
-                av->clearStuff();
-            else
-                ha->clearStuff();
+        } //case 1
+        case 2: {
+            if(type) {
+                avS->clearStuff();
+                avD->clearStuff();
+            } else {
+                haS->clearStuff();
+                haD->clearStuff();
+            }
             break;
-        case 3:
+        } //case 2
+        case 3: {
             maitFlag = false;
+            break;
+        } //case 3
+        default:
+            cout << "You entered an invalid number \n\n" << endl;
         } //end switch
     } //end while
 } //end maitenance mode
 
 
-userMode(IndexerFace* av, IndexerFace* ha, bool type) {
+void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool type, int &wordCount, int &fileCount) {
     bool userFlag = true;
     int userChoice;
     while(userFlag) {
@@ -102,7 +150,7 @@ userMode(IndexerFace* av, IndexerFace* ha, bool type) {
         cin >> userChoice;
 
         switch(userChoice) {
-        case 1:
+        case 1: {
             cout << "Do you want a(n) \n1. AVLTree \n2. Hash Table" << endl;
             int dataStruc;
             cin >>dataStruc;
@@ -111,8 +159,19 @@ userMode(IndexerFace* av, IndexerFace* ha, bool type) {
             else if(dataStruc == 2)
                 type = false;
             else
-                cout << "You entered an invalid number" << endl;
+                cout << "You entered an invalid number \n\n" << endl;
             break;
+        } //case 1
+        case 2: {
+
+            break;
+        } //case 2
+        case 3: {
+
+            break;
+        } //case 3
+        default:
+            cout << "You entered an invalid number \n\n" << endl;
         } //end switch
     } //end while
 } //end userMode

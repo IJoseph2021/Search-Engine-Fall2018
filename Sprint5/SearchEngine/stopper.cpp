@@ -28,7 +28,7 @@ void Stopper::readStopWords(char *filename){
         string hold;
         while(!input.eof()){
             getline(input, hold);
-            for(int i = 0; i<hold.length(); i++){
+            for(unsigned int i = 0; i<hold.length(); i++){
                if(hold[i] == ' ' || hold[i] == '\r'){
                     hold.erase(i);
                 }
@@ -36,8 +36,8 @@ void Stopper::readStopWords(char *filename){
             temp.push_back(hold);
         }
     }
-    for(int i =0; i<temp.size(); i++){
-            for(int j =0; j<i; j++){
+    for(unsigned int i =0; i<temp.size(); i++){
+            for(unsigned int j =0; j<i; j++){
                 if(temp[i] == temp[j]){
                     check = true;
                 }
@@ -47,7 +47,7 @@ void Stopper::readStopWords(char *filename){
             }
             check = false;
     }
-    for(int i = 0; i<temp2.size() ; i++){
+    for(unsigned int i = 0; i<temp2.size() ; i++){
         if(temp2[i].length() != 0){
             //stopWord[temp2[i].length() - 1].push_back(temp2[i]);
             stopWord.insert(temp2[i]);

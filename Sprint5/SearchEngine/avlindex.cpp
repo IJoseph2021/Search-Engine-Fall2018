@@ -90,3 +90,7 @@ AVLIndex& AVLIndex::operator=(const AVLIndex& a){
     this->wordTree = a.wordTree;
     return *this;
 }
+
+bool AVLIndex::isEmpty() {
+    return this->wordTree.isEmpty();
+}

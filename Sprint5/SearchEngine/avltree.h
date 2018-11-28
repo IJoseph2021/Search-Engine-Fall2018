@@ -112,6 +112,7 @@ public:
     void remove(fontenot val);
     fontenot& find(fontenot val);
     int returnNumberNodes();
+    bool isEmpty();
 
 private:
     void printInOrder(ostream& out, TreeNode<fontenot>* t);
@@ -128,6 +129,14 @@ private:
     AVLTree<fontenot>::TreeNode<fontenot> *copyNodes(TreeNode<fontenot> *t);
     void clear(TreeNode<fontenot>*& t);
 };
+
+template <typename fontenot>
+bool AVLTree<fontenot>::isEmpty() {
+    if(root == nullptr)
+        return true;
+    else
+        return false;
+}
 
 template <typename fontenot>
 void AVLTree<fontenot>::clear(TreeNode<fontenot>*& t){

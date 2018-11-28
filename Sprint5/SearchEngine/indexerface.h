@@ -28,6 +28,9 @@ public:
     virtual int returnSize() = 0;
     virtual void printIndex(ostream &out) = 0;
     virtual void clearStuff() = 0;
+    virtual bool isEmpty() = 0;
+    virtual int getWords() = 0;
+    virtual int getDocs() = 0;
 };
 
 #endif // INDEXERFACE_H
