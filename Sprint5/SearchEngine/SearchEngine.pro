@@ -14,7 +14,8 @@ SOURCES += \
     stopper.cpp \
     avlindex.cpp \
     parser.cpp \
-    hashindex.cpp
+    hashindex.cpp \
+    queryengine.cpp
 
 DISTFILES += \
     porter2_stemmer/diffs.txt \
@@ -32,7 +33,8 @@ HEADERS += \
     avlindex.h \
     hashindex.h \
     parser.h \
-    hashtable.h
+    hashtable.h \
+    queryengine.h
 
 HEADERS += \
     indexerface.h \
