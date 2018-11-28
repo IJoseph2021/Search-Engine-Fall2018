@@ -192,7 +192,7 @@ void AVLTree<fontenot>::printLevel(TreeNode<fontenot> *t, int level, ostream &ou
     if (t == nullptr)
         return;
     if (level==1)
-        out << t->data << endl;
+        out << t->data << '\n';
     else if (level > 1)
     {
         printLevel(t->left, level-1, out);

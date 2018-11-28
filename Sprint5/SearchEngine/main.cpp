@@ -31,6 +31,7 @@ int main(int argc, char* argv[])
 
     //print two word index
     ofstream ofile("Index.txt");
+    ofstream ofile2("TestBuffer.txt");
     fr->setWords(x);
     fr->setDocs(numFiles);
     fr->printIndex(ofile);
@@ -39,7 +40,7 @@ int main(int argc, char* argv[])
 
     //read index to create one word index
     fr->readIndexNoPrev();
-
+    fr->printIndex(ofile2);
     cout << "Number of words parsed: " << x << endl;
     cout << "Number of unique words: " << fr->returnSize() << endl;
     //cout << "Number of documents parsed: " << numFiles << endl;
