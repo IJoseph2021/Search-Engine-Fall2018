@@ -113,9 +113,11 @@ public:
     fontenot& find(fontenot val);
     TreeNode<fontenot>* findStar(fontenot val);
     int returnNumberNodes();
+    void printLevelOrder(ostream& out);
 
 private:
     void printInOrder(ostream& out, TreeNode<fontenot>* t);
+    void printLevel(TreeNode<fontenot>* t, int level, ostream& out);
     void insert(fontenot &val, TreeNode<fontenot> *& t);
     void rotateWithLeftChild(TreeNode<fontenot>*& k2);
     void doubleWithLeftChild(TreeNode<fontenot>*& k3);
@@ -129,6 +131,7 @@ private:
     AVLTree<fontenot>::TreeNode<fontenot> *findStar(fontenot &val, TreeNode<fontenot> *t);
     AVLTree<fontenot>::TreeNode<fontenot> *copyNodes(TreeNode<fontenot> *t);
     void clear(TreeNode<fontenot>*& t);
+
 };
 
 template <typename fontenot>
@@ -171,6 +174,30 @@ void AVLTree<fontenot>::printInOrder(ostream& out)
         printInOrder(out, root);
     else
         throw logic_error("Empty tree in AVLtree:printInOrder");
+}
+
+template <typename fontenot>
+void AVLTree<fontenot>::printLevelOrder(ostream &out)
+{
+    int height = root->height;
+    for (int i = 1; i < height; i++)
+    {
+        printLevel(root, i, out);
+    }
+}
+
+template <typename fontenot>
+void AVLTree<fontenot>::printLevel(TreeNode<fontenot> *t, int level, ostream &out)
+{
+    if (t == nullptr)
+        return;
+    if (level==1)
+        out << t->data << endl;
+    else if (level > 1)
+    {
+        printLevel(t->left, level-1, out);
+        printLevel(t->right, level-1, out);
+    }
 }
 
 //public insert which calls private recursive insert algorithm

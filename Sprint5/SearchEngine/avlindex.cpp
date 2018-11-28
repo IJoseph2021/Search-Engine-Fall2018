@@ -81,7 +81,7 @@ int AVLIndex::returnSize(){
 void AVLIndex::printIndex(ostream &out){
     out << wordCount << endl;
     out << docCount << endl;
-    wordTree.printInOrder(out);
+    wordTree.printLevelOrder(out);
 }
 //copy constructor
 AVLIndex::AVLIndex(const AVLIndex& a){
