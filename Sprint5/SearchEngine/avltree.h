@@ -114,6 +114,7 @@ public:
     TreeNode<fontenot>* findStar(fontenot val);
     int returnNumberNodes();
     void printLevelOrder(ostream& out);
+    bool isEmpty();
 
 private:
     void printInOrder(ostream& out, TreeNode<fontenot>* t);
@@ -133,6 +134,14 @@ private:
     void clear(TreeNode<fontenot>*& t);
 
 };
+
+template <typename fontenot>
+bool AVLTree<fontenot>::isEmpty() {
+    if(root == nullptr)
+        return true;
+    else
+        return false;
+}
 
 template <typename fontenot>
 void AVLTree<fontenot>::clear(TreeNode<fontenot>*& t){

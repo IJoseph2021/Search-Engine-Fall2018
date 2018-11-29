@@ -41,6 +41,7 @@ public:
     void clearStuff();
     void readIndexNoPrev(int &wordCount, int &docCount);
     void readIndexWithPrev(int& wordCount, int& docCount);
+    bool isEmpty();
 };
 
 #endif // AVLINDEX_H

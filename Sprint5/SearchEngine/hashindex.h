@@ -18,6 +18,8 @@ class HashIndex: public IndexerFace{
 private:
     //specific implementation of AVLTree template
     HashTable <int, word> wordTable;
+    int wordCount;
+    int docCount;
 public:
     //constructor
     HashIndex(int a);
@@ -38,5 +40,10 @@ public:
     //overlaoded pure virtual
     void printIndex(ostream &out);
     void clearStuff();
+    bool isEmpty();
+    void setWords(int x);
+    void setDocs(int x);
+    int getWords();
+    int getDocs();
 };
 #endif // HASHINDEX_H

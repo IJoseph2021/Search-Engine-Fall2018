@@ -106,3 +106,19 @@ HashIndex& HashIndex::operator=(const HashIndex& a){
     this->wordTable = a.wordTable;
     return *this;
 }
+
+bool HashIndex::isEmpty() {
+    return this->wordTable.isEmpty();
+}
+
+void HashIndex::setDocs(int x) {
+    docCount = x;
+}
+
+void HashIndex::setWords(int x) {
+    wordCount = x;
+}
+
+int HashIndex::getDocs() { return docCount; }
+
+int HashIndex::getWords() { return wordCount; }

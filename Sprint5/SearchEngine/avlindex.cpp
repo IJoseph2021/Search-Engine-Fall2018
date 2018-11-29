@@ -246,3 +246,7 @@ void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
         }
     }
 }
+
+bool AVLIndex::isEmpty() {
+    return this->wordTree.isEmpty();
+}

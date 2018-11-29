@@ -30,6 +30,7 @@ public:
     virtual void clearStuff() = 0;
     virtual void readIndexNoPrev(int& wordCount, int& docCount) = 0;
     virtual void readIndexWithPrev(int& wordCount, int& docCount) = 0;
+    virtual bool isEmpty() = 0;
 };
 
 #endif // INDEXERFACE_H

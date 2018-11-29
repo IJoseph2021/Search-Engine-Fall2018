@@ -103,7 +103,7 @@ template<typename mark, typename fontenot>
 HashTable<mark, fontenot>& HashTable<mark, fontenot>::operator =(const HashTable<mark, fontenot>& a){
     this->capacity = a.capacity;
     for(int i =0; i<a.capacity; i++){
-        for(int j = 0; j<a.table[i].size(); j++){
+        for(unsigned int j = 0; j<a.table[i].size(); j++){
             this->table[i][j] = a.table[i][j];
             this->size++;
         }
@@ -130,7 +130,7 @@ void HashTable<mark, fontenot>::insertNode(mark key, fontenot &value){
     HashNode<mark, fontenot>* temp = new HashNode<mark, fontenot>(key, value);
     int index = hashResize(key);
     bool check = false;
-    for(int i = 0; i<table[index].size(); i++){
+    for(unsigned int i = 0; i<table[index].size(); i++){
         if(temp->returnValue() == (table[index][i]).returnValue()){
             check = true;
         }
@@ -187,8 +187,8 @@ void HashTable<mark, fontenot>::clearTable(){
 
 template<typename mark, typename fontenot>
 void HashTable<mark, fontenot>::printOut(ostream &out){
-    for(int i =0; i<table.size(); i++){
-        for(int j = 0; j<table[i].size(); j++){
+    for(unsigned int i =0; i<table.size(); i++){
+        for(unsigned int j = 0; j<table[i].size(); j++){
             out<<table[i][j].returnValue()<<endl;
         }
     }
