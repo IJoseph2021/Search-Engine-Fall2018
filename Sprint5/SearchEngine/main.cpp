@@ -204,6 +204,10 @@ void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace*
             cout << "Average Number of Words Indexed per Opinion: " << avg << endl;
             break;
         } //case 3
+        case 4:{
+            userFlag = false;
+            break;
+        }//case 4
         default:
             cout << "You entered an invalid number \n\n" << endl;
         } //end switch
