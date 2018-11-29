@@ -10,6 +10,7 @@
 #include "hashindex.h"
 #include <iostream>
 #include "StemmerFiles/porter2_stemmer.h"
+#include <myhtml/api.h>
 
 
 class QueryEngine

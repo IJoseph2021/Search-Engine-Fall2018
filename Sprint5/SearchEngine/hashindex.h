@@ -30,20 +30,18 @@ public:
     //overloaded assignment operator
     HashIndex& operator=(const HashIndex& a);
     //overload pure virtual insert
-    void insert(string val, string docname);
+    void insert(string val, string prev, string docname);
     //overload pure virtual
-    word& findWord(string a);
+    word& findWord(string a, string prev);
     //overloaded pure virtual
     vector<docu> findDocWithWord(string a);
     //overloaded pure virtual
     int returnSize();
     //overlaoded pure virtual
-    void printIndex(ostream &out);
+    void printIndex(ostream &out, int& wordCount, int& docCount);
     void clearStuff();
+    virtual void readIndexNoPrev(int& wordCount, int& docCount);
+    virtual void readIndexWithPrev(int& wordCount, int& docCount);
     bool isEmpty();
-    void setWords(int x);
-    void setDocs(int x);
-    int getWords();
-    int getDocs();
 };
 #endif // HASHINDEX_H

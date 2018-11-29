@@ -27,10 +27,10 @@ HashIndex::~HashIndex(){
 }
 
 //overloaded insert
-void HashIndex::insert(string val, string docname){
+void HashIndex::insert(string val, string prev, string docname){
     //create temp object a and search tree to see if an object with the same word already exists in the tree
     //if it does then just update the documents in that object
-    word a(val, docname);
+    word a(prev, val, docname);
     hash<string>str_hash;
     int x = str_hash(val);
     if(x<0){
@@ -65,9 +65,9 @@ vector <docu> HashIndex::findDocWithWord(string a){
     }
 }
 
-word& HashIndex::findWord(string a){
+word& HashIndex::findWord(string a, string prev){
     //create temp object to allow search in tree
-    word b(a, "Fontenot");
+    word b(prev, a);
     hash<string>str_hash;
     int x = str_hash(a);
     if(x<0){
@@ -79,7 +79,7 @@ word& HashIndex::findWord(string a){
     }
     //else inform user
     catch (exception e){
-        cout<<"Value not in tree [in find()]"<<endl;
+        cout<<"Value not in hash [in find()]"<<endl;
     }
 }
 
@@ -92,10 +92,23 @@ int HashIndex::returnSize(){
 
 //overloadd virtual function
 //print data structure
-void HashIndex::printIndex(ostream &out){
+void HashIndex::printIndex(ostream &out, int &wordCount, int &docCount){
+    out << wordCount << endl;
+    out << docCount << endl;
     wordTable.printOut(out);
     //wordTable.stats();
 }
+
+void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
+{
+
+}
+
+void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
+{
+
+}
+
 //copy constructor
 HashIndex::HashIndex(const HashIndex& a){
     this->wordTable = a.wordTable;
@@ -111,14 +124,3 @@ bool HashIndex::isEmpty() {
     return this->wordTable.isEmpty();
 }
 
-void HashIndex::setDocs(int x) {
-    docCount = x;
-}
-
-void HashIndex::setWords(int x) {
-    wordCount = x;
-}
-
-int HashIndex::getDocs() { return docCount; }
-
-int HashIndex::getWords() { return wordCount; }
