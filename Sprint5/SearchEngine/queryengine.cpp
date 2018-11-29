@@ -3,7 +3,7 @@
 QueryEngine::QueryEngine()
 {
 }
-void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& avD, IndexerFace*& haD, bool& type, word& docTracker)
+void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& avD, IndexerFace*& haD, bool& type, word& docTracker, bool& searching)
 {
     vector<string> unstemmedQueries;
     vector<string> queries;
@@ -24,11 +24,16 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
             temp = query.substr(0, pos);
             query.erase(0, pos+1);
         }
-        if (temp.compare("AND") !=0 && temp.compare("OR") != 0 && temp.compare("NOT") != 0)
+        if (temp.compare("AND") !=0 && temp.compare("OR") != 0 && temp.compare("NOT") != 0 && temp.compare("EXIT") != 0)
             transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
         unstemmedQueries.push_back(temp);
     }
     queries = unstemmedQueries;
+    if (queries[0].compare("EXIT") == 0)
+    {
+        searching = false;
+        return;
+    }
     for (int i = 0; i < queries.size(); i++)
     {
         Porter2Stemmer::stem(queries[i]);
@@ -241,11 +246,11 @@ void QueryEngine::run(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& avD, I
     while (searching)
     {
         word tracker("","");
-        takeQuery(avS, haS, avD, haD, type, tracker);
+        takeQuery(avS, haS, avD, haD, type, tracker, searching);
 
-        printResults(tracker);
+        if (searching)
+            printResults(tracker);
     }
-
 }
 void QueryEngine::printResults( word &wordTracker)
 {
