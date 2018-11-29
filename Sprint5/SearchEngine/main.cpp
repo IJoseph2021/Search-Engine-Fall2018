@@ -23,7 +23,7 @@
 
 using namespace std;
 
-void maitenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool &type, int &wordCount, int &fileCount);
+void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool &type, int &wordCount, int &fileCount);
 void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool &type, int &wordCount, int &fileCount);
 
 int main(int argc, char* argv[])
@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
 
         switch(choice) {
         case 1:
-            maitenanceMode(avlSingle, hashTSingle, avlDouble, hashTDouble, type, wordCount, fileCount);
+            maintenanceMode(avlSingle, hashTSingle, avlDouble, hashTDouble, type, wordCount, fileCount);
             break;
         case 2:
             userMode(avlSingle, hashTSingle, avlDouble, hashTDouble, type, wordCount, fileCount);
@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
     return 0;
 } //end main
 
-void maitenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool type, int &wordCount, int &fileCount) {
+void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool& type, int &wordCount, int &fileCount) {
     bool maitFlag = true;
     int maitChoice;
     while(maitFlag) {
@@ -143,7 +143,7 @@ void maitenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, Indexe
 } //end maitenance mode
 
 
-void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool type, int &wordCount, int &fileCount) {
+void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool& type, int &wordCount, int &fileCount) {
     bool userFlag = true;
     int userChoice;
     while(userFlag) {

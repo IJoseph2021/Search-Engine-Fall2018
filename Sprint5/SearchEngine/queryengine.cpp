@@ -243,16 +243,32 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
 void QueryEngine::run(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& avD, IndexerFace*& haD, bool& type)
 {
     bool searching = true;
+    word tracker("","");
     while (searching)
     {
-        word tracker("","");
         takeQuery(avS, haS, avD, haD, type, tracker, searching);
-
         if (searching)
             printResults(tracker);
     }
 }
 void QueryEngine::printResults( word &wordTracker)
 {
-    cout << wordTracker << endl;
+    bool looking = true;
+    while(looking)
+    {
+        cout << wordTracker << endl;
+        string response;
+        int responseI;
+        cout << "Enter the doc number to choose a doc or enter \"EXIT\" to exit" << endl;
+        cin >> response;
+        if (response.compare("EXIT") == 0)
+        {
+            looking = false;
+        }
+        else
+        {
+            responseI = stoi(response, nullptr, 10);
+        }
+    }
+
 }
