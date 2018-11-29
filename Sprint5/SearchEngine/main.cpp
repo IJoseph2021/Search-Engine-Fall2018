@@ -4,7 +4,7 @@
  * 11/27/18 Added functionality to swap between user and maitenance mode
  *          Functionality for clearing index
  *          Functionality for adding opinions
- *
+ * 11/28/18 Merged with Master to have QueryEngine and HashIndex
  *
  */
 
