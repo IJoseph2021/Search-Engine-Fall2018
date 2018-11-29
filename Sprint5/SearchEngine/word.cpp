@@ -189,7 +189,6 @@ void word::addDoc(string docName)
 {
     //loop through documents to see if the document is already contained
     docu a(docName);
-    hash<string>str_hash;
     int x = str_hash(docName);
     if(x<0){
         x = -1*x;
@@ -228,7 +227,6 @@ void word::addDoc(string docName)
 //add an existing document to the word's doc vector with same logic as string version
 void word::addDoc(docu& doc)
 {
-    hash<string>str_hash;
     int x = str_hash(doc.fileName);
     if(x<0){
         x = -1*x;
@@ -268,15 +266,15 @@ HashTable<int, docu> word::returnDocVector(){
 word& word::operator &(const word& val)
 {
     thisWord = thisWord + "&" + val.thisWord;
-    hash<string>str_hash;
     for(int i = 0; i < documents.returnCapacity(); i++){
         for(int j = 0; j<documents[i].size(); j++){
             int x = str_hash(documents.returnObject(i, j).getFileName());
             if(x<0){
                 x = -1*x;
             }
+
             if(val.documents.contains(x, documents.returnObject(i, j)) == false){
-                documents.
+                documents.removeNode(x, documents.returnObject(i, j));
             }
         }
     }
@@ -303,7 +301,19 @@ word& word::operator &(const word& val)
 word& word::operator |(const word& val)
 {
     thisWord = thisWord + "|" + val.thisWord;
-    for(int i = 0; i < val.documents.size(); i++)
+    for(int i = 0; i < documents.returnCapacity(); i++){
+        for(int j = 0; j<documents[i].size(); j++){
+            int x = str_hash(documents.returnObject(i, j).getFileName());
+            if(x<0){
+                x = -1*x;
+            }
+
+            if(val.documents.contains(x, documents.returnObject(i, j)) == false){
+                documents.insertNode(x, documents.returnObject(i, j));
+            }
+        }
+    }
+    /*for(int i = 0; i < val.documents.size(); i++)
     {
         bool found = false;
         for (int j = 0; j < documents.size(); j++)
@@ -319,7 +329,7 @@ word& word::operator |(const word& val)
             docu temp = val.documents[i];
             documents.push_back(temp);
         }
-    }
+    }*/
     return *this;
 }
 
@@ -327,7 +337,19 @@ word& word::logicalNot(const word& val)
 {
 
     thisWord = thisWord + "~" + val.thisWord;
-    for(int i = 0; i < documents.size(); i++)
+    for(int i = 0; i < documents.returnCapacity(); i++){
+        for(int j = 0; j<documents[i].size(); j++){
+            int x = str_hash(documents.returnObject(i, j).getFileName());
+            if(x<0){
+                x = -1*x;
+            }
+
+            if(val.documents.contains(x, documents.returnObject(i, j)) == true){
+                documents.removeNode(x, documents.returnObject(i, j));
+            }
+        }
+    }
+    /*for(int i = 0; i < documents.size(); i++)
     {
         bool found = false;
         for(int j = 0; j < val.documents.size(); j++)
@@ -343,7 +365,7 @@ word& word::logicalNot(const word& val)
             documents.erase(documents.begin() + i);
             i--;
         }
-    }
+    }*/
     return *this;
 }
 

@@ -36,11 +36,14 @@ public:
 
     }
 
-    mark& returnKey(){
+    mark& returnKey() {
         return key;
     }
 
-    fontenot& returnValue(){
+    fontenot returnValue() const{
+        return value;
+    }
+    fontenot& returnValue() {
         return value;
     }
 };
@@ -58,7 +61,7 @@ public:
     ~HashTable();
     HashTable(const HashTable<mark, fontenot>& a);
     HashTable& operator =(const HashTable<mark, fontenot>& a);
-    int hashResize(mark& key);
+    int hashResize(mark key) const;
     void insertNode(mark key, fontenot& value);
     void removeNode(mark key, fontenot value);
     void clearTable();
@@ -71,7 +74,7 @@ public:
     vector<HashNode<mark,fontenot>>& operator[](int a) ;
     fontenot& returnObject(int a, int b) ;
     int returnCapacity() const;
-    bool contains(mark& key, fontenot& value);
+    bool contains(mark &key, fontenot &value) const ;
 };
 
 template<typename mark, typename fontenot>
@@ -123,7 +126,7 @@ HashTable<mark, fontenot>::~HashTable(){
 }
 
 template<typename mark, typename fontenot>
-int HashTable<mark, fontenot>::hashResize(mark &key){
+int HashTable<mark, fontenot>::hashResize(mark key) const{
     return key % capacity;
 }
 
@@ -152,8 +155,8 @@ template<typename mark, typename fontenot>
 void HashTable<mark, fontenot>::removeNode(mark key, fontenot value){
     int index = hashResize(key);
     for(int i = 0; i<table[index].size();i++){
-        if(value == table[index][i]){
-            table[i].erase(documents.begin() + j);
+        if(value == table[index][i].returnValue()){
+            table[index].erase(table[index].begin() + i);
         }
     }
 }
@@ -248,13 +251,13 @@ int HashTable<mark, fontenot>::returnCapacity() const{
 }
 
 template<typename mark, typename fontenot>
-bool HashTable<mark, fontenot>::contains(mark &key, fontenot &value){
+bool HashTable<mark, fontenot>::contains(mark& key, fontenot& value) const {
     int index = hashResize(key);
     for(int i = 0; i<table[index].size(); i++){
         if(value == table[index][i].returnValue()){
             return true;
         }
     }
-    return value;
+    return false;
 }
 #endif // HASHTABLE_H
