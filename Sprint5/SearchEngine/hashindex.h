@@ -28,7 +28,7 @@ public:
     //overloaded assignment operator
     HashIndex& operator=(const HashIndex& a);
     //overload pure virtual insert
-    void insert(string val, string docname);
+    void insert(string val, string val2, string docname);
     //overload pure virtual
     word& findWord(string a);
     //overloaded pure virtual

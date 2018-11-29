@@ -27,12 +27,12 @@ HashIndex::~HashIndex(){
 }
 
 //overloaded insert
-void HashIndex::insert(string val, string docname){
+void HashIndex::insert(string val, string val2, string docname){
     //create temp object a and search tree to see if an object with the same word already exists in the tree
     //if it does then just update the documents in that object
-    word a(val, docname);
+    word a(val, val2, docname);
     hash<string>str_hash;
-    int x = str_hash(val);
+    int x = str_hash(val + val2);
     if(x<0){
         x = -1*x;
     }

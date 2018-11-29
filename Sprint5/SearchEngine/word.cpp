@@ -22,7 +22,13 @@ word::word(string prev, string curr, string doc)
     previous = prev;
     thisWord = curr;
     docu tempDoc(doc);
-    documents.push_back(tempDoc);
+    documents.reSize(64000);
+    int x  = str_hash(doc);
+    if(x<0){
+        x = -1*x;
+    }
+    documents.insertNode(x, tempDoc);
+    //documents.push_back(tempDoc);
 }
 
 word::word(string prev, string curr){
@@ -49,16 +55,33 @@ word& word::operator=(const word& val)
 
 word::~word()
 {
-    documents.clear();
+    documents.clearTable();
 }
 
 //overloaded + operator which simply merges two words by combining their document vectors,
 //adding any new documents and incrementing existing document's use counts
 word& word::operator +(const word& val)
 {
+    hash<string>str_hash;
+    for(int i =0; i<val.documents.returnSize(); i++){
+        for(int j = 0; j<val.documents[i].size(); j++){
+            int x = str_hash(documents.returnObject(i,j).getFileName());
+            if(x<0){
+                x = -1*x;
+            }
+            try{
+                documents.find(x, documents[i][j]).useCount++;
+            }
+            //if an object is not found with that word then add it to the tree
+            catch(exception e){
+                documents.insertNode(x, val.getDoc(i, j));
+            }
+        }
+    }
     //loop through all docs in the rhs word and see if they are already contained
     //set found flag and location if found
-    for (int i = 0; i < val.getNumDocs(); i++)
+
+    /*for (int i = 0; i < val.getNumDocs(); i++)
     {
         bool found = false;;
         bool loc;
@@ -81,7 +104,7 @@ word& word::operator +(const word& val)
         {
             documents.push_back(val.getDoc(i));
         }
-    }
+    }*/
     return *this;
 }
 
@@ -133,7 +156,7 @@ ostream& operator<<(ostream& out, const word& w)
 
 int word::getNumDocs() const
 {
-    return documents.size();
+    return documents.returnSize();
 }
 
 string word::getPrev() const
@@ -151,6 +174,11 @@ docu word::getDoc(int x) const
     return documents[x];
 }
 
+docu word::getDoc(int a, int b) const
+{
+    return documents[a][b];
+}
+
 docu& word::getLitDoc(int x)
 {
     return documents[x];
@@ -160,7 +188,20 @@ docu& word::getLitDoc(int x)
 void word::addDoc(string docName)
 {
     //loop through documents to see if the document is already contained
-    bool found = false;
+    docu a(docName);
+    hash<string>str_hash;
+    int x = str_hash(docName);
+    if(x<0){
+        x = -1*x;
+    }
+    try{
+        documents.find(x, a).useCount++;
+    }
+    //if an object is not found with that word then add it to the tree
+    catch(exception e){
+        documents.insertNode(x, a);
+    }
+    /*bool found = false;
     int loc = -1;
     for (int i = 0; i < documents.size(); i++)
     {
@@ -181,13 +222,25 @@ void word::addDoc(string docName)
     else
     {
         documents[loc].useCount++;
-    }
+    }*/
 }
 
 //add an existing document to the word's doc vector with same logic as string version
 void word::addDoc(docu& doc)
 {
-    bool found = false;
+    hash<string>str_hash;
+    int x = str_hash(doc.fileName);
+    if(x<0){
+        x = -1*x;
+    }
+    try{
+        documents.find(x, doc).useCount++;
+    }
+    //if an object is not found with that word then add it to the tree
+    catch(exception e){
+        documents.insertNode(x, doc);
+    }
+    /*bool found = false;
     int loc;
     for (int i = 0; i < documents.size(); i++)
     {
@@ -205,7 +258,7 @@ void word::addDoc(docu& doc)
     else
     {
         documents[loc].useCount++;
-    }
+    }*/
 }
 
 vector<docu> word::returnDocVector(){

@@ -63,11 +63,13 @@ public:
     void removeNode(mark key, fontenot value);
     void clearTable();
     bool isEmpty();
-    fontenot& find(mark& key, fontenot& value);
+    fontenot &find(mark& key, fontenot& value);
     void printOut(ostream &out);
-    int returnSize();
+    int returnSize() const;
     void stats();
     void reSize(int a);
+    vector<HashNode<mark,fontenot>>& operator[](int a) const;
+    fontenot& returnObject(int a, int b);
 };
 
 template<typename mark, typename fontenot>
@@ -155,7 +157,7 @@ void HashTable<mark, fontenot>::removeNode(mark key, fontenot value){
 }
 
 template<typename mark, typename fontenot>
-fontenot &HashTable<mark, fontenot>::find(mark& key, fontenot& value){
+fontenot& HashTable<mark, fontenot>::find(mark& key, fontenot& value){
     int index = hashResize(key);
     for(int i = 0; i<table[index].size(); i++){
         if(value == table[index][i].returnValue()){
@@ -176,7 +178,7 @@ bool  HashTable<mark, fontenot>::isEmpty(){
 }
 
 template<typename mark, typename fontenot>
-int HashTable<mark, fontenot>::returnSize(){
+int HashTable<mark, fontenot>::returnSize() const{
     return size;
 }
 
@@ -228,4 +230,13 @@ void HashTable<mark, fontenot>::stats(){
     cout<<"The largest collision is: "<<largestCollision<<endl;
 }
 
+template<typename mark, typename fontenot>
+vector<HashNode<mark,fontenot>>& HashTable<mark, fontenot>::operator[](int a) const{
+    return table[a];
+}
+
+template<typename mark, typename fontenot>
+fontenot& HashTable<mark, fontenot>::returnObject(int a, int b){
+    return table[a][b].returnValue();
+}
 #endif // HASHTABLE_H

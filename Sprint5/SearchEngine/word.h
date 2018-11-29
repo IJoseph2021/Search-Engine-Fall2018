@@ -6,6 +6,8 @@
 #include "docu.h"
 #include <string>
 #include <iostream>
+#include <hashtable.h>
+#include <functional>
 
 using namespace std;
 
@@ -13,10 +15,13 @@ class word
 {
     template <typename fontenot>
     friend class AVLTree;
+    friend class HashTable<int, string>;
 private:
     string thisWord;
     string previous;
-    vector<docu> documents;
+    //vector<docu> documents;
+    hash<string> str_hash;
+    HashTable <int, docu> documents;
 public:
     word();
     word(const word& val);
@@ -35,6 +40,7 @@ public:
     string getPrev() const;
     string getWord() const;
     docu getDoc(int x) const;
+    docu getDoc(int a, int b) const;
     docu& getLitDoc(int x);
     void addDoc(string docName);
     void addDoc(docu& doc);

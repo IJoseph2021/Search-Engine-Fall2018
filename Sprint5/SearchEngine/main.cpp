@@ -6,6 +6,7 @@
 #include "stopper.h"
 #include "indexerface.h"
 #include "avlindex.h"
+#include "hashindex.h"
 #include "hashtable.h"
 #include <fstream>
 
@@ -13,7 +14,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    /*
+
     cout << "PARSING DOCS" << endl;
 
     int x = 0;
@@ -22,7 +23,7 @@ int main(int argc, char* argv[])
     float duration;
     start = clock();
     Parser dirParser(argv[1], "../StopWordList.txt");
-    IndexerFace* fr = new AVLIndex();
+    IndexerFace* fr = new HashIndex(500009);
     int numFiles = dirParser.parse(x, fr);
 
     duration = (clock() - start) / (float) CLOCKS_PER_SEC;
@@ -34,14 +35,14 @@ int main(int argc, char* argv[])
     //print two word index
     ofstream ofile("Index.txt");
     ofstream ofile2("TestBuffer.txt");
-    fr->setWords(x);
-    fr->setDocs(numFiles);
+    //fr->setWords(x);
+    //fr->setDocs(numFiles);
     fr->printIndex(ofile);
     ofile.close();
     fr->clearStuff();
 
     //read index to create one word index
-    fr->readIndexNoPrev();
+    //fr->readIndexNoPrev();
     fr->printIndex(ofile2);
     cout << "Number of words parsed: " << x << endl;
     cout << "Number of unique words: " << fr->returnSize() << endl;
@@ -56,7 +57,7 @@ int main(int argc, char* argv[])
 
     fr->clearStuff();
     delete fr;
-    */
+
 
     return 0;
 }
