@@ -1,4 +1,7 @@
 #include "queryengine.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 QueryEngine::QueryEngine()
 {
@@ -262,9 +265,12 @@ void QueryEngine::printResults( word &wordTracker)
         calculateTop(wordTracker, documents);
         for (int i = 0; i < 15; i++)
         {
-            cout << i+1 << ". ";
+
             if (i < wordTracker.getNumDocs())
+            {
+                cout << i+1 << ". ";
                 printDoc(documents[i]);
+            }
         }
         string response;
         int responseI;
@@ -276,7 +282,14 @@ void QueryEngine::printResults( word &wordTracker)
         }
         else
         {
+            try
+            {
             responseI = stoi(response, nullptr, 10);
+            }
+            catch(exception e)
+            {
+                cout << "Not a valid entry" << endl;
+            }
         }
     }
 }
@@ -287,7 +300,7 @@ void QueryEngine::calculateTop(word &wordTracker, docu documents[15])
     {
         for (int j = 0; j < wordTracker.getNumDocs() - i - 1; j++)
         {
-            if (wordTracker.getDoc(j).getUseCount() > wordTracker.getDoc(j+1).getUseCount())
+            if (wordTracker.getDoc(j).getUseCount() < wordTracker.getDoc(j+1).getUseCount())
             {
                swapDocs(wordTracker.getLitDoc(j), wordTracker.getLitDoc(j+1));
             }
@@ -309,6 +322,6 @@ void QueryEngine::swapDocs(docu& x, docu& y)
 
 void QueryEngine::printDoc(docu document)
 {
-    cout << document << endl;
+    cout << "Used in " << document.getFileName() << " " << document.getUseCount() << " times." << endl;
 }
 
