@@ -15,6 +15,7 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 
+    /*
     cout << "PARSING DOCS" << endl;
 
     int x = 0;
@@ -47,7 +48,7 @@ int main(int argc, char* argv[])
     IndexerFace* haD = new AVLIndex();
     /*IndexerFace* haS = new HashIndex();
     IndexerFace* haD = new HashIndex();*/
-    bool tree = true;
+    /*bool tree = true;
     qe->run(avS, haS, avD, haD, tree);
 
     cout << "Number of words parsed: " << x << endl;
@@ -63,6 +64,7 @@ int main(int argc, char* argv[])
 
     avD->clearStuff();
     delete avD;
+    */
 
 
     return 0;
