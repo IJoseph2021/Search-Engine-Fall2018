@@ -62,11 +62,21 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
                 }
                 else
                 {
-                    i++;
-                    if (type)
-                        docTracker & avS->findWord(queries[i], queries[i]);
+                    if (twoWords)
+                    {
+                        if (type)
+                            docTracker & avD->findWord(secondWord, firstWord);
+                        else
+                            docTracker & haD->findWord(secondWord, firstWord);
+                    }
                     else
-                        docTracker & haS->findWord(queries[i], queries[i]);
+                    {
+                        i++;
+                        if (type)
+                            docTracker & avS->findWord(queries[i], queries[i]);
+                        else
+                            docTracker & haS->findWord(queries[i], queries[i]);
+                    }
                 }
             }
             else if (queries[i].compare("OR") == 0)
@@ -78,12 +88,21 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
                 }
                 else
                 {
-                    i++;
-                    if (type)
-                        docTracker | avS->findWord(queries[i], queries[i]);
+                    if (twoWords)
+                    {
+                        if (type)
+                            docTracker | avD->findWord(secondWord, firstWord);
+                        else
+                            docTracker | haD->findWord(secondWord, firstWord);
+                    }
                     else
-                        docTracker | haS->findWord(queries[i], queries[i]);
-
+                    {
+                        i++;
+                        if (type)
+                            docTracker | avS->findWord(queries[i], queries[i]);
+                        else
+                            docTracker | haS->findWord(queries[i], queries[i]);
+                    }
                 }
             }
             else if (queries[i].compare("NOT") == 0)
@@ -95,11 +114,21 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
                 }
                 else
                 {
-                    i++;
-                    if (type)
-                        docTracker.logicalNot(avS->findWord(queries[i], queries[i]));
+                    if (twoWords)
+                    {
+                        if (type)
+                            docTracker.logicalNot(avS->findWord(secondWord, firstWord));
+                        else
+                            docTracker.logicalNot(haS->findWord(secondWord, firstWord));
+                    }
                     else
-                        docTracker.logicalNot(haS->findWord(queries[i], queries[i]));
+                    {
+                        i++;
+                        if (type)
+                            docTracker.logicalNot(avS->findWord(queries[i], queries[i]));
+                        else
+                            docTracker.logicalNot(haS->findWord(queries[i], queries[i]));
+                    }
                 }
             }
             else
@@ -108,39 +137,89 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
                 {
                     if (i == 1)
                     {
+                        if (twoWords)
+                        {
+                            if (type)
+                                docTracker = avD->findWord(secondWord, firstWord);
+                            else
+                                docTracker = haD->findWord(secondWord, firstWord);
+                        }
+                        else
+                        {
+                            if (type)
+                                docTracker = avS->findWord(queries[i], queries[i]);
+                            else
+                                docTracker = haS->findWord(queries[i], queries[i]);
+                        }
+                    }
+                    else if (AND)
+                    {
+                        if (twoWords)
+                        {
+                            if (type)
+                                docTracker & avD->findWord(secondWord, firstWord);
+                            else
+                                docTracker & haD->findWord(secondWord, firstWord);
+                        }
+                        else
+                        {
+                            if (type)
+                                docTracker & avS->findWord(queries[i], queries[i]);
+                            else
+                                docTracker & haS->findWord(queries[i], queries[i]);
+                        }
+                    }
+                    else if (OR)
+                    {
+                        if (twoWords)
+                        {
+                            if (type)
+                                docTracker | avD->findWord(secondWord, firstWord);
+                            else
+                                docTracker | haD->findWord(secondWord, firstWord);
+                        }
+                        else
+                        {
+                            if (type)
+                                docTracker | avS->findWord(queries[i], queries[i]);
+                            else
+                                docTracker | haS->findWord(queries[i], queries[i]);
+                        }
+                    }
+                    else if(NOT)
+                    {
+                        if (twoWords)
+                        {
+                            if (type)
+                                docTracker.logicalNot(avD->findWord(secondWord, firstWord));
+                            else
+                                docTracker.logicalNot(haD->findWord(secondWord, firstWord));
+                        }
+                        else
+                        {
+                            if (type)
+                                docTracker.logicalNot(avS->findWord(queries[i], queries[i]));
+                            else
+                                docTracker.logicalNot(haS->findWord(queries[i], queries[i]));
+                        }
+                    }
+                }
+                else
+                {
+                    if (twoWords)
+                    {
+                        if (type)
+                            docTracker = avD->findWord(secondWord, firstWord);
+                        else
+                            docTracker = haD->findWord(secondWord, firstWord);
+                    }
+                    else
+                    {
                         if (type)
                             docTracker = avS->findWord(queries[i], queries[i]);
                         else
                             docTracker = haS->findWord(queries[i], queries[i]);
                     }
-                    else if (AND)
-                    {
-                        if (type)
-                            docTracker & avS->findWord(queries[i], queries[i]);
-                        else
-                            docTracker & haS->findWord(queries[i], queries[i]);
-                    }
-                    else if (OR)
-                    {
-                        if (type)
-                            docTracker | avS->findWord(queries[i], queries[i]);
-                        else
-                            docTracker | haS->findWord(queries[i], queries[i]);
-                    }
-                    else if(NOT)
-                    {
-                        if (type)
-                            docTracker.logicalNot(avS->findWord(queries[i], queries[i]));
-                        else
-                            docTracker.logicalNot(haS->findWord(queries[i], queries[i]));
-                    }
-                }
-                else
-                {
-                    if (type)
-                        docTracker= avS->findWord(queries[i], queries[i]);
-                    else
-                        docTracker = haS->findWord(queries[i], queries[i]);
                 }
             }
         }

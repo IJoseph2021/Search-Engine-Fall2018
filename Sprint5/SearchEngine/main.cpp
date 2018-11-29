@@ -23,8 +23,8 @@ int main(int argc, char* argv[])
     float duration;
     start = clock();
     Parser dirParser(argv[1], "../StopWordList.txt");
-    IndexerFace* fr = new AVLIndex();
-    int numFiles = dirParser.parse(x, fr);
+    IndexerFace* avD = new AVLIndex();
+    int numFiles = dirParser.parse(x, avD);
 
     duration = (clock() - start) / (float) CLOCKS_PER_SEC;
     cout << "original parse time: " << duration << endl;
@@ -36,35 +36,33 @@ int main(int argc, char* argv[])
     ofstream ofile("Index.txt");
     ofstream ofile2("TestBuffer.txt");
 
-    fr->printIndex(ofile, x, numFiles);
+    avD->printIndex(ofile, x, numFiles);
     ofile.close();
-    fr->clearStuff();
 
+    IndexerFace* avS = new AVLIndex();
     //read index to create one word index
-    fr->readIndexNoPrev(x, numFiles);
+    avD->readIndexNoPrev(x, numFiles);
     QueryEngine* qe = new QueryEngine();
-    IndexerFace* avD = new AVLIndex();
     IndexerFace* haS = new AVLIndex();
     IndexerFace* haD = new AVLIndex();
     /*IndexerFace* haS = new HashIndex();
     IndexerFace* haD = new HashIndex();*/
     bool tree = true;
-    qe->run(fr, haS, avD, haD, tree);
+    qe->run(avS, haS, avD, haD, tree);
 
-    fr->printIndex(ofile2, x, numFiles);
     cout << "Number of words parsed: " << x << endl;
-    cout << "Number of unique words: " << fr->returnSize() << endl;
+    cout << "Number of unique words: " << avS->returnSize() << endl;
     //cout << "Number of documents parsed: " << numFiles << endl;
     cout << "Number of documents " << argv[2] << " was found in: ";
-    int numDocs = fr->findWord(adju, adju).getNumDocs();
+    int numDocs = avS->findWord(adju, adju).getNumDocs();
     cout << numDocs << endl;
 
     duration = (clock() - start) / (float) CLOCKS_PER_SEC;
     cout<<"time: "<<duration<<endl;
     ofile2.close();
 
-    fr->clearStuff();
-    delete fr;
+    avD->clearStuff();
+    delete avD;
 
 
     return 0;
