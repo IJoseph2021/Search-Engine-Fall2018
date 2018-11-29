@@ -372,9 +372,11 @@ word& word::logicalNot(const word& val)
 int word::getNumUses()
 {
     int uses = 0;
-    for (int i = 0; i < documents.size(); i++)
+    for (int i = 0; i < documents.returnCapacity(); i++)
     {
-        uses+= documents[i].getUseCount();
+        for(int j =0; j<documents[i].size(); i++){
+            uses+= documents.returnObject(i, j).getUseCount();
+        }
     }
     return uses;
 }
