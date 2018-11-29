@@ -60,7 +60,7 @@ word::~word()
 
 //overloaded + operator which simply merges two words by combining their document vectors,
 //adding any new documents and incrementing existing document's use counts
-word& word::operator +(const word& val)
+/*word& word::operator +(word& val)
 {
     hash<string>str_hash;
     for(int i =0; i<val.documents.returnSize(); i++){
@@ -70,7 +70,7 @@ word& word::operator +(const word& val)
                 x = -1*x;
             }
             try{
-                documents.find(x, documents[i][j]).useCount++;
+                documents.find(x, documents.returnObject(i, j)).useCount++;
             }
             //if an object is not found with that word then add it to the tree
             catch(exception e){
@@ -81,7 +81,7 @@ word& word::operator +(const word& val)
     //loop through all docs in the rhs word and see if they are already contained
     //set found flag and location if found
 
-    /*for (int i = 0; i < val.getNumDocs(); i++)
+    for (int i = 0; i < val.getNumDocs(); i++)
     {
         bool found = false;;
         bool loc;
@@ -104,9 +104,9 @@ word& word::operator +(const word& val)
         {
             documents.push_back(val.getDoc(i));
         }
-    }*/
+    }
     return *this;
-}
+}*/
 
 //overloaded < operator which compares the value of the current word to the passed word
 //returns true if it is smaller
@@ -169,19 +169,19 @@ string word::getWord() const
     return thisWord;
 }
 
-docu word::getDoc(int x) const
+/*docu word::getDoc(int x) const
 {
     return documents[x];
+}*/
+
+docu word::getDoc(int a, int b)
+{
+    return documents.returnObject(a, b);
 }
 
-docu word::getDoc(int a, int b) const
+docu& word::getLitDoc(int x, int y)
 {
-    return documents[a][b];
-}
-
-docu& word::getLitDoc(int x)
-{
-    return documents[x];
+    return documents.returnObject(x, y);
 }
 
 //add a new document to the word's document vector with the name of docName
@@ -261,14 +261,26 @@ void word::addDoc(docu& doc)
     }*/
 }
 
-vector<docu> word::returnDocVector(){
+HashTable<int, docu> word::returnDocVector(){
     return documents;
 }
 
 word& word::operator &(const word& val)
 {
     thisWord = thisWord + "&" + val.thisWord;
-    for(int i = 0; i < documents.size(); i++)
+    hash<string>str_hash;
+    for(int i = 0; i < documents.returnCapacity(); i++){
+        for(int j = 0; j<documents[i].size(); j++){
+            int x = str_hash(documents.returnObject(i, j).getFileName());
+            if(x<0){
+                x = -1*x;
+            }
+            if(val.documents.contains(x, documents.returnObject(i, j)) == false){
+                documents.
+            }
+        }
+    }
+    /*for(int i = 0; i < documents.returnCapacity(); i++)
     {
         bool found = false;
         for(int j = 0; j < val.documents.size(); j++)
@@ -284,7 +296,7 @@ word& word::operator &(const word& val)
             documents.erase(documents.begin() + i);
             i--;
         }
-    }
+    }*/
     return *this;
 }
 

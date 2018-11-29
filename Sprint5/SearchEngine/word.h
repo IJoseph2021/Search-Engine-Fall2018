@@ -31,7 +31,7 @@ public:
     word(string curr, string doc);
     word& operator=(const word& val);
     ~word();
-    word& operator+(const word& val);
+    //word& operator+(word &val);
     bool operator<(const word& val);
     bool operator>(const word& val);
     bool operator==(const word& val);
@@ -39,12 +39,12 @@ public:
     int getNumDocs() const;
     string getPrev() const;
     string getWord() const;
-    docu getDoc(int x) const;
-    docu getDoc(int a, int b) const;
-    docu& getLitDoc(int x);
+    //docu getDoc(int x) const;
+    docu getDoc(int a, int b);
+    docu& getLitDoc(int x, int y);
     void addDoc(string docName);
     void addDoc(docu& doc);
-    vector<docu> returnDocVector();
+    HashTable<int, docu> returnDocVector();
     word& operator &(const word& val);
     word& operator |(const word& val);
     word& logicalNot(const word& val);

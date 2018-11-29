@@ -68,8 +68,10 @@ public:
     int returnSize() const;
     void stats();
     void reSize(int a);
-    vector<HashNode<mark,fontenot>>& operator[](int a) const;
-    fontenot& returnObject(int a, int b);
+    vector<HashNode<mark,fontenot>>& operator[](int a) ;
+    fontenot& returnObject(int a, int b) ;
+    int returnCapacity() const;
+    bool contains(mark& key, fontenot& value);
 };
 
 template<typename mark, typename fontenot>
@@ -151,7 +153,7 @@ void HashTable<mark, fontenot>::removeNode(mark key, fontenot value){
     int index = hashResize(key);
     for(int i = 0; i<table[index].size();i++){
         if(value == table[index][i]){
-            table[index][i] = NULL;
+            table[i].erase(documents.begin() + j);
         }
     }
 }
@@ -231,12 +233,28 @@ void HashTable<mark, fontenot>::stats(){
 }
 
 template<typename mark, typename fontenot>
-vector<HashNode<mark,fontenot>>& HashTable<mark, fontenot>::operator[](int a) const{
+vector<HashNode<mark,fontenot>>& HashTable<mark, fontenot>::operator[](int a) {
     return table[a];
 }
 
 template<typename mark, typename fontenot>
-fontenot& HashTable<mark, fontenot>::returnObject(int a, int b){
+fontenot& HashTable<mark, fontenot>::returnObject(int a, int b) {
     return table[a][b].returnValue();
+}
+
+template<typename mark, typename fontenot>
+int HashTable<mark, fontenot>::returnCapacity() const{
+    return capacity;
+}
+
+template<typename mark, typename fontenot>
+bool HashTable<mark, fontenot>::contains(mark &key, fontenot &value){
+    int index = hashResize(key);
+    for(int i = 0; i<table[index].size(); i++){
+        if(value == table[index][i].returnValue()){
+            return true;
+        }
+    }
+    return value;
 }
 #endif // HASHTABLE_H
