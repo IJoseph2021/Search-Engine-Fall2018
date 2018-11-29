@@ -142,16 +142,31 @@ bool word::operator==(const word& val)
 }
 
 //print the previous word, this word, and document vector to ostream out
-ostream& operator<<(ostream& out, const word& w)
+ostream& operator<<(ostream& out, word& w)
 {
     out << w.getWord() << '|' << w.getPrev() << "|";
-    for (int i = 0; i < w.getNumDocs(); i++)
+    for(int i = 0; i<w.getCapacity(); i++){
+        for(int j = 0; j<w.getSizeCapacity(i); j++){
+        out << "-|";
+        docu tempDoc = w.getDoc(i, j);
+        out << tempDoc;
+        }
+    }
+    /*for (int i = 0; i < w.getNumDocs(); i++)
     {
         out << "-|";
         docu tempDoc = w.getDoc(i);
         out << tempDoc;
-    }
+    }*/
     return out;
+}
+
+int word::getSizeCapacity(int a) const{
+    return documents[a].size();
+}
+
+int word::getCapacity() const{
+    return documents.returnCapacity();
 }
 
 int word::getNumDocs() const

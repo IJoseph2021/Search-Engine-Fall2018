@@ -35,7 +35,7 @@ public:
     bool operator<(const word& val);
     bool operator>(const word& val);
     bool operator==(const word& val);
-    friend ostream& operator<<(ostream& out, const word& w);
+    friend ostream& operator<<(ostream& out,  word& w);
     int getNumDocs() const;
     string getPrev() const;
     string getWord() const;
@@ -49,6 +49,8 @@ public:
     word& operator |(const word& val);
     word& logicalNot(const word& val);
     int getNumUses();
+    int getCapacity() const;
+    int getSizeCapacity(int a) const;
 };
 
 #endif // WORD_H
