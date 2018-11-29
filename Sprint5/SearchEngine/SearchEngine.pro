@@ -37,3 +37,17 @@ HEADERS += \
 HEADERS += \
     indexerface.h \
     avltree.h
+
+#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../myhtml/lib/release/ -lmyhtml
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../myhtml/lib/debug/ -lmyhtml
+#else:unix: LIBS += -L$$PWD/../../myhtml/lib/ -lmyhtml
+
+#INCLUDEPATH += $$PWD/../../myhtml/include
+#DEPENDPATH += $$PWD/../../myhtml/include
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../htmlParser/lib/release/ -lmyhtml
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../htmlParser/lib/debug/ -lmyhtml
+else:unix: LIBS += -L$$PWD/../../htmlParser/lib/ -lmyhtml
+
+INCLUDEPATH += $$PWD/../../htmlParser/include
+DEPENDPATH += $$PWD/../../htmlParser/include
