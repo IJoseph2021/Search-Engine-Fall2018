@@ -1,3 +1,8 @@
+/*
+ * owner: Patrick DeVries
+ * created 11/28/18
+ * */
+
 #ifndef QUERYENGINE_H
 #define QUERYENGINE_H
 #include "indexerface.h"
