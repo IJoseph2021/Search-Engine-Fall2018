@@ -8,7 +8,8 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
     vector<string> unstemmedQueries;
     vector<string> queries;
     string query = "";
-    cout << "Enter your query." << endl;
+    cout << "Enter your query to search or EXIT to exit" << endl;
+    cin.ignore();
     getline(cin, query);
     while (!query.empty())
     {
@@ -251,12 +252,20 @@ void QueryEngine::run(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& avD, I
             printResults(tracker);
     }
 }
+
 void QueryEngine::printResults( word &wordTracker)
 {
     bool looking = true;
     while(looking)
     {
-        cout << wordTracker << endl;
+        docu documents[15];
+        calculateTop(wordTracker, documents);
+        for (int i = 0; i < 15; i++)
+        {
+            cout << i+1 << ". ";
+            if (i < wordTracker.getNumDocs())
+                printDoc(documents[i]);
+        }
         string response;
         int responseI;
         cout << "Enter the doc number to choose a doc or enter \"EXIT\" to exit" << endl;
@@ -270,5 +279,36 @@ void QueryEngine::printResults( word &wordTracker)
             responseI = stoi(response, nullptr, 10);
         }
     }
-
 }
+
+void QueryEngine::calculateTop(word &wordTracker, docu documents[15])
+{
+    for (int i = 0; i < wordTracker.getNumDocs() -1; i++)
+    {
+        for (int j = 0; j < wordTracker.getNumDocs() - i - 1; j++)
+        {
+            if (wordTracker.getDoc(j).getUseCount() > wordTracker.getDoc(j+1).getUseCount())
+            {
+               swapDocs(wordTracker.getLitDoc(j), wordTracker.getLitDoc(j+1));
+            }
+        }
+    }
+    for (int i = 0; i < 15; i++)
+    {
+        if (i < wordTracker.getNumDocs())
+            documents[i] = wordTracker.getDoc(i);
+    }
+}
+
+void QueryEngine::swapDocs(docu& x, docu& y)
+{
+    docu temp = x;
+    x = y;
+    y = temp;
+}
+
+void QueryEngine::printDoc(docu document)
+{
+    cout << document << endl;
+}
+
