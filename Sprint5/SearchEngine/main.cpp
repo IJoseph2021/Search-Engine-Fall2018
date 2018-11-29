@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 
     IndexerFace* avS = new AVLIndex();
     //read index to create one word index
-    avD->readIndexNoPrev(x, numFiles);
+    avS->readIndexNoPrev(x, numFiles);
     QueryEngine* qe = new QueryEngine();
     IndexerFace* haS = new AVLIndex();
     IndexerFace* haD = new AVLIndex();

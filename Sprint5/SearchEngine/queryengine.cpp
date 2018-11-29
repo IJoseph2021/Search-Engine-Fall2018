@@ -5,6 +5,7 @@ QueryEngine::QueryEngine()
 }
 void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& avD, IndexerFace*& haD, bool& type, word& docTracker)
 {
+    vector<string> unstemmedQueries;
     vector<string> queries;
     string query = "";
     cout << "Enter your query." << endl;
@@ -23,10 +24,14 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
             temp = query.substr(0, pos);
             query.erase(0, pos+1);
         }
-        Porter2Stemmer::stem(temp);
         if (temp.compare("AND") !=0 && temp.compare("OR") != 0 && temp.compare("NOT") != 0)
             transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
-        queries.push_back(temp);
+        unstemmedQueries.push_back(temp);
+    }
+    queries = unstemmedQueries;
+    for (int i = 0; i < queries.size(); i++)
+    {
+        Porter2Stemmer::stem(queries[i]);
     }
     bool leading = false;
     bool AND = false;
@@ -50,7 +55,8 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
             {
                 firstWord = queries[i].substr(1, queries[i].length() -1);
                 i++;
-                secondWord = queries[i].substr(0, queries[i].length() -1);
+                secondWord = queries[i].substr(0, queries[i].length() -2);
+                Porter2Stemmer::stem(secondWord);
             }
 
             if (queries[i].compare("AND") == 0)
@@ -225,11 +231,9 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
         }
         catch(exception e)
         {
-            cout << "The word " << queries[i] << " was not found in the index." << endl;
+            cout << "The word " << unstemmedQueries[i] << " was not found in the index." << endl;
         }
-
     }
-
 }
 void QueryEngine::run(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& avD, IndexerFace*& haD, bool& type)
 {
@@ -239,11 +243,11 @@ void QueryEngine::run(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& avD, I
         word tracker("","");
         takeQuery(avS, haS, avD, haD, type, tracker);
 
-        printResults(avS, haS, avD, haD, type, tracker);
+        printResults(tracker);
     }
 
 }
-void QueryEngine::printResults(IndexerFace *&avS, IndexerFace *&haS, IndexerFace *&avD, IndexerFace *&haD, bool &type, word &wordTracker)
+void QueryEngine::printResults( word &wordTracker)
 {
     cout << wordTracker << endl;
 }
