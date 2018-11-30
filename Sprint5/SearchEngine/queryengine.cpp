@@ -296,10 +296,22 @@ void QueryEngine::printResults( word &wordTracker)
             try
             {
             responseI = stoi(response, nullptr, 10);
+            responseI-=1;
+            printFullDoc(documents[responseI].getFileName());
             }
             catch(exception e)
             {
                 cout << "Not a valid entry" << endl;
+            }
+            cin.ignore();
+            string thing;
+            cout << "press/type anything to go back" << endl;
+            cin >> thing;
+            transform(thing.begin(), thing.end(), thing.begin(), ::tolower);
+            if(thing.compare("mark") == 0) {
+                cout << "Fontenot" << endl;
+            } else if(thing.compare("disappointment")){
+                cout << "You didn't enter ENTER but that's okay, I'm not mad I'm just disappointed" << endl;
             }
         }
     }
@@ -359,6 +371,7 @@ void QueryEngine::printDoc(docu document)
             cout << doc["resource_uri"].GetString() << endl;
         else
             cout << "Not Found" << endl;
+
 
         printDAndP(doc["html"].GetString());
     }
@@ -430,3 +443,38 @@ void QueryEngine::getPorD(string html, int &j, string &raw, string thing) {
         j++;
     }
 } //end getP
+
+void QueryEngine::printFullDoc(string path) {
+    ifstream iFile(path);
+    if (iFile.is_open())
+    {
+        Document doc;
+        streampos file_length = iFile.tellg();
+        iFile.seekg(0, ios::end);
+        file_length = iFile.tellg() - file_length;
+        long file_len = (long)file_length;
+        //cout<<"file length:"<<file_length<<endl;
+        iFile.clear();
+        iFile.seekg(0, ios::beg);
+        char str[file_len];
+        iFile.read(str, file_len);
+        doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
+
+        string raw = doc["html"].GetString();
+        int j = 0;
+        int numOfWords = 0;
+        string toPrint = "";
+        while(true) {
+            if(isspace((int)raw[j]) == 0) {
+                    toPrint += raw[j];
+            } else {
+                toPrint += " ";
+                numOfWords++;
+            }
+            j++;
+            if(numOfWords == 300)
+                break;
+        }
+        cout << toPrint << endl;
+    }
+} //end printFullDoc

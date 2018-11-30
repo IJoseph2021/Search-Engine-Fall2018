@@ -31,6 +31,7 @@ public:
     void calculateTop(word& wordTracker, docu documents[]);
     void printDoc(docu document);
     void swapDocs(docu& x, docu& y);
+    void printFullDoc(string path);
 };
 
 #endif // QUERYENGINE_H
