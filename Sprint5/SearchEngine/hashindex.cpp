@@ -101,7 +101,7 @@ void HashIndex::printIndex(ostream &out, int &wordCount, int &docCount){
 
 void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
 {
-    ifstream ifile ("Index.txt");
+    ifstream ifile ("../Index.txt");
     streampos file_length = ifile.tellg();
     ifile.seekg(0, ios::end);
     file_length = ifile.tellg() - file_length;
@@ -182,7 +182,7 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
 
 void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
 {
-    ifstream ifile ("Index.txt");
+    ifstream ifile ("../Index.txt");
     streampos file_length = ifile.tellg();
     ifile.seekg(0, ios::end);
     file_length = ifile.tellg() - file_length;
