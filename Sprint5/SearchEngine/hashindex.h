@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include <exception>
+#include <functional>
 
 using namespace std;
 
@@ -20,6 +21,7 @@ private:
     HashTable <int, word> wordTable;
     int wordCount;
     int docCount;
+    hash<string> str_hash;
 public:
     //constructor
     HashIndex(int a);

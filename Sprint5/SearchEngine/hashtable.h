@@ -64,6 +64,7 @@ public:
     void clearTable();
     bool isEmpty();
     fontenot& find(mark& key, fontenot& value);
+    fontenot* findStar(mark& key, fontenot& value);
     void printOut(ostream &out);
     int returnSize();
     void stats();
@@ -228,4 +229,16 @@ void HashTable<mark, fontenot>::stats(){
     cout<<"The largest collision is: "<<largestCollision<<endl;
 }
 
+template<typename mark, typename fontenot>
+fontenot* HashTable<mark, fontenot>::findStar(mark& key, fontenot& value){
+    int index = hashResize(key);
+
+    for(int i = 0; i<table[index].size(); i++){
+        if(value == table[index][i].returnValue()){
+            fontenot* a = new fontenot(table[index][i].returnValue());
+            return a;
+        }
+    }
+    throw logic_error("Value not in tree [in find()]");
+}
 #endif // HASHTABLE_H
