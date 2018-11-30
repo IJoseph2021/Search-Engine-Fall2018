@@ -32,7 +32,7 @@ public:
     //overload pure virtual
     word& findWord(string a);
     //overloaded pure virtual
-    vector<docu> findDocWithWord(string a);
+    HashTable<int, docu>& findDocWithWord(string a);
     //overloaded pure virtual
     int returnSize();
     //overlaoded pure virtual

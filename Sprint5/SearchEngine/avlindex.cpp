@@ -9,6 +9,7 @@
 #include <string>
 #include <exception>
 #include <fstream>
+#include <hashtable.h>
 
 using namespace std;
 
@@ -41,7 +42,7 @@ void AVLIndex::insert(string val, string prev, string docname){
     //wordTree.insert(a);
 }
 
-vector <docu> AVLIndex::findDocWithWord(string a){
+HashTable<int, docu> &AVLIndex::findDocWithWord(string a){
     //make temp object to allow search in tree
     word b(a, "Fontenot");
     //if an object of that word is found, then return that object's vector
@@ -51,7 +52,7 @@ vector <docu> AVLIndex::findDocWithWord(string a){
     //else return an empty vector
     catch (exception e){
         cout<<"Value not in tree [in find()]"<<endl;
-        vector <docu> c;
+        HashTable <int, docu> c;
         return c;
     }
 }
@@ -163,8 +164,9 @@ void AVLIndex::readIndexNoPrev()
 
             try{
                 AVLTree<word>::TreeNode<word>* temp = wordTree.findStar(currWord);
-                for (int i = 0; i < currWord.getNumDocs(); i++)
-                    temp->data.addDoc(currWord.getLitDoc(i));
+                for (int i = 0; i < currWord.getNumDocs(); i++){
+                }
+                    //temp->data.addDoc(currWord.getLitDoc(i));
             }
             //if an object is not found with that word then add it to the tree
             catch(exception e){
@@ -237,8 +239,9 @@ void AVLIndex::readIndexWithPrev()
         }
         try{
             wordTree.find(currWord);
-            for (int i = 0; i < currWord.getNumDocs(); i++)
-                wordTree.find(currWord).addDoc(currWord.getLitDoc(i));
+            for (int i = 0; i < currWord.getNumDocs(); i++){
+            }
+                //wordTree.find(currWord).addDoc(currWord.getLitDoc(i));
         }
         //if an object is not found with that word then add it to the tree
         catch(exception e){

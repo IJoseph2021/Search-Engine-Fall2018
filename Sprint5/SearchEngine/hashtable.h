@@ -40,6 +40,10 @@ public:
         return key;
     }
 
+    mark returnKey() const{
+        return key;
+    }
+
     fontenot returnValue() const{
         return value;
     }
@@ -80,13 +84,16 @@ public:
 
 template<typename mark, typename fontenot>
 HashTable<mark, fontenot>::HashTable(){
-
+    capacity = 0;
+    table.resize(capacity);
+    size = 0;
 }
 
 template<typename mark, typename fontenot>
 void HashTable<mark, fontenot>::reSize(int a){
     table.resize(a);
     capacity = a;
+    size = 0;
 }
 
 
@@ -110,10 +117,12 @@ HashTable<mark, fontenot>::HashTable(const HashTable<mark, fontenot>& a){
 template<typename mark, typename fontenot>
 HashTable<mark, fontenot>& HashTable<mark, fontenot>::operator =(const HashTable<mark, fontenot>& a){
     this->capacity = a.capacity;
+    this->table.resize(capacity);
     for(int i =0; i<a.capacity; i++){
         for(int j = 0; j<a.table[i].size(); j++){
-            this->table[i][j] = a.table[i][j];
-            this->size++;
+            mark key = a.table[i][j].returnKey();
+            fontenot value = a.table[i][j].returnValue();
+            this->insertNode(key, value);
         }
     }
     return *this;

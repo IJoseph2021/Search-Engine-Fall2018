@@ -44,13 +44,14 @@ public:
     docu& getLitDoc(int x, int y);
     void addDoc(string docName);
     void addDoc(docu& doc);
-    HashTable<int, docu> returnDocVector();
+    HashTable<int, docu>& returnDocVector();
     word& operator &(const word& val);
     word& operator |(const word& val);
     word& logicalNot(const word& val);
     int getNumUses();
     int getCapacity() const;
     int getSizeCapacity(int a) const;
+
 };
 
 #endif // WORD_H

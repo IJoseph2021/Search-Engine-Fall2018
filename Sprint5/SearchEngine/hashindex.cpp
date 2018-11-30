@@ -45,7 +45,7 @@ void HashIndex::insert(string val, string val2, string docname){
     }
 }
 
-vector <docu> HashIndex::findDocWithWord(string a){
+HashTable<int, docu> &HashIndex::findDocWithWord(string a){
     //make temp object to allow search in tree
     word b(a, "Fontenot");
     hash<string>str_hash;
@@ -60,7 +60,8 @@ vector <docu> HashIndex::findDocWithWord(string a){
     //else return an empty vector
     catch (exception e){
         cout<<"Value not in tree [in find()]"<<endl;
-        vector <docu> c;
+        //vector <docu> c;
+        HashTable<int, docu> c;
         return c;
     }
 }

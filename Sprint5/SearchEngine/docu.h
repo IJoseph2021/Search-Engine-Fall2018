@@ -22,7 +22,6 @@ public:
     ~docu();
     bool operator==(const docu& val);
     friend ostream& operator<<(ostream& out, docu& d);
-
     string getFileName() const;
     int getUseCount() const;
 };

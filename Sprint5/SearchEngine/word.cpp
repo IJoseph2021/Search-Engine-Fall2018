@@ -22,7 +22,7 @@ word::word(string prev, string curr, string doc)
     previous = prev;
     thisWord = curr;
     docu tempDoc(doc);
-    documents.reSize(64000);
+    documents.reSize(5000);
     int x  = str_hash(doc);
     if(x<0){
         x = -1*x;
@@ -134,8 +134,7 @@ bool word::operator > (const word& val)
 //overloaded comparison operator to see if two words have the same word string
 bool word::operator==(const word& val)
 {
-    if ((thisWord.compare(val.thisWord) == 0) &&
-       ((previous.compare(val.previous) == 0) || val.previous.compare("s34rch") == 0))
+    if ((thisWord.compare(val.thisWord) == 0) /*&& ((previous.compare(val.previous) == 0) || val.previous.compare("s34rch") == 0)*/)
         return true;
     else
         return false;
@@ -274,7 +273,7 @@ void word::addDoc(docu& doc)
     }*/
 }
 
-HashTable<int, docu> word::returnDocVector(){
+HashTable<int, docu> &word::returnDocVector(){
     return documents;
 }
 
@@ -395,4 +394,5 @@ int word::getNumUses()
     }
     return uses;
 }
+
 
