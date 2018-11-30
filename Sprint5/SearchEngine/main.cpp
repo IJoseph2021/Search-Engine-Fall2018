@@ -23,6 +23,7 @@
 
 using namespace std;
 
+
 void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool &type, int &wordCount, int &fileCount);
 void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool &type, int &wordCount, int &fileCount);
 
@@ -103,7 +104,7 @@ void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, Index
             Parser dirParser(path, "../StopWordList.txt");
             if(type) {
                 fileCount += dirParser.parse(wordCount, avD);           //print
-                ofstream oFile("Index.txt");
+                ofstream oFile("../Index.txt");
                 //avD->setWords(wordCount);
                 //avD->setDocs(fileCount);
                 avD->printIndex(oFile, wordCount, fileCount);
@@ -112,7 +113,7 @@ void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, Index
                 oFile.close();
             } else {
                 fileCount += dirParser.parse(wordCount, haD);
-                ofstream oFile("Index.txt");
+                ofstream oFile("../Index.txt");
                 //haD->setWords(wordCount);
                 //haD->setDocs(fileCount);
                 haD->printIndex(oFile, wordCount, fileCount);

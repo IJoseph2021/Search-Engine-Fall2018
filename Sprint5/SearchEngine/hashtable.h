@@ -158,7 +158,7 @@ void HashTable<mark, fontenot>::removeNode(mark key, fontenot value){
 template<typename mark, typename fontenot>
 fontenot &HashTable<mark, fontenot>::find(mark& key, fontenot& value){
     int index = hashResize(key);
-    for(int i = 0; i<table[index].size(); i++){
+    for(unsigned int i = 0; i<table[index].size(); i++){
         if(value == table[index][i].returnValue()){
             return table[index][i].returnValue();
         }
@@ -233,7 +233,7 @@ template<typename mark, typename fontenot>
 fontenot* HashTable<mark, fontenot>::findStar(mark& key, fontenot& value){
     int index = hashResize(key);
 
-    for(int i = 0; i<table[index].size(); i++){
+    for(unsigned int i = 0; i<table[index].size(); i++){
         if(value == table[index][i].returnValue()){
             fontenot* a = new fontenot(table[index][i].returnValue());
             return a;

@@ -1,4 +1,11 @@
 #include "queryengine.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include "document.h"
+#include "rapidjson.h"
+
+using namespace rapidjson;
 
 QueryEngine::QueryEngine()
 {
@@ -8,8 +15,11 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
     vector<string> unstemmedQueries;
     vector<string> queries;
     string query = "";
-    cout << "Enter your query." << endl;
+    cout << "Enter your query to search or EXIT to exit" << endl;
+    cin.ignore();
     getline(cin, query);
+    Stopper stop;
+    stop.readStopWords("../StopWordList.txt");
     while (!query.empty())
     {
         string temp = "";
@@ -25,8 +35,13 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
             query.erase(0, pos+1);
         }
         if (temp.compare("AND") !=0 && temp.compare("OR") != 0 && temp.compare("NOT") != 0 && temp.compare("EXIT") != 0)
+        {
             transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
-        unstemmedQueries.push_back(temp);
+            if (!stop.isStopWord(temp))
+                unstemmedQueries.push_back(temp);
+        }
+        else
+            unstemmedQueries.push_back(temp);
     }
     queries = unstemmedQueries;
     if (queries[0].compare("EXIT") == 0)
@@ -34,7 +49,7 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
         searching = false;
         return;
     }
-    for (int i = 0; i < queries.size(); i++)
+    for (unsigned int i = 0; i < queries.size(); i++)
     {
         Porter2Stemmer::stem(queries[i]);
     }
@@ -42,7 +57,7 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
     bool AND = false;
     bool OR = false;
     bool NOT = false;
-    for (int i = 0; i < queries.size(); i++)
+    for (unsigned int i = 0; i < queries.size(); i++)
     {
         try
         {
@@ -251,12 +266,23 @@ void QueryEngine::run(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& avD, I
             printResults(tracker);
     }
 }
+
 void QueryEngine::printResults( word &wordTracker)
 {
     bool looking = true;
     while(looking)
     {
-        cout << wordTracker << endl;
+        docu documents[15];
+        calculateTop(wordTracker, documents);
+        for (int i = 0; i < 15; i++)
+        {
+
+            if (i < wordTracker.getNumDocs())
+            {
+                cout << i+1 << ". ";
+                printDoc(documents[i]);
+            }
+        }
         string response;
         int responseI;
         cout << "Enter the doc number to choose a doc or enter \"EXIT\" to exit" << endl;
@@ -267,8 +293,140 @@ void QueryEngine::printResults( word &wordTracker)
         }
         else
         {
+            try
+            {
             responseI = stoi(response, nullptr, 10);
+            }
+            catch(exception e)
+            {
+                cout << "Not a valid entry" << endl;
+            }
         }
     }
-
 }
+
+void QueryEngine::calculateTop(word &wordTracker, docu documents[15])
+{
+    for (int i = 0; i < wordTracker.getNumDocs() -1; i++)
+    {
+        for (int j = 0; j < wordTracker.getNumDocs() - i - 1; j++)
+        {
+            if (wordTracker.getDoc(j).getUseCount() < wordTracker.getDoc(j+1).getUseCount())
+            {
+               swapDocs(wordTracker.getLitDoc(j), wordTracker.getLitDoc(j+1));
+            }
+        }
+    }
+    for (int i = 0; i < 15; i++)
+    {
+        if (i < wordTracker.getNumDocs())
+            documents[i] = wordTracker.getDoc(i);
+    }
+}
+
+void QueryEngine::swapDocs(docu& x, docu& y)
+{
+    docu temp = x;
+    x = y;
+    y = temp;
+}
+
+void QueryEngine::printDoc(docu document)
+{
+    ifstream iFile(document.getFileName());
+    if (iFile.is_open())
+    {
+        cout << document.getFileName() << endl;
+        Document doc;
+        streampos file_length = iFile.tellg();
+        iFile.seekg(0, ios::end);
+        file_length = iFile.tellg() - file_length;
+        long file_len = (long)file_length;
+        //cout<<"file length:"<<file_length<<endl;
+        iFile.clear();
+        iFile.seekg(0, ios::beg);
+        char str[file_len];
+        iFile.read(str, file_len);
+        doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
+        cout << "Resource: " ;
+        if(doc["resource_uri"].IsString())
+            cout << doc["resource_uri"].GetString() << endl;
+        else
+            cout << "Not Found" << endl;
+
+        cout << "Download URL: " ;
+        if(doc["download_url"].IsString())
+            cout << doc["resource_uri"].GetString() << endl;
+        else
+            cout << "Not Found" << endl;
+
+        printDAndP(doc["html"].GetString());
+    }
+    iFile.close();
+    //cout << "Used in " << document.getFileName() << " " << document.getUseCount() << " times." << endl;
+}
+
+void QueryEngine::printDAndP(string html) {
+    int find;
+    string word = "";
+    bool notDone = true;
+    bool foundP = false;
+    bool foundD = false;
+    int j = 0;
+    while(notDone) {
+        if(isspace((int)html[j]) == 0) {
+            word+=html[j];
+        } else {
+            if(!word.empty()) {
+                find = word.find("class=\"parties\">");
+                if(find != string::npos) {
+                    word = word.substr(find+16, word.length()-find);
+                    getPorD(html, j, word, "Parties: ");
+                    foundP = true;
+                }
+                word = "";
+            }
+        }
+        if(foundP)
+            notDone = false;
+        j++;
+    } //end while
+
+    notDone = true;
+    while(notDone) {
+        if(isspace((int)html[j]) == 0) {
+            word+=html[j];
+        } else {
+            if(!word.empty()) {
+                find = word.find("class=\"date\">");
+                if(find != string::npos) {
+                    word = word.substr(find+13, word.length()-find);
+                    getPorD(html, j, word, "Date: ");
+                    foundD = true;
+                }
+                word = "";
+            }
+        }
+        if(foundD)
+            notDone = false;
+        j++;
+    }
+
+    cout << "\n" << endl;
+} //end printDandP
+
+void QueryEngine::getPorD(string html, int &j, string &raw, string thing) {
+    int find;
+    while(true) {
+        raw+= html[j];
+
+        find = raw.find("</p>");
+        if(find != string::npos) {
+            raw = raw.substr(0, raw.length()-4);
+            cout << thing << raw << endl;
+            break;
+        }
+
+        j++;
+    }
+} //end getP
