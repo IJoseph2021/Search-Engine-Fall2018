@@ -125,6 +125,10 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
             j++;
         }
         j++;
+
+        wordCount = stoi(firstNumber, nullptr, 10);
+        docCount = stoi(secondNumber, nullptr, 10);
+
         for(int i = j; i<file_len; i++){
             while(str[i] != '|'){
                 thisWord = thisWord + str[i];
@@ -156,9 +160,6 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
                 pos = docs.find('|');
                 docs.erase(0, pos+1);
             }
-            wordCount = stoi(firstNumber, nullptr, 10);
-
-            docCount = stoi(secondNumber, nullptr, 10);
 
 
             try{

@@ -2,7 +2,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "document.h"
 #include "rapidjson.h"
+
+using namespace rapidjson;
 
 QueryEngine::QueryEngine()
 {
@@ -46,7 +49,7 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
         searching = false;
         return;
     }
-    for (int i = 0; i < queries.size(); i++)
+    for (unsigned int i = 0; i < queries.size(); i++)
     {
         Porter2Stemmer::stem(queries[i]);
     }
@@ -54,7 +57,7 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
     bool AND = false;
     bool OR = false;
     bool NOT = false;
-    for (int i = 0; i < queries.size(); i++)
+    for (unsigned int i = 0; i < queries.size(); i++)
     {
         try
         {
@@ -330,12 +333,100 @@ void QueryEngine::swapDocs(docu& x, docu& y)
 
 void QueryEngine::printDoc(docu document)
 {
-    ifstream ifile(document.getFileName());
-    if (ifile.is_open())
+    ifstream iFile(document.getFileName());
+    if (iFile.is_open())
     {
+        cout << document.getFileName() << endl;
+        Document doc;
+        streampos file_length = iFile.tellg();
+        iFile.seekg(0, ios::end);
+        file_length = iFile.tellg() - file_length;
+        long file_len = (long)file_length;
+        //cout<<"file length:"<<file_length<<endl;
+        iFile.clear();
+        iFile.seekg(0, ios::beg);
+        char str[file_len];
+        iFile.read(str, file_len);
+        doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
+        cout << "Resource: " ;
+        if(doc["resource_uri"].IsString())
+            cout << doc["resource_uri"].GetString() << endl;
+        else
+            cout << "Not Found" << endl;
 
+        cout << "Download URL: " ;
+        if(doc["download_url"].IsString())
+            cout << doc["resource_uri"].GetString() << endl;
+        else
+            cout << "Not Found" << endl;
+
+        printDAndP(doc["html"].GetString());
     }
-    ifile.close();
-    cout << "Used in " << document.getFileName() << " " << document.getUseCount() << " times." << endl;
+    iFile.close();
+    //cout << "Used in " << document.getFileName() << " " << document.getUseCount() << " times." << endl;
 }
 
+void QueryEngine::printDAndP(string html) {
+    int find;
+    string word = "";
+    bool notDone = true;
+    bool foundP = false;
+    bool foundD = false;
+    int j = 0;
+    while(notDone) {
+        if(isspace((int)html[j]) == 0) {
+            word+=html[j];
+        } else {
+            if(!word.empty()) {
+                find = word.find("class=\"parties\">");
+                if(find != string::npos) {
+                    word = word.substr(find+16, word.length()-find);
+                    getPorD(html, j, word, "Parties: ");
+                    foundP = true;
+                }
+                word = "";
+            }
+        }
+        if(foundP)
+            notDone = false;
+        j++;
+    } //end while
+
+    notDone = true;
+    while(notDone) {
+        if(isspace((int)html[j]) == 0) {
+            word+=html[j];
+        } else {
+            if(!word.empty()) {
+                find = word.find("class=\"date\">");
+                if(find != string::npos) {
+                    word = word.substr(find+13, word.length()-find);
+                    getPorD(html, j, word, "Date: ");
+                    foundD = true;
+                }
+                word = "";
+            }
+        }
+        if(foundD)
+            notDone = false;
+        j++;
+    }
+
+    cout << "\n" << endl;
+} //end printDandP
+
+void QueryEngine::getPorD(string html, int &j, string &raw, string thing) {
+    int find;
+    while(true) {
+        raw+= html[j];
+
+        find = raw.find("</p>");
+        if(find != string::npos) {
+            raw = raw.substr(0, raw.length()-4);
+            cout << thing << raw << endl;
+            break;
+        }
+
+        j++;
+    }
+} //end getP
