@@ -127,9 +127,13 @@ void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, Index
             if(type) {
                 avS->clearStuff();
                 avD->clearStuff();
+                wordCount = 0;
+                fileCount = 0;
             } else {
                 haS->clearStuff();
                 haD->clearStuff();
+                wordCount = 0;
+                fileCount = 0;
             }
             break;
         } //case 2
