@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "rapidjson.h"
 
 QueryEngine::QueryEngine()
 {
@@ -14,6 +15,8 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
     cout << "Enter your query to search or EXIT to exit" << endl;
     cin.ignore();
     getline(cin, query);
+    Stopper stop;
+    stop.readStopWords("../StopWordList.txt");
     while (!query.empty())
     {
         string temp = "";
@@ -29,8 +32,13 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
             query.erase(0, pos+1);
         }
         if (temp.compare("AND") !=0 && temp.compare("OR") != 0 && temp.compare("NOT") != 0 && temp.compare("EXIT") != 0)
+        {
             transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
-        unstemmedQueries.push_back(temp);
+            if (!stop.isStopWord(temp))
+                unstemmedQueries.push_back(temp);
+        }
+        else
+            unstemmedQueries.push_back(temp);
     }
     queries = unstemmedQueries;
     if (queries[0].compare("EXIT") == 0)
@@ -322,6 +330,12 @@ void QueryEngine::swapDocs(docu& x, docu& y)
 
 void QueryEngine::printDoc(docu document)
 {
+    ifstream ifile(document.getFileName());
+    if (ifile.is_open())
+    {
+
+    }
+    ifile.close();
     cout << "Used in " << document.getFileName() << " " << document.getUseCount() << " times." << endl;
 }
 

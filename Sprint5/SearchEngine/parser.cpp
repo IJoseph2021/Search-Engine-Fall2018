@@ -65,7 +65,7 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
             iFile.read(str, file_len);
             doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
             if(doc["html"].IsString()) {      //All files have html member but some are written as NULL
-                parseHTML(doc["html"].GetString(), files[j], count, stemmap, index);    //pass HTML off to separate parser, along with document name
+                parseHTML(doc["html"].GetString(), this->getPath() +"/" + files[j], count, stemmap, index);    //pass HTML off to separate parser, along with document name
             }                                                           //and counter for words parsed
             iFile.close();
 

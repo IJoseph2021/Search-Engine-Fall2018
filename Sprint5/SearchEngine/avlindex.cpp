@@ -96,7 +96,7 @@ AVLIndex& AVLIndex::operator=(const AVLIndex& a){
 
 void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
 {
-    ifstream ifile ("Index.txt");
+    ifstream ifile ("../Index.txt");
     streampos file_length = ifile.tellg();
     ifile.seekg(0, ios::end);
     file_length = ifile.tellg() - file_length;
@@ -208,7 +208,7 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
 
 void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
 {
-    ifstream ifile ("Index.txt");
+    ifstream ifile ("../Index.txt");
     ifile >> wordCount;
     ifile >> docCount;
     while (!ifile.eof())

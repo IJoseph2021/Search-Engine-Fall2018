@@ -12,6 +12,7 @@
 #include "StemmerFiles/porter2_stemmer.h"
 #include <myhtml/api.h>
 #include "docu.h"
+#include "stopper.h"
 
 
 class QueryEngine
