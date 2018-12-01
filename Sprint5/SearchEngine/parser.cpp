@@ -47,7 +47,8 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
     map<string, string> stemmap;
 
     vector<string> files = get_files_at_path_with_extn();
-
+    if(files.size() == 0)
+        cout << "Incorrect file path selected" << endl;
 
 
     for(unsigned int j = 0; j < 100/*files.size()*/; j++) {
@@ -70,6 +71,9 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
             iFile.close();
 
         } //end iFile is_open
+        else {
+            cout << "File Path not correct: " << this->getPath()+"/"+files[j] << endl;
+        }
     } //end for loop
     return files.size();
 } //end parse function

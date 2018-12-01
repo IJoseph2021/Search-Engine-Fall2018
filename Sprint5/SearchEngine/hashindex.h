@@ -19,8 +19,8 @@ class HashIndex: public IndexerFace{
 private:
     //specific implementation of AVLTree template
     HashTable <int, word> wordTable;
-    int wordCount;
-    int docCount;
+    //int wordCount;
+    //int docCount;
     hash<string> str_hash;
 public:
     //constructor

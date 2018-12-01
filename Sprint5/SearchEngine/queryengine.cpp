@@ -310,8 +310,10 @@ void QueryEngine::printResults( word &wordTracker)
             transform(thing.begin(), thing.end(), thing.begin(), ::tolower);
             if(thing.compare("mark") == 0) {
                 cout << "Fontenot" << endl;
-            } else if(thing.compare("disappointment")){
+            } else if(thing.compare("disappointment") == 0){
                 cout << "You didn't enter ENTER but that's okay, I'm not mad I'm just disappointed" << endl;
+            } else if(thing.compare("jake") == 0) {
+                cout << "You guessed it right, this runs on Jenkins" << endl;
             }
         }
     }
@@ -460,20 +462,38 @@ void QueryEngine::printFullDoc(string path) {
         iFile.read(str, file_len);
         doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
 
-        string raw = doc["html"].GetString();
+
+        string raw;
         int j = 0;
         int numOfWords = 0;
         string toPrint = "";
-        while(true) {
-            if(isspace((int)raw[j]) == 0) {
-                    toPrint += raw[j];
-            } else {
-                toPrint += " ";
-                numOfWords++;
+
+        if(doc["plain_text"].IsString() && strcmp(doc["plain_text"].GetString(), "") != 0) {
+            raw = doc["plain_text"].GetString();
+            while(true) {
+                if(isspace((int)raw[j]) == 0) {
+                        toPrint += raw[j];
+                } else {
+                    toPrint += " ";
+                    numOfWords++;
+                }
+                j++;
+                if(numOfWords == 500)
+                    break;
             }
-            j++;
-            if(numOfWords == 300)
-                break;
+        } else {
+            raw = doc["html"].GetString();
+            while(true) {
+                if(isspace((int)raw[j]) == 0) {
+                        toPrint += raw[j];
+                } else {
+                    toPrint += " ";
+                    numOfWords++;
+                }
+                j++;
+                if(numOfWords == 300)
+                    break;
+            }
         }
         cout << toPrint << endl;
     }
