@@ -94,7 +94,7 @@ void Parser::parseHTML(string html, string fileN, int& count, map<string, string
             if(checkPunct(html[j]))
                 word += html[j];
         } else {
-            //only do shit if string is != ""
+            //only do stuff if string is != ""
             if(!word.empty()) {
                 find = word.find_last_of(">");
                 if(find != -1)

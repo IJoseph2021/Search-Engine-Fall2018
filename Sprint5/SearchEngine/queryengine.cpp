@@ -467,10 +467,11 @@ void QueryEngine::printFullDoc(string path) {
         int j = 0;
         int numOfWords = 0;
         string toPrint = "";
+        bool flag = true;
 
         if(doc["plain_text"].IsString() && strcmp(doc["plain_text"].GetString(), "") != 0) {
             raw = doc["plain_text"].GetString();
-            while(true) {
+            while(flag && j<raw.length()) {
                 if(isspace((int)raw[j]) == 0) {
                         toPrint += raw[j];
                 } else {
@@ -479,11 +480,11 @@ void QueryEngine::printFullDoc(string path) {
                 }
                 j++;
                 if(numOfWords == 500)
-                    break;
+                    flag = false;
             }
         } else {
             raw = doc["html"].GetString();
-            while(true) {
+            while(flag && j<raw.length()) {
                 if(isspace((int)raw[j]) == 0) {
                         toPrint += raw[j];
                 } else {
@@ -492,7 +493,7 @@ void QueryEngine::printFullDoc(string path) {
                 }
                 j++;
                 if(numOfWords == 300)
-                    break;
+                    flag = false;
             }
         }
         cout << toPrint << endl;
