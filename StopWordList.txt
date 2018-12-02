@@ -636,6 +636,7 @@ whilst
 who'd
 who'll
 whomever
+class=num
 32
 33
 34

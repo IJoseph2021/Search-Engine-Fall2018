@@ -96,7 +96,7 @@ AVLIndex& AVLIndex::operator=(const AVLIndex& a){
 
 void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
 {
-    ifstream ifile ("../Index.txt");
+    ifstream ifile ("../../../Index.txt");
     streampos file_length = ifile.tellg();
     ifile.seekg(0, ios::end);
     file_length = ifile.tellg() - file_length;
@@ -144,7 +144,7 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
             prev = "";
             thisWord = "";
             while(str[i] != '\n'){
-                docs = docs + str[i];
+                docs += str[i];
                 i++;
             }
             while(!docs.empty())
@@ -173,12 +173,15 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
             }
 
         }
+        delete []str;
     }
 
 
 void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
 {
-    ifstream ifile ("../Index.txt");
+    int lol;
+    int yeet;
+    ifstream ifile ("../../../Index.txt");
     streampos file_length = ifile.tellg();
     ifile.seekg(0, ios::end);
     file_length = ifile.tellg() - file_length;
@@ -222,9 +225,10 @@ void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
             prev = "";
             thisWord = "";
             while(str[i] != '\n'){
-                docs = docs + str[i];
+                docs+= str[i];
                 i++;
             }
+            lol = 0;
             while(!docs.empty())
             {
                 int pos = docs.find('|');
@@ -238,9 +242,7 @@ void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
                 pos = docs.find('|');
                 docs.erase(0, pos+1);
             }
-            wordCount = stoi(firstNumber, nullptr, 10);
-
-            docCount = stoi(secondNumber, nullptr, 10);
+            yeet = 0;
             try{
                 wordTree.find(currWord);
                 for (int i = 0; i < currWord.getNumDocs(); i++)
@@ -251,6 +253,9 @@ void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
                 wordTree.insert(currWord);
             }
         }
+        wordCount = stoi(firstNumber, nullptr, 10);
+        docCount = stoi(secondNumber, nullptr, 10);
+        delete []str;
 }
 
 bool AVLIndex::isEmpty() {

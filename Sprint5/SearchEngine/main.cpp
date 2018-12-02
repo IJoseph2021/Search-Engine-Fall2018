@@ -29,43 +29,54 @@ void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace*
 
 int main(int argc, char* argv[])
 {
-//    cout << "PARSING DOCS" << endl;
+    cout << "PARSING DOCS" << endl;
 
-//    int x = 0;
-
-//    clock_t start;
-//    float duration;
-//    start = clock();
-//    Parser dirParser(argv[1], "../StopWordList.txt");
-
-    int fileCount = 0;
+    int x = 0;
+    int numFiles;
+    clock_t start;
+    float duration;
+    start = clock();
+    Parser dirParser(argv[1], "../StopWordList.txt");
+    ofstream oFile("../Index.txt");
+    /*int fileCount = 0;
     int wordCount = 0;
 
     IndexerFace* avlSingle = new AVLIndex();
     IndexerFace* avlDouble = new AVLIndex();
 
     IndexerFace* hashTSingle = new HashIndex(500009);
-    IndexerFace* hashTDouble = new HashIndex(500009);
+    IndexerFace* hashTDouble = new HashIndex(500009);*
     bool type = true;       //true is AVLTree / false is HashTable
 
     avlDouble->readIndexWithPrev(wordCount, fileCount);
-    avlSingle->readIndexNoPrev(wordCount, fileCount);
-//    int numFiles = dirParser.parse(x, fr);
-//    duration = (clock() - start) / (float) CLOCKS_PER_SEC;
+    avlSingle->readIndexNoPrev(wordCount, fileCount);*/
+    IndexerFace* fr = new HashIndex(10000019);
+    //IndexerFace* fr = new AVLIndex();
+    //int numFiles = dirParser.parse(x, fr);
+    //duration = (clock() - start) / (float) CLOCKS_PER_SEC;
 
-//    string adju = argv[2];
-//    Porter2Stemmer::stem(adju);
+    string adju = argv[2];
+    Porter2Stemmer::stem(adju);
 
-//    cout << "Number of words parsed: " << x << endl;
-//    cout << "Number of unique words: " << fr->returnSize() << endl;
-//    cout << "Number of documents parsed: " << numFiles << endl;
-//    cout << "Number of documents " << argv[2] << " was found in: ";
-//    int numDocs = fr->findWord(adju).getNumDocs();
-//    cout << numDocs << endl;
-//    cout<<"time: "<<duration<<endl;
-//    fr->clearStuff();
-//    delete fr;
-    int choice;
+    /*cout << "Number of words parsed: " << x << endl;
+    cout << "Number of unique words: " << fr->returnSize() << endl;
+    cout << "Number of documents parsed: " << numFiles << endl;
+    cout << "Number of documents " << argv[2] << " was found in: ";
+    int numDocs = fr->findWord(adju, adju).getNumDocs();
+    cout << numDocs << endl;*/
+    //cout<<"AVLtime: "<<duration<<endl;
+    //fr->printIndex(oFile, x, numFiles);
+    //duration = (clock() - start) / (float) CLOCKS_PER_SEC;
+    //cout<<"AVLtime: "<<duration<<endl;
+    fr->readIndexWithPrev(x, numFiles);
+    duration = (clock() - start) / (float) CLOCKS_PER_SEC;
+    cout<<"Hashtime: "<<duration<<endl;
+    fr->printIndex(oFile, x, numFiles);
+    duration = (clock() - start) / (float) CLOCKS_PER_SEC;
+    cout<<"Hashtime: "<<duration<<endl;
+    fr->clearStuff();
+    delete fr;
+    /*int choice;
     bool flag = true;
     while(flag) {
         cout << "Welcome to the Rule of Three's Search Engine!" << endl;
@@ -86,7 +97,7 @@ int main(int argc, char* argv[])
             cout << "You entered an invalid number" << endl;
         } //end switch
     } //end while
-    return 0;
+    return 0;*/
 } //end main
 
 void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool& type, int &wordCount, int &fileCount) {

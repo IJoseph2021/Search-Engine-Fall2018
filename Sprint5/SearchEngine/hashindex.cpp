@@ -30,7 +30,7 @@ HashIndex::~HashIndex(){
 void HashIndex::insert(string val, string prev, string docname){
     //create temp object a and search tree to see if an object with the same word already exists in the tree
     //if it does then just update the documents in that object
-    word a(prev, val, docname);
+    word a(val, prev, docname);
     hash<string>str_hash;
     int x = str_hash(val + prev);
     if(x<0){
@@ -67,9 +67,9 @@ vector <docu> HashIndex::findDocWithWord(string a){
 
 word& HashIndex::findWord(string a, string prev){
     //create temp object to allow search in tree
-    word b(prev, a);
+    word b(a, prev);
     hash<string>str_hash;
-    int x = str_hash(a);
+    int x = str_hash(a + prev);
     if(x<0){
         x = -1*x;
     }
@@ -93,15 +93,15 @@ int HashIndex::returnSize(){
 //overloadd virtual function
 //print data structure
 void HashIndex::printIndex(ostream &out, int &wordCount, int &docCount){
-    out << wordCount << endl;
-    out << docCount << endl;
-    wordTable.printOut(out);
-    //wordTable.stats();
+    //out << wordCount << endl;
+    //out << docCount << endl;
+    //wordTable.printOut(out);
+    wordTable.stats();
 }
 
 void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
 {
-    ifstream ifile ("../Index.txt");
+    ifstream ifile ("../../../Index.txt");
     streampos file_length = ifile.tellg();
     ifile.seekg(0, ios::end);
     file_length = ifile.tellg() - file_length;
@@ -145,7 +145,7 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
             prev = "";
             thisWord = "";
             while(str[i] != '\n'){
-                docs = docs + str[i];
+                docs += str[i];
                 i++;
             }
             while(!docs.empty())
@@ -161,9 +161,6 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
                 pos = docs.find('|');
                 docs.erase(0, pos+1);
             }
-            wordCount = stoi(firstNumber, nullptr, 10);
-
-            docCount = stoi(secondNumber, nullptr, 10);
             int x = str_hash(currWord.getWord());
             if(x<0){
                 x = -1*x;
@@ -178,11 +175,15 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
                 wordTable.insertNode(x, currWord);
             }
         }
+        wordCount = stoi(firstNumber, nullptr, 10);
+
+        docCount = stoi(secondNumber, nullptr, 10);
+        delete []str;
 }
 
 void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
 {
-    ifstream ifile ("../Index.txt");
+    ifstream ifile ("../../../Index.txt");
     streampos file_length = ifile.tellg();
     ifile.seekg(0, ios::end);
     file_length = ifile.tellg() - file_length;
@@ -226,9 +227,10 @@ void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
             prev = "";
             thisWord = "";
             while(str[i] != '\n'){
-                docs = docs + str[i];
+                docs += str[i];
                 i++;
             }
+            int cool = 2;
             while(!docs.empty())
             {
                 int pos = docs.find('|');
@@ -242,8 +244,6 @@ void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
                 pos = docs.find('|');
                 docs.erase(0, pos+1);
             }
-            wordCount = stoi(firstNumber, nullptr, 10);
-            docCount = stoi(secondNumber, nullptr, 10);
             int x = str_hash(currWord.getPrev()+currWord.getWord());
             if(x<0){
                 x = -1*x;
@@ -258,6 +258,9 @@ void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
                 wordTable.insertNode(x, currWord);
             }
         }
+        wordCount = stoi(firstNumber, nullptr, 10);
+        docCount = stoi(secondNumber, nullptr, 10);
+        delete []str;
 }
 
 //copy constructor
