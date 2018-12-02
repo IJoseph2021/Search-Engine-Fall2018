@@ -25,7 +25,17 @@ private:
     //void getD(string html, int &j, string &raw);
 public:
     QueryEngine();
+    /**
+     * @brief takeQuery - takes a query from the user and does teh requested operations
+     * on the word docTracker which is used to store the requested documents
+     * @param docTracker -
+     * @param searching
+     */
     void takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& avD, IndexerFace*& haD, bool& type, word &docTracker, bool &searching);
+    /**
+     * @brief run - runs the query engine on passed in indexes depending on user requested structure type
+     * @param type - structure to use, true if avl, false if hash
+     */
     void run(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& avD, IndexerFace*& haD, bool& type);
     void printResults(word& wordTracker);
     void calculateTop(word& wordTracker, docu documents[]);

@@ -16,15 +16,27 @@ private:
     {
     //public to the tree only
     public:
-        fontenot data;
-        TreeNode<mark>* left;
-        TreeNode<mark>* right;
-        int height;
+        fontenot data; ///!< data is the item held by the treeNode
+        TreeNode<mark>* left; ///!< pointer to the node to the left
+        TreeNode<mark>* right; ///!< pointer to the node to the right
+        int height; ///!< height of a given tree node
 
+        /**
+         * @brief TreeNode - default constructor initializes height to 0 and pointers to nullptr
+         */
         TreeNode(): left(nullptr), right(nullptr), height(0){}
+        /**
+         * @brief TreeNode - constructor to make a node from data only
+         * @param val - the value to be stored in the treeNode of templated type Mark
+         */
         TreeNode(mark val): data(val), left(nullptr), right(nullptr), height(0){}
 
-        //create a tree node from a value and pointers to the nodes to its left and right
+        /**
+         * @brief TreeNode - create a node from a value and left and right pointers
+         * @param val - the value to be stored
+         * @param l - pointer to the tree node to the left
+         * @param r - pointer to the tree ode to the right
+         */
         TreeNode(mark val, TreeNode* l, TreeNode* r): data(val), left(l), right(r)
         {
             if (left == nullptr && right != nullptr)
@@ -51,6 +63,10 @@ private:
             }
         }
 
+        /**
+         * @brief TreeNode - copy constructor
+         * @param val - treeNode to copy
+         */
         TreeNode(const TreeNode<mark>& val)
         {
             left = nullptr;
@@ -62,6 +78,11 @@ private:
                 right = new TreeNode(*val.right);
         }
 
+        /**
+         * @brief operator = - overloaded =
+         * @param val - treeNode to copy
+         * @return - return this tree node to allow chained =
+         */
         TreeNode& operator =(const TreeNode<mark>& val)
         {
             data = val.data;
@@ -82,7 +103,9 @@ private:
             return *this;
         }
 
-        //note that deleting a node will delete all of its descendants
+        /**
+          * @brief - destructor which also deletes all nodes below the delete node
+          * */
         ~TreeNode()
         {
             if (left != nullptr)
@@ -95,42 +118,146 @@ private:
     //resume AVLTree class
 private:
     //tree root and node counter
-    TreeNode<fontenot>* root;
-    int nodes;
+    TreeNode<fontenot>* root; ///!< pointer to root treeNode
+    int nodes; ///!< number to track unique nodes in the tree
 
 public:
+    /**
+     * @brief AVLTree - default constructor
+     */
     AVLTree():root(nullptr), nodes(0){}
+    /**
+     * @brief AVLTree - copy constructor
+     * @param val - tree to be copied
+     */
     AVLTree(const AVLTree<fontenot>& val);
+    /**
+     * @brief operator = - overloaded =
+     * @param val - tree to copy
+     * @return - return tree to allow chained =
+     */
     AVLTree& operator=(const AVLTree<fontenot>& val);
+    /**
+      *@brief - destructor which deletes all nodes
+      * */
     ~AVLTree();
+    /**
+     * @brief printInOrder - prints the tree from smallest to largest with endl between each node
+     * @param out - ostream to print to
+     */
     void printInOrder(ostream &out);
+    /**
+     * @brief insert - public insert funtion to call private recursive insert on root
+     * @param val - value to add to tree
+     */
     void insert(fontenot& val);
+    /**
+     * @brief clear - clear the tree
+     */
     void clear();
     fontenot& findMin();
     fontenot& findMax();
+    /**
+     * @brief contains - check if the tree contains the passed value
+     * @param val - value to search for
+     * @return - returns true if found and false if not
+     */
     bool contains(fontenot val);
+    /**
+     * @brief remove - removes a leaf that has a given value
+     * @param val - value to remove
+     */
     void remove(fontenot val);
+    /**
+     * @brief find - public find function to call private find
+     * @param val - value to find
+     * @return - returns the node data as a literal to allow access
+     */
     fontenot& find(fontenot val);
+    /**
+     * @brief findStar - same as find but returns the pointer to the node to allow access to the node
+     * without searching every time by saving a pointer
+     * @param val - value to find
+     * @return  - returns a pointer to a node
+     */
     TreeNode<fontenot>* findStar(fontenot val);
     int returnNumberNodes();
+    /**
+     * @brief printLevelOrder - public function to print the tree in order smallest to largest by level starting at root.
+     * This is optimal for reading the tree back from a file
+     * @param out - ostream to print to
+     */
     void printLevelOrder(ostream& out);
     bool isEmpty();
 
 private:
+    /**
+     * @brief printInOrder - recursively print tree using in order traversal
+     * @param out - ostream to print to
+     * @param t - current node
+     */
     void printInOrder(ostream& out, TreeNode<fontenot>* t);
+    /**
+     * @brief printLevel - prints a given level of the tree
+     * @param t - current node
+     * @param level - level down from root of current level
+     * @param out - ostream to print to
+     */
     void printLevel(TreeNode<fontenot>* t, int level, ostream& out);
+    /**
+     * @brief insert - recursive insertion function
+     * @param val - value to insert
+     * @param t - current node
+     */
     void insert(fontenot &val, TreeNode<fontenot> *& t);
     void rotateWithLeftChild(TreeNode<fontenot>*& k2);
     void doubleWithLeftChild(TreeNode<fontenot>*& k3);
     void rotateWithRightChild(TreeNode<fontenot>*& k2);
     void doubleWithRightChild(TreeNode<fontenot>*& k3);
     int max(int l, int r);
+    /**
+     * @brief height - get the height of a given node or if uninitialized return -1
+     * @param t - node to get height of
+     * @return - return height as an int
+     */
     int height(TreeNode<fontenot> *t);
+    /**
+     * @brief contains - private recursive function to see if a value is contained in the tree already
+     * @param t - current node
+     * @param val - value to find
+     * @return - returns a bool found
+     */
     bool contains(TreeNode<fontenot>*&t, fontenot& val);
+    /**
+     * @brief remove - removes a leaf recursively
+     * @param toRemove - value to remove
+     */
     void remove(TreeNode<fontenot>*& toRemove);
+    /**
+     * @brief find - private recursive find function
+     * @param val - value to find
+     * @param t - current treeNOde
+     * @return - returns the tree node as a literal
+     */
     TreeNode<fontenot>& find(fontenot &val, TreeNode<fontenot> *t);
+    /**
+     * @brief findStar - private recursive find pointer function
+     * @param val - value to find
+     * @param t - current treeNode
+     * @return - returns a pointer to a node to allow saving and editing without repeated search
+     */
     AVLTree<fontenot>::TreeNode<fontenot> *findStar(fontenot &val, TreeNode<fontenot> *t);
+    /**
+     * @brief copyNodes - private function used for copying a tree which deep copies
+     * all nodes in a given tree recursively to a new root
+     * @param t - current node
+     * @return  - returns the new root treeNode
+     */
     AVLTree<fontenot>::TreeNode<fontenot> *copyNodes(TreeNode<fontenot> *t);
+    /**
+     * @brief clear - private recursive clear function
+     * @param t - current node
+     */
     void clear(TreeNode<fontenot>*& t);
 
 };
