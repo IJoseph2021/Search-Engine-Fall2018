@@ -16,11 +16,28 @@ class Stopper
 {
 private:
     //vector <vector<string>> stopWord ;
+    /**
+     * @brief stopWord AVLTree that holds all stopwords
+     */
     AVLTree <string> stopWord;
     //set<string> stopWord;
 public:
+    /**
+     * @brief Stopper constructor for stopper class
+     */
     Stopper();
+
+    /** checks if a word is a data structure
+     * @brief isStopWord
+     * @param[in] a word to be checked
+     * @return boolean
+     */
     bool isStopWord(string &a);
+
+    /** reads stopwords into AVLtree
+     * @brief readStopWords
+     * @param[in] filename filepath and name of file contatining stopwords
+     */
     void readStopWords(char* filename);
 };
 

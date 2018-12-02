@@ -23,21 +23,32 @@
 
 using namespace std;
 
-
+/** Mode that allows users to clear the current index and parse additional files
+ * @brief maintenanceMode
+ * @param[in,out] avS AVLTree index for single word searches
+ * @param[in,out] haS HashTable index for single word searches
+ * @param[in,out] avD AVLTree index for double word searches
+ * @param[in,out] haD HashTable index for double word searches
+ * @param[in,out] type controls which data structure is used for searching
+ * @param[in,out] wordCount keeps track of current number of parsed words
+ * @param[in,out] fileCount keeps track of current number of files parsed
+ */
 void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool &type, int &wordCount, int &fileCount);
+
+/** Mode that allows users to choose which data structure to use, search documents, and print some stats on the search engine
+ * @brief userMode
+ * @param[in,out] avS AVLTree index for single word searches
+ * @param[in,out] haS HashTable index for single word searches
+ * @param[in,out] avD AVLTree index for double word searches
+ * @param[in,out] haD HashTable index for double word searches
+ * @param[in,out] type controls which data structure is used for searching
+ * @param[in,out] wordCount keeps track of current number of parsed words
+ * @param[in,out] fileCount keeps track of current number of files parsed
+ */
 void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool &type, int &wordCount, int &fileCount);
 
 int main(int argc, char* argv[])
 {
-//    cout << "PARSING DOCS" << endl;
-
-//    int x = 0;
-
-//    clock_t start;
-//    float duration;
-//    start = clock();
-//    Parser dirParser(argv[1], "../StopWordList.txt");
-
     int fileCount = 0;
     int wordCount = 0;
 
@@ -50,21 +61,7 @@ int main(int argc, char* argv[])
 
     avlDouble->readIndexWithPrev(wordCount, fileCount);
     avlSingle->readIndexNoPrev(wordCount, fileCount);
-//    int numFiles = dirParser.parse(x, fr);
-//    duration = (clock() - start) / (float) CLOCKS_PER_SEC;
 
-//    string adju = argv[2];
-//    Porter2Stemmer::stem(adju);
-
-//    cout << "Number of words parsed: " << x << endl;
-//    cout << "Number of unique words: " << fr->returnSize() << endl;
-//    cout << "Number of documents parsed: " << numFiles << endl;
-//    cout << "Number of documents " << argv[2] << " was found in: ";
-//    int numDocs = fr->findWord(adju).getNumDocs();
-//    cout << numDocs << endl;
-//    cout<<"time: "<<duration<<endl;
-//    fr->clearStuff();
-//    delete fr;
     int choice;
     bool flag = true;
     while(flag) {
@@ -186,12 +183,6 @@ void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace*
                     //Parser dirParser("../../../scotus", "../StopWordList.txt");
                     wordCount = 0;
                     fileCount = 0;
-                    //fileCount = dirParser.parse(wordCount, avD);
-
-                    //avD->setWords(wordCount);
-                    //avD->setDocs(fileCount);
-                    //avD->printIndex(oFile);
-                    //avS->clearStuff();
                     avD->readIndexWithPrev(wordCount, fileCount);
                     avS->readIndexNoPrev(wordCount, fileCount);
                     //oFile.close();
@@ -203,12 +194,6 @@ void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace*
                     //Parser dirParser("../../../scotus", "../StopWordList.txt");
                     wordCount = 0;
                     fileCount = 0;
-                    //fileCount = dirParser.parse(wordCount, haD);
-                    //ofstream oFile("Index.txt");
-                    //haD->setWords(wordCount);
-                    //haD->setDocs(fileCount);
-                    //haD->printIndex(oFile);
-                    //haS->clearStuff();
                     haD->readIndexWithPrev(wordCount, fileCount);
                     haS->readIndexNoPrev(wordCount, fileCount);
                     //oFile.close();

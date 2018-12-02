@@ -34,7 +34,7 @@ Parser::Parser(string p, char* st, string ex)
 }
 
 
-/*
+/**
  * parse handles all parse functionality. Reads all files to be parsed from directory into vector of strings,
  * then iterates through vector. FIles are opened and read into a DOM tree, from which the html attribrute is
  * retreived and passed to HTML parser to be parsed into Tree data structure
@@ -78,7 +78,7 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
     return files.size();
 } //end parse function
 
-/*
+/**
  * takes string representing the HTML document, file name, integer count for total words parsed,
  * and a map for the stemmed words. The html is parsed using character comparisons, and strings
  * are built until spaces are found. At that point tags are parsed out, and if a string remains

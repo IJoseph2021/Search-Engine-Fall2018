@@ -13,11 +13,16 @@ using namespace std;
 
 Stopper::Stopper()
 {
-    //stopWord.resize(100);
+
 }
 
 
-
+/** opens the file containing stopwords, makes sure the text file is formatted correctly.
+ *  If it isn't the file is fixed before the tree is loaded. Then the tree is loaded with
+ *  stop words so that it can be used.
+ * @brief Stopper::readStopWords
+ * @param[in] filename filepath and name of file contatining stopwords
+ */
 void Stopper::readStopWords(char *filename){
     ifstream input;
     input.open(filename);
@@ -55,19 +60,14 @@ void Stopper::readStopWords(char *filename){
     }
 }
 
-
+/** the tree is searched to see if it is there, if it is returns true, returns
+ *  false otherwise
+ * @brief Stopper::isStopWord
+ * @param[in] a word to be compared
+ * @return
+ */
 bool Stopper::isStopWord(string &a){
     transform(a.begin(), a.end(), a.begin(), ::tolower);
-    /*int x = a.length() - 1;
-    for(int i = 0; i<stopWord[x].size(); i++){
-        if(a == stopWord[x][i] || a == "\n"){
-            return true;
-        }
-    }*/
+
     return stopWord.contains(a);
-//    if(stopWord.find(a) != stopWord.end())
-//        return true;
-//    else
-//        return false;
-    //return false;
 }
