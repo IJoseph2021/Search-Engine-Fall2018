@@ -32,7 +32,7 @@ void HashIndex::insert(string val, string prev, string docname){
     //if it does then just update the documents in that object
     word a(val, prev, docname);
     hash<string>str_hash;
-    int x = str_hash(val + prev);
+    int x = str_hash(val + prev); //% wordTable.returnCapacity();
     if(x<0){
         x = -1*x;
     }
@@ -49,7 +49,7 @@ vector <docu> HashIndex::findDocWithWord(string a){
     //make temp object to allow search in tree
     word b(a, "Fontenot");
     hash<string>str_hash;
-    int x = str_hash(a);
+    int x = str_hash(a); //% wordTable.returnCapacity();
     if(x<0){
         x = -1*x;
     }
@@ -69,7 +69,7 @@ word& HashIndex::findWord(string a, string prev){
     //create temp object to allow search in tree
     word b(a, prev);
     hash<string>str_hash;
-    int x = str_hash(a + prev);
+    int x = str_hash(a + prev); //% wordTable.returnCapacity();
     if(x<0){
         x = -1*x;
     }
@@ -161,7 +161,7 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
                 pos = docs.find('|');
                 docs.erase(0, pos+1);
             }
-            int x = str_hash(currWord.getWord());
+            int x = str_hash(currWord.getWord()); //% wordTable.returnCapacity();
             if(x<0){
                 x = -1*x;
             }
@@ -244,7 +244,7 @@ void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
                 pos = docs.find('|');
                 docs.erase(0, pos+1);
             }
-            int x = str_hash(currWord.getPrev()+currWord.getWord());
+            int x = str_hash(currWord.getPrev()+currWord.getWord()); //% wordTable.returnCapacity();
             if(x<0){
                 x = -1*x;
             }

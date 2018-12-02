@@ -69,6 +69,7 @@ public:
     int returnSize();
     void stats();
     void reSize(int a);
+    int returnCapacity();
 };
 
 template<typename mark, typename fontenot>
@@ -131,6 +132,7 @@ void HashTable<mark, fontenot>::insertNode(mark key, fontenot &value){
     //cout<<"key: "<<key<<endl;
     HashNode<mark, fontenot> temp = HashNode<mark, fontenot>(key, value);
     int index = hashResize(key);
+    //int index = key;
     bool check = false;
     for(unsigned int i = 0; i<table[index].size(); i++){
         if(temp.returnValue() == (table[index][i]).returnValue()){
@@ -150,6 +152,7 @@ void HashTable<mark, fontenot>::insertNode(mark key, fontenot &value){
 template<typename mark, typename fontenot>
 void HashTable<mark, fontenot>::removeNode(mark key, fontenot value){
     int index = hashResize(key);
+    //int index = key;
     for(int i = 0; i<table[index].size();i++){
         if(value == table[index][i]){
             table[index][i] = NULL;
@@ -160,6 +163,7 @@ void HashTable<mark, fontenot>::removeNode(mark key, fontenot value){
 template<typename mark, typename fontenot>
 fontenot &HashTable<mark, fontenot>::find(mark& key, fontenot& value){
     int index = hashResize(key);
+    //int index = key;
     for(unsigned int i = 0; i<table[index].size(); i++){
         if(value == table[index][i].returnValue()){
             return table[index][i].returnValue();
@@ -234,7 +238,6 @@ void HashTable<mark, fontenot>::stats(){
 template<typename mark, typename fontenot>
 fontenot* HashTable<mark, fontenot>::findStar(mark& key, fontenot& value){
     int index = hashResize(key);
-
     for(unsigned int i = 0; i<table[index].size(); i++){
         if(value == table[index][i].returnValue()){
             fontenot* a = new fontenot(table[index][i].returnValue());
@@ -243,4 +246,10 @@ fontenot* HashTable<mark, fontenot>::findStar(mark& key, fontenot& value){
     }
     throw logic_error("Value not in tree [in find()]");
 }
+
+template<typename mark, typename fontenot>
+int HashTable<mark, fontenot>::returnCapacity(){
+    return capacity;
+}
+
 #endif // HASHTABLE_H
