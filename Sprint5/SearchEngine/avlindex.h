@@ -18,7 +18,7 @@ using namespace std;
 class AVLIndex: public IndexerFace{
 private:
     //specific implementation of AVLTree template
-    AVLTree <word> wordTree;
+    AVLTree <word> wordTree; ///!< avl tree that stores index info
 public:
     //constructor
     AVLIndex();
