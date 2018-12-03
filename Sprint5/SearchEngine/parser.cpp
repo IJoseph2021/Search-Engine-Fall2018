@@ -50,7 +50,7 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
 
 
 
-    for(unsigned int j = 0; j < files.size(); j++) {
+    for(unsigned int j = 0; j < 10/*files.size()*/; j++) {
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;

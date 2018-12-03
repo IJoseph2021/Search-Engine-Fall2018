@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
       cout << "PARSING DOCS" << endl;
 
       int x = 0;
-      int numFiles;
+      //int numFiles;
       clock_t start;
       float duration;
       start = clock();
@@ -50,9 +50,9 @@ int main(int argc, char* argv[])
     IndexerFace* fr  = new AVLIndex();
     //avlDouble->readIndexWithPrev(wordCount, fileCount);
     //avlSingle->readIndexNoPrev(wordCount, fileCount);
-    //int numFiles = dirParser.parse(x, fr);
-    //duration = (clock() - start) / (float) CLOCKS_PER_SEC;
-    fr->readIndexWithPrev(x, numFiles);
+    int numFiles = dirParser.parse(x, fr);
+    duration = (clock() - start) / (float) CLOCKS_PER_SEC;
+    //fr->readIndexWithPrev(x, numFiles);
      string adju = argv[2];
      Porter2Stemmer::stem(adju);
 
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
      cout << numDocs << endl;
      cout<<"time: "<<duration<<endl;
      //fr->printIndex(myFile, x, numFiles);
-//    fr->clearStuff();
+     fr->clearStuff();
 //    delete fr;
     /*int choice;
     bool flag = true;

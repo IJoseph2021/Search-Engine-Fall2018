@@ -14,7 +14,7 @@ word::word(string curr)
 {
     previous = curr;
     thisWord = curr;
-    documents.reSize(30000);
+    documents.reSize(1000);
 }
 
 //create a word with both words and the document filename
