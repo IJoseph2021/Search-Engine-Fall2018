@@ -181,6 +181,7 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
                 wordTable.insertNode(x, currWord);
             }
         }
+        delete []str;
 }
 
 void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
@@ -263,6 +264,7 @@ void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
                 wordTable.insertNode(x, currWord);
             }
         }
+        delete []str;
 }
 
 //copy constructor

@@ -128,16 +128,16 @@ int HashTable<mark, fontenot>::hashResize(mark &key){
 template<typename mark, typename fontenot>
 void HashTable<mark, fontenot>::insertNode(mark key, fontenot &value){
     //cout<<"key: "<<key<<endl;
-    HashNode<mark, fontenot>* temp = new HashNode<mark, fontenot>(key, value);
+    HashNode<mark, fontenot> temp = HashNode<mark, fontenot>(key, value);
     int index = hashResize(key);
     bool check = false;
     for(unsigned int i = 0; i<table[index].size(); i++){
-        if(temp->returnValue() == (table[index][i]).returnValue()){
+        if(temp.returnValue() == (table[index][i]).returnValue()){
             check = true;
         }
     }
     if(check == false){
-        table[index].push_back(*temp);
+        table[index].push_back(temp);
         size++;
     }
     else{
