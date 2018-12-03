@@ -117,7 +117,7 @@ void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, Index
             cout << "PARSING DOCS..." << endl;
             if(type) {
                 fileCount += dirParser.parseNew(wordCount, avD, avS);           //print
-                ofstream oFile("../Index.txt"); //"../../../Index.txt"
+                ofstream oFile("../../../Index.txt"); //"../Index.txt"
                 //avD->setWords(wordCount);
                 //avD->setDocs(fileCount);
                 avD->printIndex(oFile, wordCount, fileCount);
@@ -126,7 +126,7 @@ void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, Index
                 oFile.close();
             } else {
                 fileCount += dirParser.parseNew(wordCount, haD, haS);
-                ofstream oFile("../Index.txt"); //"../../../Index.txt"
+                ofstream oFile("../../../Index.txt"); //"../Index.txt"
                 //haD->setWords(wordCount);
                 //haD->setDocs(fileCount);
                 haD->printIndex(oFile, wordCount, fileCount);

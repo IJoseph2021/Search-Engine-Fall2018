@@ -97,7 +97,7 @@ AVLIndex& AVLIndex::operator=(const AVLIndex& a){
 void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
 {
     cout << "READING SINGLE INDEX" << endl;
-    ifstream ifile ("../Index.txt"); //"../../../Index.txt"
+    ifstream ifile ("../../../Index.txt"); //"../Index.txt"
     streampos file_length = ifile.tellg();
     ifile.seekg(0, ios::end);
     file_length = ifile.tellg() - file_length;
@@ -181,7 +181,7 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
 void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
 {
     cout << "READING DOUBLE INDEX" << endl;
-    ifstream ifile ("../Index.txt"); //"../../../Index.txt"
+    ifstream ifile ("../../../Index.txt"); //"../Index.txt"
     streampos file_length = ifile.tellg();
     ifile.seekg(0, ios::end);
     file_length = ifile.tellg() - file_length;
