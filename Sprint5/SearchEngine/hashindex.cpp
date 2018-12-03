@@ -101,7 +101,7 @@ void HashIndex::printIndex(ostream &out, int &wordCount, int &docCount){
 
 void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
 {
-    ifstream ifile ("../Index.txt");
+    ifstream ifile ("../Index.txt"); //"../../../Index.txt"
     streampos file_length = ifile.tellg();
     ifile.seekg(0, ios::end);
     file_length = ifile.tellg() - file_length;
@@ -130,6 +130,11 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
             j++;
         }
         j++;
+
+        wordCount = stoi(firstNumber, nullptr, 10);
+
+        docCount = stoi(secondNumber, nullptr, 10);
+
         for(int i = j; i<file_len; i++){
             while(str[i] != '|'){
                 thisWord = thisWord + str[i];
@@ -161,9 +166,7 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
                 pos = docs.find('|');
                 docs.erase(0, pos+1);
             }
-            wordCount = stoi(firstNumber, nullptr, 10);
 
-            docCount = stoi(secondNumber, nullptr, 10);
             int x = str_hash(currWord.getWord());
             if(x<0){
                 x = -1*x;
@@ -182,7 +185,7 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
 
 void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
 {
-    ifstream ifile ("../Index.txt");
+    ifstream ifile ("../Index.txt"); //"../../../Index.txt"
     streampos file_length = ifile.tellg();
     ifile.seekg(0, ios::end);
     file_length = ifile.tellg() - file_length;
@@ -211,6 +214,10 @@ void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
             j++;
         }
         j++;
+
+        wordCount = stoi(firstNumber, nullptr, 10);
+        docCount = stoi(secondNumber, nullptr, 10);
+
         for(int i = j; i<file_len; i++){
             while(str[i] != '|'){
                 thisWord = thisWord + str[i];
@@ -242,8 +249,6 @@ void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
                 pos = docs.find('|');
                 docs.erase(0, pos+1);
             }
-            wordCount = stoi(firstNumber, nullptr, 10);
-            docCount = stoi(secondNumber, nullptr, 10);
             int x = str_hash(currWord.getPrev()+currWord.getWord());
             if(x<0){
                 x = -1*x;

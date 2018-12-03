@@ -162,7 +162,7 @@ void word::addDoc(string docName)
     //loop through documents to see if the document is already contained
     bool found = false;
     int loc = -1;
-    for (int i = 0; i < documents.size(); i++)
+    for (unsigned int i = 0; i < documents.size(); i++)
     {
         if (documents[i].getFileName().compare(docName)==0)
         {
@@ -189,7 +189,7 @@ void word::addDoc(docu& doc)
 {
     bool found = false;
     int loc;
-    for (int i = 0; i < documents.size(); i++)
+    for (unsigned int i = 0; i < documents.size(); i++)
     {
         if (documents[i].getFileName().compare(doc.getFileName()) == 0)
         {
@@ -215,10 +215,10 @@ vector<docu> word::returnDocVector(){
 word& word::operator &(const word& val)
 {
     thisWord = thisWord + "&" + val.thisWord;
-    for(int i = 0; i < documents.size(); i++)
+    for(unsigned int i = 0; i < documents.size(); i++)
     {
         bool found = false;
-        for(int j = 0; j < val.documents.size(); j++)
+        for(unsigned int j = 0; j < val.documents.size(); j++)
         {
             if (documents[i].getFileName().compare(val.documents[j].getFileName()) == 0)
             {
@@ -238,10 +238,10 @@ word& word::operator &(const word& val)
 word& word::operator |(const word& val)
 {
     thisWord = thisWord + "|" + val.thisWord;
-    for(int i = 0; i < val.documents.size(); i++)
+    for(unsigned int i = 0; i < val.documents.size(); i++)
     {
         bool found = false;
-        for (int j = 0; j < documents.size(); j++)
+        for (unsigned int j = 0; j < documents.size(); j++)
         {
             if (documents[j].getFileName().compare(val.documents[i].getFileName()) == 0)
             {
@@ -262,10 +262,10 @@ word& word::logicalNot(const word& val)
 {
 
     thisWord = thisWord + "~" + val.thisWord;
-    for(int i = 0; i < documents.size(); i++)
+    for(unsigned int i = 0; i < documents.size(); i++)
     {
         bool found = false;
-        for(int j = 0; j < val.documents.size(); j++)
+        for(unsigned int j = 0; j < val.documents.size(); j++)
         {
             if (documents[i].getFileName().compare(val.documents[j].getFileName()) == 0)
             {
@@ -285,7 +285,7 @@ word& word::logicalNot(const word& val)
 int word::getNumUses()
 {
     int uses = 0;
-    for (int i = 0; i < documents.size(); i++)
+    for (unsigned int i = 0; i < documents.size(); i++)
     {
         uses+= documents[i].getUseCount();
     }

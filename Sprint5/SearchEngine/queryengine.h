@@ -60,7 +60,7 @@ public:
      * @param wordTracker - word that holds documents
      * @param documents - top 15 document vector
      */
-    void calculateTop(word& wordTracker, docu documents[]);
+    void calculateTop(word& wordTracker, vector<docu>& documents);
     /**
      * @brief printDoc - prints info about a document
      * @param document - the document to print
@@ -72,6 +72,7 @@ public:
      * @param y - second document
      */
     void swapDocs(docu& x, docu& y);
+    void printFullDoc(string path);
 };
 
 #endif // QUERYENGINE_H

@@ -34,7 +34,7 @@ Parser::Parser(string p, char* st, string ex)
 }
 
 
-/*
+/**
  * parse handles all parse functionality. Reads all files to be parsed from directory into vector of strings,
  * then iterates through vector. FIles are opened and read into a DOM tree, from which the html attribrute is
  * retreived and passed to HTML parser to be parsed into Tree data structure
@@ -47,7 +47,8 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
     map<string, string> stemmap;
 
     vector<string> files = get_files_at_path_with_extn();
-
+    if(files.size() == 0)
+        cout << "Incorrect file path selected" << endl;
 
 
     for(unsigned int j = 0; j < 100/*files.size()*/; j++) {
@@ -70,11 +71,14 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
             iFile.close();
 
         } //end iFile is_open
+        else {
+            cout << "File Path not correct: " << this->getPath()+"/"+files[j] << endl;
+        }
     } //end for loop
     return files.size();
 } //end parse function
 
-/*
+/**
  * takes string representing the HTML document, file name, integer count for total words parsed,
  * and a map for the stemmed words. The html is parsed using character comparisons, and strings
  * are built until spaces are found. At that point tags are parsed out, and if a string remains
@@ -90,7 +94,7 @@ void Parser::parseHTML(string html, string fileN, int& count, map<string, string
             if(checkPunct(html[j]))
                 word += html[j];
         } else {
-            //only do shit if string is != ""
+            //only do stuff if string is != ""
             if(!word.empty()) {
                 find = word.find_last_of(">");
                 if(find != -1)

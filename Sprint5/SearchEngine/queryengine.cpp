@@ -272,7 +272,8 @@ void QueryEngine::printResults( word &wordTracker)
     bool looking = true;
     while(looking)
     {
-        docu documents[15];
+        //docu documents[15];
+        vector<docu> documents;
         calculateTop(wordTracker, documents);
         for (int i = 0; i < 15; i++)
         {
@@ -296,16 +297,30 @@ void QueryEngine::printResults( word &wordTracker)
             try
             {
             responseI = stoi(response, nullptr, 10);
+            responseI-=1;
+            printFullDoc(documents[responseI].getFileName());
             }
             catch(exception e)
             {
                 cout << "Not a valid entry" << endl;
             }
+            cin.ignore();
+            string thing;
+            cout << "press/type anything to go back" << endl;
+            cin >> thing;
+            transform(thing.begin(), thing.end(), thing.begin(), ::tolower);
+            if(thing.compare("mark") == 0) {
+                cout << "Fontenot" << endl;
+            } else if(thing.compare("disappointment") == 0){
+                cout << "You didn't enter ENTER but that's okay, I'm not mad I'm just disappointed" << endl;
+            } else if(thing.compare("jake") == 0) {
+                cout << "This runs on Jenkins" << endl;
+            }
         }
     }
 }
 
-void QueryEngine::calculateTop(word &wordTracker, docu documents[15])
+void QueryEngine::calculateTop(word &wordTracker, vector<docu>& documents)
 {
     for (int i = 0; i < wordTracker.getNumDocs() -1; i++)
     {
@@ -320,7 +335,8 @@ void QueryEngine::calculateTop(word &wordTracker, docu documents[15])
     for (int i = 0; i < 15; i++)
     {
         if (i < wordTracker.getNumDocs())
-            documents[i] = wordTracker.getDoc(i);
+            documents.push_back(wordTracker.getDoc(i));
+            //documents[i] = wordTracker.getDoc(i);
     }
 }
 
@@ -359,6 +375,7 @@ void QueryEngine::printDoc(docu document)
             cout << doc["resource_uri"].GetString() << endl;
         else
             cout << "Not Found" << endl;
+
 
         printDAndP(doc["html"].GetString());
     }
@@ -430,3 +447,57 @@ void QueryEngine::getPorD(string html, int &j, string &raw, string thing) {
         j++;
     }
 } //end getP
+
+void QueryEngine::printFullDoc(string path) {
+    ifstream iFile(path);
+    if (iFile.is_open())
+    {
+        Document doc;
+        streampos file_length = iFile.tellg();
+        iFile.seekg(0, ios::end);
+        file_length = iFile.tellg() - file_length;
+        long file_len = (long)file_length;
+        //cout<<"file length:"<<file_length<<endl;
+        iFile.clear();
+        iFile.seekg(0, ios::beg);
+        char str[file_len];
+        iFile.read(str, file_len);
+        doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
+
+
+        string raw;
+        int j = 0;
+        int numOfWords = 0;
+        string toPrint = "";
+        bool flag = true;
+
+        if(doc["plain_text"].IsString() && strcmp(doc["plain_text"].GetString(), "") != 0) {
+                raw = doc["plain_text"].GetString();
+                while(flag && j<raw.length()) {
+                    if(isspace((int)raw[j]) == 0) {
+                            toPrint += raw[j];
+                    } else {
+                        toPrint += " ";
+                        numOfWords++;
+                    }
+                    j++;
+                    if(numOfWords == 500)
+                        flag = false;
+                }
+        } else {
+            raw = doc["html"].GetString();
+            while(flag && j<raw.length()) {
+                if(isspace((int)raw[j]) == 0) {
+                        toPrint += raw[j];
+                } else {
+                    toPrint += " ";
+                    numOfWords++;
+                }
+                j++;
+                if(numOfWords == 300)
+                    flag = false;
+            }
+        }
+        cout << toPrint << endl;
+    }
+} //end printFullDoc

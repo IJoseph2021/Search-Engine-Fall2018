@@ -23,21 +23,32 @@
 
 using namespace std;
 
-
+/** Mode that allows users to clear the current index and parse additional files
+ * @brief maintenanceMode
+ * @param[in,out] avS AVLTree index for single word searches
+ * @param[in,out] haS HashTable index for single word searches
+ * @param[in,out] avD AVLTree index for double word searches
+ * @param[in,out] haD HashTable index for double word searches
+ * @param[in,out] type controls which data structure is used for searching
+ * @param[in,out] wordCount keeps track of current number of parsed words
+ * @param[in,out] fileCount keeps track of current number of files parsed
+ */
 void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool &type, int &wordCount, int &fileCount);
+
+/** Mode that allows users to choose which data structure to use, search documents, and print some stats on the search engine
+ * @brief userMode
+ * @param[in,out] avS AVLTree index for single word searches
+ * @param[in,out] haS HashTable index for single word searches
+ * @param[in,out] avD AVLTree index for double word searches
+ * @param[in,out] haD HashTable index for double word searches
+ * @param[in,out] type controls which data structure is used for searching
+ * @param[in,out] wordCount keeps track of current number of parsed words
+ * @param[in,out] fileCount keeps track of current number of files parsed
+ */
 void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool &type, int &wordCount, int &fileCount);
 
 int main(int argc, char* argv[])
 {
-//    cout << "PARSING DOCS" << endl;
-
-//    int x = 0;
-
-//    clock_t start;
-//    float duration;
-//    start = clock();
-//    Parser dirParser(argv[1], "../StopWordList.txt");
-
     int fileCount = 0;
     int wordCount = 0;
 
@@ -50,26 +61,18 @@ int main(int argc, char* argv[])
 
     avlDouble->readIndexWithPrev(wordCount, fileCount);
     avlSingle->readIndexNoPrev(wordCount, fileCount);
-//    int numFiles = dirParser.parse(x, fr);
-//    duration = (clock() - start) / (float) CLOCKS_PER_SEC;
 
-//    string adju = argv[2];
-//    Porter2Stemmer::stem(adju);
-
-//    cout << "Number of words parsed: " << x << endl;
-//    cout << "Number of unique words: " << fr->returnSize() << endl;
-//    cout << "Number of documents parsed: " << numFiles << endl;
-//    cout << "Number of documents " << argv[2] << " was found in: ";
-//    int numDocs = fr->findWord(adju).getNumDocs();
-//    cout << numDocs << endl;
-//    cout<<"time: "<<duration<<endl;
-//    fr->clearStuff();
-//    delete fr;
     int choice;
     bool flag = true;
     while(flag) {
         cout << "Welcome to the Rule of Three's Search Engine!" << endl;
-        cout << "Select your mode (Enter an int): \n\n1. Maitenance Mode \n2. User Mode \n3. Exit" << endl;
+
+        if(type)
+            cout << "(Currently using an AVLTree)" << endl;
+        else
+            cout << "(Currently using a HashTable)" << endl;
+
+        cout << "Select your mode (Enter an int): \n1. Maitenance Mode \n2. User Mode \n3. Exit \nEnter Choice: ";
         cin >> choice;
 
         switch(choice) {
@@ -93,7 +96,12 @@ void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, Index
     bool maitFlag = true;
     int maitChoice;
     while(maitFlag) {
-        cout << "1. Add Opinions to Index \n2. Clear the Index \n3. Exit" << endl;
+        cout << "\n\n MAITENANCE MODE" << endl;
+        if(type)
+            cout << "(Currently using an AVLTree)" << endl;
+        else
+            cout << "(Currently using a HashTable)" << endl;
+        cout << "1. Add Opinions to Index \n2. Clear the Index \n3. Exit \nEnter Choice: ";
         cin >> maitChoice;
 
         switch(maitChoice) {
@@ -102,9 +110,10 @@ void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, Index
             string path;
             cin >> path;
             Parser dirParser(path, "../StopWordList.txt");
+            cout << "PARSING DOCS..." << endl;
             if(type) {
                 fileCount += dirParser.parse(wordCount, avD);           //print
-                ofstream oFile("../Index.txt");
+                ofstream oFile("../Index.txt"); //"../../../Index.txt"
                 //avD->setWords(wordCount);
                 //avD->setDocs(fileCount);
                 avD->printIndex(oFile, wordCount, fileCount);
@@ -113,7 +122,7 @@ void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, Index
                 oFile.close();
             } else {
                 fileCount += dirParser.parse(wordCount, haD);
-                ofstream oFile("../Index.txt");
+                ofstream oFile("../Index.txt"); //"../../../Index.txt"
                 //haD->setWords(wordCount);
                 //haD->setDocs(fileCount);
                 haD->printIndex(oFile, wordCount, fileCount);
@@ -125,11 +134,13 @@ void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, Index
         } //case 1
         case 2: {
             if(type) {
+                cout << "Clearing AVLTree..." << endl;
                 avS->clearStuff();
                 avD->clearStuff();
                 wordCount = 0;
                 fileCount = 0;
             } else {
+                cout << "Clearing HashTable..." << endl;
                 haS->clearStuff();
                 haD->clearStuff();
                 wordCount = 0;
@@ -145,6 +156,7 @@ void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, Index
             cout << "You entered an invalid number \n\n" << endl;
         } //end switch
     } //end while
+    cout << endl << endl;
 } //end maitenance mode
 
 
@@ -152,26 +164,25 @@ void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace*
     bool userFlag = true;
     int userChoice;
     while(userFlag) {
-        cout << "1. Choose Which Data Structure to use \n2. Search any (properly formatted) query \n3. Get Statistics about our Search Engine \n4. Exit" << endl;
+        cout << "\n\n USER MODE \n1. Choose Which Data Structure to use \n2. Search any (properly formatted) query \n3. Get Statistics about our Search Engine \n4. Exit" << endl;
         cin >> userChoice;
 
         switch(userChoice) {
         case 1: {
-            cout << "Do you want a(n) \n1. AVLTree \n2. Hash Table" << endl;
+            if(type)
+                cout << "\n\n(Currently using an AVLTree)" << endl;
+            else
+                cout << "\n\n(Currently using a HashTable)" << endl;
+            cout << "Do you want a(n) \n1. AVLTree \n2. Hash Table \nEnter Choice: ";
             int dataStruc;
             cin >>dataStruc;
             if(dataStruc == 1) {
                 type = true;
                 if(avD->isEmpty()) {
+                    cout << "AVLTree currently empty, LOADING..." << endl;
                     //Parser dirParser("../../../scotus", "../StopWordList.txt");
                     wordCount = 0;
                     fileCount = 0;
-                    //fileCount = dirParser.parse(wordCount, avD);
-
-                    //avD->setWords(wordCount);
-                    //avD->setDocs(fileCount);
-                    //avD->printIndex(oFile);
-                    //avS->clearStuff();
                     avD->readIndexWithPrev(wordCount, fileCount);
                     avS->readIndexNoPrev(wordCount, fileCount);
                     //oFile.close();
@@ -179,15 +190,10 @@ void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace*
             } else if(dataStruc == 2) {
                 type = false;
                 if(haD->isEmpty()) {
+                    cout << "HashTable currently empty, LOADING..." << endl;
                     //Parser dirParser("../../../scotus", "../StopWordList.txt");
                     wordCount = 0;
                     fileCount = 0;
-                    //fileCount = dirParser.parse(wordCount, haD);
-                    //ofstream oFile("Index.txt");
-                    //haD->setWords(wordCount);
-                    //haD->setDocs(fileCount);
-                    //haD->printIndex(oFile);
-                    //haS->clearStuff();
                     haD->readIndexWithPrev(wordCount, fileCount);
                     haS->readIndexNoPrev(wordCount, fileCount);
                     //oFile.close();
@@ -203,8 +209,9 @@ void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace*
             break;
         } //case 2
         case 3: {
-            cout << "Rule of Three Search Engine Statistics" << endl;
+            cout << "\nRule of Three Search Engine Statistics" << endl;
             cout << "Total Number of Opinions Indexed: " << fileCount << endl;
+            cout << "Total Number of Words Indexed: " << wordCount << endl;
             int avg = wordCount/fileCount;
             cout << "Average Number of Words Indexed per Opinion: " << avg << endl;
             break;
@@ -217,4 +224,5 @@ void userMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace*
             cout << "You entered an invalid number \n\n" << endl;
         } //end switch
     } //end while
+    cout << endl << endl;
 } //end userMode
