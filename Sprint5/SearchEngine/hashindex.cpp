@@ -220,12 +220,12 @@ void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
 
         for(int i = j; i<file_len; i++){
             while(str[i] != '|'){
-                thisWord = thisWord + str[i];
+                thisWord += str[i];
                 i++;
             }
             i++;
             while(str[i] != '|'){
-                prev = prev + str[i];
+                prev += str[i];
                 i++;
             }
             i += 3;
