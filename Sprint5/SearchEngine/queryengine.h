@@ -11,7 +11,6 @@
 #include <iostream>
 #include "StemmerFiles/porter2_stemmer.h"
 #include <myhtml/api.h>
-#include "docu.h"
 #include "stopper.h"
 #include "rapidjson.h"
 #include "document.h"
@@ -60,18 +59,18 @@ public:
      * @param wordTracker - word that holds documents
      * @param documents - top 15 document vector
      */
-    void calculateTop(word& wordTracker, vector<docu>& documents);
+    void calculateTop(word& wordTracker, vector<string> &documents);
     /**
      * @brief printDoc - prints info about a document
      * @param document - the document to print
      */
-    void printDoc(docu document);
+    void printDoc(string document);
     /**
      * @brief swapDocs - swaps the order of two documents in a word for bubble sort
      * @param x - first document
      * @param y - second document
      */
-    void swapDocs(docu& x, docu& y);
+    void swapDocs(string& x, string& y);
     void printFullDoc(string path);
 };
 

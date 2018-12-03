@@ -64,6 +64,7 @@ int main(int argc, char* argv[])
 
     int choice;
     bool flag = true;
+
     while(flag) {
         cout << "Welcome to the Rule of Three's Search Engine!" << endl;
 

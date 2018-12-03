@@ -4,7 +4,6 @@
 #include "avlindex.h"
 #include "indexerface.h"
 #include "word.h"
-#include "docu.h"
 #include <vector>
 #include <string>
 #include <exception>
@@ -51,7 +50,7 @@ vector<string> AVLIndex::findDocWithWord(string a){
     //else return an empty vector
     catch (exception e){
         cout<<"Value not in tree [in find()]"<<endl;
-        vector <docu> c;
+        vector <string> c;
         return c;
     }
 }
@@ -153,11 +152,7 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
                 int pos = docs.find('|');
                 string thisDoc = docs.substr(0, pos);
                 docs.erase(0, pos+1);
-                pos = docs.find('|');
-                int uses = stoi(docs.substr(0, pos), nullptr, 10);
-                docs.erase(0,pos+1);
-                docu doc(thisDoc, uses);
-                currWord.addDoc(doc);
+                currWord.addDoc(thisDoc);
                 pos = docs.find('|');
                 docs.erase(0, pos+1);
             }
@@ -232,11 +227,7 @@ void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
                 int pos = docs.find('|');
                 string thisDoc = docs.substr(0, pos);
                 docs.erase(0, pos+1);
-                pos = docs.find('|');
-                int uses = stoi(docs.substr(0, pos), nullptr, 10);
-                docs.erase(0,pos+1);
-                docu doc(thisDoc, uses);
-                currWord.addDoc(doc);
+                currWord.addDoc(thisDoc);
                 pos = docs.find('|');
                 docs.erase(0, pos+1);
             }

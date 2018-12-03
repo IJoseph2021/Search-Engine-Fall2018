@@ -5,7 +5,6 @@
 #include "hashtable.h"
 #include "indexerface.h"
 #include "word.h"
-#include "docu.h"
 #include <vector>
 #include <string>
 #include <exception>
@@ -45,7 +44,7 @@ void HashIndex::insert(string val, string prev, string docname){
     }
 }
 
-vector <docu> HashIndex::findDocWithWord(string a){
+vector <string> HashIndex::findDocWithWord(string a){
     //make temp object to allow search in tree
     word b(a, "Fontenot");
     hash<string>str_hash;
@@ -60,7 +59,7 @@ vector <docu> HashIndex::findDocWithWord(string a){
     //else return an empty vector
     catch (exception e){
         cout<<"Value not in tree [in find()]"<<endl;
-        vector <docu> c;
+        vector <string> c;
         return c;
     }
 }
@@ -158,11 +157,7 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
                 int pos = docs.find('|');
                 string thisDoc = docs.substr(0, pos);
                 docs.erase(0, pos+1);
-                pos = docs.find('|');
-                int uses = stoi(docs.substr(0, pos), nullptr, 10);
-                docs.erase(0,pos+1);
-                docu doc(thisDoc, uses);
-                currWord.addDoc(doc);
+                currWord.addDoc(thisDoc);
                 pos = docs.find('|');
                 docs.erase(0, pos+1);
             }
@@ -241,11 +236,7 @@ void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
                 int pos = docs.find('|');
                 string thisDoc = docs.substr(0, pos);
                 docs.erase(0, pos+1);
-                pos = docs.find('|');
-                int uses = stoi(docs.substr(0, pos), nullptr, 10);
-                docs.erase(0,pos+1);
-                docu doc(thisDoc, uses);
-                currWord.addDoc(doc);
+                currWord.addDoc(thisDoc);
                 pos = docs.find('|');
                 docs.erase(0, pos+1);
             }

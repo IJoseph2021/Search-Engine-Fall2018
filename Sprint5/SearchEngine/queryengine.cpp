@@ -273,7 +273,7 @@ void QueryEngine::printResults( word &wordTracker)
     while(looking)
     {
         //docu documents[15];
-        vector<docu> documents;
+        vector<string> documents;
         calculateTop(wordTracker, documents);
         for (int i = 0; i < 15; i++)
         {
@@ -298,7 +298,7 @@ void QueryEngine::printResults( word &wordTracker)
             {
             responseI = stoi(response, nullptr, 10);
             responseI-=1;
-            printFullDoc(documents[responseI].getFileName());
+            printFullDoc(documents[responseI]);
             }
             catch(exception e)
             {
@@ -320,13 +320,13 @@ void QueryEngine::printResults( word &wordTracker)
     }
 }
 
-void QueryEngine::calculateTop(word &wordTracker, vector<docu>& documents)
+void QueryEngine::calculateTop(word &wordTracker, vector<string>& documents)
 {
     for (int i = 0; i < wordTracker.getNumDocs() -1; i++)
     {
         for (int j = 0; j < wordTracker.getNumDocs() - i - 1; j++)
         {
-            if (wordTracker.getDoc(j).getUseCount() < wordTracker.getDoc(j+1).getUseCount())
+            if (wordTracker.getDocUses(j)< wordTracker.getDocUses(j+1))
             {
                swapDocs(wordTracker.getLitDoc(j), wordTracker.getLitDoc(j+1));
             }
@@ -340,19 +340,19 @@ void QueryEngine::calculateTop(word &wordTracker, vector<docu>& documents)
     }
 }
 
-void QueryEngine::swapDocs(docu& x, docu& y)
+void QueryEngine::swapDocs(string &x, string &y)
 {
-    docu temp = x;
+    string temp = x;
     x = y;
     y = temp;
 }
 
-void QueryEngine::printDoc(docu document)
+void QueryEngine::printDoc(string document)
 {
-    ifstream iFile(document.getFileName());
+    ifstream iFile(document);
     if (iFile.is_open())
     {
-        cout << document.getFileName() << endl;
+        cout << document << endl;
         Document doc;
         streampos file_length = iFile.tellg();
         iFile.seekg(0, ios::end);

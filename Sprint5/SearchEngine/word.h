@@ -106,7 +106,7 @@ public:
      * @brief returnDocVector - returns the entire document vector
      * @return - returns the documents vector
      */
-    vector<string> returnDocVector();
+    vector<string>& returnDocVector();
     /**
      * @brief operator & - logical AND that combines two words' document vectors
      * only keeping documents contained in both words

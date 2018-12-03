@@ -5,7 +5,6 @@
 #include "hashtable.h"
 #include "indexerface.h"
 #include "word.h"
-#include "docu.h"
 #include <vector>
 #include <string>
 #include <exception>

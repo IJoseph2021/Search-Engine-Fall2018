@@ -104,9 +104,9 @@ ostream& operator<<(ostream& out, const word& w)
     for (int i = 0; i < w.getNumDocs(); i++)
     {
         out << "-|";
-        docu tempDoc = w.getDoc(i);
-        out << tempDoc;
+        out << w.getDoc(i);
     }
+    out << "|";
     return out;
 }
 
@@ -150,7 +150,7 @@ word& word::operator &(const word& val)
         {
             if (documents[i].compare(val.documents[j]) == 0)
             {
-                documents.erase(documents[i--]);
+                documents.erase(documents.begin() + i--);
                 break;
             }
         }
@@ -190,11 +190,16 @@ int word::getNumUses()
 
 int word::getDocUses(int x)
 {
-    int found;
-    for (int i = 0; i < documents.length(); i++)
+    int found = 0;
+    for (int i = 0; i < documents.size(); i++)
     {
-        if (documents[x].compare(docuemnts[i]))
+        if (documents[x].compare(documents[i]))
             found++;
     }
     return found;
+}
+
+vector<string>& word::returnDocVector()
+{
+    return documents;
 }
