@@ -9,7 +9,6 @@ INCLUDEPATH += $$PWD/../../JSON
 SOURCES += \
     StemmerFiles/porter2_stemmer.cpp \
     main.cpp \
-    docu.cpp \
     word.cpp \
     stopper.cpp \
     avlindex.cpp \
@@ -27,7 +26,6 @@ HEADERS += \
     StemmerFiles/porter2_stemmer.h \
     avltree.h \
     indexerface.h \
-    docu.h \
     word.h \
     stopper.h \
     avlindex.h \

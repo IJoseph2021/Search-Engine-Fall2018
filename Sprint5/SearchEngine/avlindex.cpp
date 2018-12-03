@@ -41,7 +41,7 @@ void AVLIndex::insert(string val, string prev, string docname){
     //wordTree.insert(a);
 }
 
-vector <docu> AVLIndex::findDocWithWord(string a){
+vector<string> AVLIndex::findDocWithWord(string a){
     //make temp object to allow search in tree
     word b(a, "Fontenot");
     //if an object of that word is found, then return that object's vector

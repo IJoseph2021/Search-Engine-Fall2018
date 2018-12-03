@@ -14,7 +14,6 @@
 
 #include <string>
 #include "word.h"
-#include "docu.h"
 #include <vector>
 
 
@@ -43,7 +42,7 @@ public:
      * @param a - thisWord to find
      * @return - returns the full list of documents
      */
-    virtual vector<docu> findDocWithWord(std::string a) = 0;
+    virtual vector<string> findDocWithWord(std::string a) = 0;
     /**
      * @brief returnSize - pure virtual function that returns the number of unique words in the respective data structure
      * @return - returns an int value for the number of words

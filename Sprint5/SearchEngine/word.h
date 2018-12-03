@@ -3,7 +3,6 @@
 #ifndef WORD_H
 #define WORD_H
 #include <vector>
-#include "docu.h"
 #include <string>
 #include <iostream>
 
@@ -16,7 +15,7 @@ class word
 private:
     string thisWord; ///!< value of the word
     string previous; ///!< value of the previous word
-    vector<docu> documents; ///!< vector of documents the word appears in
+    vector<string> documents; ///!< vector of documents the word appears in
 public:
     word();
     /**
@@ -90,13 +89,13 @@ public:
      * @param x - position to get document from
      * @return - retuns a const document copy
      */
-    docu getDoc(int x) const;
+    string getDoc(int x) const;
     /**
      * @brief getLitDoc - gets a literal document from the vector to allow editing
      * @param x - position to get document from
      * @return  - returns a literal document
      */
-    docu& getLitDoc(int x);
+    string& getLitDoc(int x);
     /**
      * @brief addDoc - adds a document to the word from its name, if alread contained the
      * use count of the document is incremented
@@ -104,17 +103,10 @@ public:
      */
     void addDoc(string docName);
     /**
-     * @brief addDoc - adds a document to the word, if the document path is alread contained the
-     * use count of the document is incremented
-     * @param doc - document to add
-     */
-
-    void addDoc(docu& doc);
-    /**
      * @brief returnDocVector - returns the entire document vector
      * @return - returns the documents vector
      */
-    vector<docu> returnDocVector();
+    vector<string> returnDocVector();
     /**
      * @brief operator & - logical AND that combines two words' document vectors
      * only keeping documents contained in both words
@@ -137,6 +129,7 @@ public:
      */
     word& logicalNot(const word& val);
     int getNumUses();
+    int getDocUses(int x);
 };
 
 #endif // WORD_H

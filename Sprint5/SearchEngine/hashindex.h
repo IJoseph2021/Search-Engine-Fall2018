@@ -52,7 +52,7 @@ public:
      * @param a - thisWord to find
      * @return - returns the full list of documents
      */
-    vector<docu> findDocWithWord(string a);
+    vector<string> findDocWithWord(string a);
     /**
      * @brief returnSize - overloaded virtual function that returns the number of unique words in the hash
      * @return - returns an int value for the number of words
