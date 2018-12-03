@@ -58,13 +58,13 @@ public:
      */
     word& operator+(const word& val);
     /**
-     * @brief operator < - overloaded < only compares this word then previous word alphabetically
+     * @brief operator < - overloaded < compares primarily this word then previous word alphabetically
      * @param val - word to compare against
      * @return - returns a bool
      */
     bool operator<(const word& val);
     /**
-     * @brief operator > - overloaded > only compares this word then previous word alphabetically
+     * @brief operator > - overloaded > compares primarily this word then previous word alphabetically
      * @param val- word to compare against
      * @return - returns a bool
      */

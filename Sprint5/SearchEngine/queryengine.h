@@ -21,10 +21,18 @@ class QueryEngine
 {
 private:
     /**
-     * @brief printDAndP - reads and prints a documents date and parties
+     * @brief printDAndP - prints a documents date and parties
      * @param html - html of the document info
      */
     void printDAndP(string html);
+    /**
+     * getPorD - reads a document from a filepath and gets either the parties involved in the
+     * case or the date of the case. Both can be accomplished with the same function because they use the same logic
+     * @param html - html to parse
+     * @param j - current subscript for the iterator
+     * @param raw - raw html
+     * @param thing - determines if searching for parties or date
+     */
     void getPorD(string html, int &j, string &raw, string thing);
     //void getD(string html, int &j, string &raw);
 public:

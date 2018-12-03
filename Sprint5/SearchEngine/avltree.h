@@ -147,7 +147,7 @@ public:
      */
     void printInOrder(ostream &out);
     /**
-     * @brief insert - public insert funtion to call private recursive insert on root
+     * @brief insert - public insert function to call private recursive insert on root
      * @param val - value to add to tree
      */
     void insert(fontenot& val);
@@ -169,7 +169,7 @@ public:
      */
     void remove(fontenot val);
     /**
-     * @brief find - public find function to call private find
+     * @brief find - public find function to call private recursive find
      * @param val - value to find
      * @return - returns the node data as a literal to allow access
      */
@@ -183,8 +183,8 @@ public:
     TreeNode<fontenot>* findStar(fontenot val);
     int returnNumberNodes();
     /**
-     * @brief printLevelOrder - public function to print the tree in order smallest to largest by level starting at root.
-     * This is optimal for reading the tree back from a file
+     * printLevelOrder - public function to print the tree in order smallest to largest by level starting at root.
+     * This is optimal for reading the tree back from a file. Iterates through the level, printing all nodes on that level left to right.
      * @param out - ostream to print to
      */
     void printLevelOrder(ostream& out);
@@ -198,14 +198,16 @@ private:
      */
     void printInOrder(ostream& out, TreeNode<fontenot>* t);
     /**
-     * @brief printLevel - prints a given level of the tree
+     * printLevel - prints a given level of the tree by descending left then printing then right and only
+     * printing when the level is the desired level
      * @param t - current node
      * @param level - level down from root of current level
      * @param out - ostream to print to
      */
     void printLevel(TreeNode<fontenot>* t, int level, ostream& out);
     /**
-     * @brief insert - recursive insertion function
+     * insert - recursive insertion function that descends the tree by simple comparisons, adding
+     * the value at the desired node then balancing as the stack unwinds
      * @param val - value to insert
      * @param t - current node
      */
@@ -216,40 +218,42 @@ private:
     void doubleWithRightChild(TreeNode<fontenot>*& k3);
     int max(int l, int r);
     /**
-     * @brief height - get the height of a given node or if uninitialized return -1
+     * @brief height - get the height of a given node or if the treeNode uninitialized return -1
      * @param t - node to get height of
      * @return - return height as an int
      */
     int height(TreeNode<fontenot> *t);
     /**
-     * @brief contains - private recursive function to see if a value is contained in the tree already
+     * @brief contains - private recursive function to see if a value is contained in the tree already by
+     * using the find function
      * @param t - current node
      * @param val - value to find
      * @return - returns a bool found
      */
     bool contains(TreeNode<fontenot>*&t, fontenot& val);
     /**
-     * @brief remove - removes a leaf recursively
+     * @brief remove - removes a leaf recursively or returns an error if the value is not on a leaf node
      * @param toRemove - value to remove
      */
     void remove(TreeNode<fontenot>*& toRemove);
     /**
-     * @brief find - private recursive find function
+     * find - private recursive find function which desends the tree using simple comparisons
+     * and throws an error if the value is not found in the tree
      * @param val - value to find
      * @param t - current treeNOde
      * @return - returns the tree node as a literal
      */
     TreeNode<fontenot>& find(fontenot &val, TreeNode<fontenot> *t);
     /**
-     * @brief findStar - private recursive find pointer function
+     * @brief findStar - private recursive find pointer function that uses the same logic as find but returns a pointer
      * @param val - value to find
      * @param t - current treeNode
      * @return - returns a pointer to a node to allow saving and editing without repeated search
      */
     AVLTree<fontenot>::TreeNode<fontenot> *findStar(fontenot &val, TreeNode<fontenot> *t);
     /**
-     * @brief copyNodes - private function used for copying a tree which deep copies
-     * all nodes in a given tree recursively to a new root
+     * copyNodes - private function used for copying a tree which deep copies
+     * all nodes in a given tree recursively to a new root using in order traversal
      * @param t - current node
      * @return  - returns the new root treeNode
      */
