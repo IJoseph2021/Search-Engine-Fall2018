@@ -20,6 +20,7 @@ private:
         TreeNode<mark>* left; ///!< pointer to the node to the left
         TreeNode<mark>* right; ///!< pointer to the node to the right
         int height; ///!< height of a given tree node
+        bool check;
 
         /**
          * @brief TreeNode - default constructor initializes height to 0 and pointers to nullptr

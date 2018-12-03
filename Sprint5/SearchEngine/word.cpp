@@ -65,7 +65,7 @@ word::~word()
 //adding any new documents and incrementing existing document's use counts
 word& word::operator +(const word& val)
 {
-    /*//loop through all docs in the rhs word and see if they are already contained
+    //loop through all docs in the rhs word and see if they are already contained
     //set found flag and location if found
     for (int i = 0; i < val.getNumDocs(); i++)
     {
@@ -90,7 +90,7 @@ word& word::operator +(const word& val)
         {
             documents.push_back(val.getDoc(i));
         }
-    }*/
+    }
     return *this;
 }
 
@@ -120,11 +120,19 @@ bool word::operator > (const word& val)
 //overloaded comparison operator to see if two words have the same word string
 bool word::operator==(const word& val)
 {
-    if ((thisWord.compare(val.thisWord) == 0) &&
-       (previous.compare(val.previous) == 0))
-        return true;
-    else
-        return false;
+    if(this->previous == "-Fontenot"){
+        if(thisWord.compare(val.thisWord) == 0){
+            return true;
+        }
+        else
+            return false;
+    }
+    else{
+        if ((thisWord.compare(val.thisWord) == 0) && (previous.compare(val.previous) == 0))
+            return true;
+        else
+            return false;
+    }
 }
 
 //print the previous word, this word, and document vector to ostream out
