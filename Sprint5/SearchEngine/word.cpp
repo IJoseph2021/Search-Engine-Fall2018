@@ -14,7 +14,7 @@ word::word(string curr)
 {
     previous = curr;
     thisWord = curr;
-    documents.reSize(1000);
+    documents.reSize(1);
 }
 
 //create a word with both words and the document filename
@@ -23,7 +23,7 @@ word::word(string prev, string curr, string doc)
     previous = prev;
     thisWord = curr;
     docu tempDoc(doc);
-    documents.reSize(30000);
+    documents.reSize(1);
     int x = str_hash(doc);
     if(x<0){
         x *=-1;
@@ -34,7 +34,7 @@ word::word(string prev, string curr, string doc)
 word::word(string prev, string curr){
     thisWord = curr;
     previous = prev;
-    documents.reSize(30000);
+    documents.reSize(1);
 }
 
 //copy constructor

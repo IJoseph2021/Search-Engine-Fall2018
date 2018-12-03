@@ -110,11 +110,11 @@ HashTable<mark, fontenot>::HashTable(const HashTable<mark, fontenot>& a){
     for(int i =0; i<a.capacity; i++){
         int p = a.returnCapacity();
         for(unsigned int j = 0; j<a.table[i].size(); j++){
-            /*HashNode<mark, fontenot> temp = HashNode<mark, fontenot>(a.table[i][j].returnKey(), a.table[i][j].returnValue());
-            this->table[i].push_back(temp);*/
-            mark key = a.table[i][j].returnKey();
+            HashNode<mark, fontenot> temp = HashNode<mark, fontenot>(a.table[i][j].returnKey(), a.table[i][j].returnValue());
+            this->table[i].push_back(temp);
+            /*mark key = a.table[i][j].returnKey();
             fontenot value = a.table[i][j].returnValue();
-            insertNode(key, value);
+            insertNode(key, value);*/
         }
     }
 }
@@ -132,11 +132,11 @@ HashTable<mark, fontenot>& HashTable<mark, fontenot>::operator =(const HashTable
     for(int i =0; i<a.capacity; i++){
         int p = a.returnCapacity();
         for(unsigned int j = 0; j<a.table[i].size(); j++){
-            //HashNode<mark, fontenot> temp = HashNode<mark, fontenot>(a.table[i][j].returnKey(), a.table[i][j].returnValue());
-            //this->table[i].push_back(temp);
-            mark key = a.table[i][j].returnKey();
+            HashNode<mark, fontenot> temp = HashNode<mark, fontenot>(a.table[i][j].returnKey(), a.table[i][j].returnValue());
+            this->table[i].push_back(temp);
+            /*mark key = a.table[i][j].returnKey();
             fontenot value = a.table[i][j].returnValue();
-            insertNode(key, value);
+            insertNode(key, value);*/
         }
     }
     //a.clearTable();
@@ -214,7 +214,8 @@ int HashTable<mark, fontenot>::returnSize(){
 
 template<typename mark, typename fontenot>
 void HashTable<mark, fontenot>::clearTable(){
-    table.clear();
+    vector<vector<HashNode<mark, fontenot>>>temp;
+    table.swap(temp);
 }
 
 template<typename mark, typename fontenot>

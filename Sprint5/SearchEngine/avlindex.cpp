@@ -174,6 +174,7 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
         }
         wordCount = stoi(firstNumber, nullptr, 10);
         docCount = stoi(secondNumber, nullptr, 10);
+        delete []str;
     }
 
 
@@ -248,6 +249,7 @@ void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
             wordTree.insert(currWord);
 
         }
+        delete []str;
 }
 
 bool AVLIndex::isEmpty() {
