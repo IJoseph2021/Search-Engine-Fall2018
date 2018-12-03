@@ -99,9 +99,9 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
                     {
                         i++;
                         if (type)
-                            docTracker & avS->findWord(queries[i], queries[i]);
+                            docTracker & avD->findWord(queries[i], "s34rch");
                         else
-                            docTracker & haS->findWord(queries[i], queries[i]);
+                            docTracker & haD->findWord(queries[i], "s34rch");
                     }
                 }
             }
@@ -125,9 +125,9 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
                     {
                         i++;
                         if (type)
-                            docTracker | avS->findWord(queries[i], queries[i]);
+                            docTracker | avD->findWord(queries[i], "s34rch");
                         else
-                            docTracker | haS->findWord(queries[i], queries[i]);
+                            docTracker | haD->findWord(queries[i], "s34rch");
                     }
                 }
             }
@@ -143,17 +143,17 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
                     if (twoWords)
                     {
                         if (type)
-                            docTracker.logicalNot(avS->findWord(secondWord, firstWord));
+                            docTracker.logicalNot(avD->findWord(secondWord, firstWord));
                         else
-                            docTracker.logicalNot(haS->findWord(secondWord, firstWord));
+                            docTracker.logicalNot(haD->findWord(secondWord, firstWord));
                     }
                     else
                     {
                         i++;
                         if (type)
-                            docTracker.logicalNot(avS->findWord(queries[i], queries[i]));
+                            docTracker.logicalNot(avD->findWord(queries[i], "s34rch"));
                         else
-                            docTracker.logicalNot(haS->findWord(queries[i], queries[i]));
+                            docTracker.logicalNot(haD->findWord(queries[i], "s34rch"));
                     }
                 }
             }
@@ -173,9 +173,9 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
                         else
                         {
                             if (type)
-                                docTracker = avS->findWord(queries[i], queries[i]);
+                                docTracker = avD->findWord(queries[i], "s34rch");
                             else
-                                docTracker = haS->findWord(queries[i], queries[i]);
+                                docTracker = haD->findWord(queries[i], "s34rch");
                         }
                     }
                     else if (AND)
@@ -190,9 +190,9 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
                         else
                         {
                             if (type)
-                                docTracker & avS->findWord(queries[i], queries[i]);
+                                docTracker & avD->findWord(queries[i], "s34rch");
                             else
-                                docTracker & haS->findWord(queries[i], queries[i]);
+                                docTracker & haD->findWord(queries[i], "s34rch");
                         }
                     }
                     else if (OR)
@@ -207,9 +207,9 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
                         else
                         {
                             if (type)
-                                docTracker | avS->findWord(queries[i], queries[i]);
+                                docTracker | avD->findWord(queries[i], "s34rch");
                             else
-                                docTracker | haS->findWord(queries[i], queries[i]);
+                                docTracker | haD->findWord(queries[i], "s34rch");
                         }
                     }
                     else if(NOT)
@@ -224,9 +224,9 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
                         else
                         {
                             if (type)
-                                docTracker.logicalNot(avS->findWord(queries[i], queries[i]));
+                                docTracker.logicalNot(avD->findWord(queries[i], "s34rch"));
                             else
-                                docTracker.logicalNot(haS->findWord(queries[i], queries[i]));
+                                docTracker.logicalNot(haD->findWord(queries[i], "s34rch"));
                         }
                     }
                 }
@@ -242,9 +242,9 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
                     else
                     {
                         if (type)
-                            docTracker = avS->findWord(queries[i], queries[i]);
+                            docTracker = avD->findWord(queries[i], "s34rch");
                         else
-                            docTracker = haS->findWord(queries[i], queries[i]);
+                            docTracker = haD->findWord(queries[i], "s34rch");
                     }
                 }
             }

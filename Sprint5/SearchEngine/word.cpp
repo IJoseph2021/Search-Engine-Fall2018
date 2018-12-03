@@ -112,7 +112,7 @@ bool word::operator > (const word& val)
 bool word::operator==(const word& val)
 {
     if ((thisWord.compare(val.thisWord) == 0) &&
-       (previous.compare(val.previous) == 0))
+       ((previous.compare(val.previous) == 0) || previous.compare("s34rch") == 0))
         return true;
     else
         return false;
