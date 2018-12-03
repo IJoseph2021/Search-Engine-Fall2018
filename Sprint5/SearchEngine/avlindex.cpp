@@ -9,6 +9,7 @@
 #include <string>
 #include <exception>
 #include <fstream>
+#include "hashtable.h"
 
 using namespace std;
 
@@ -41,7 +42,7 @@ void AVLIndex::insert(string val, string prev, string docname){
     //wordTree.insert(a);
 }
 
-vector <docu> AVLIndex::findDocWithWord(string a){
+HashTable<int, docu> AVLIndex::findDocWithWord(string a){
     //make temp object to allow search in tree
     word b(a, "Fontenot");
     //if an object of that word is found, then return that object's vector
@@ -51,7 +52,7 @@ vector <docu> AVLIndex::findDocWithWord(string a){
     //else return an empty vector
     catch (exception e){
         cout<<"Value not in tree [in find()]"<<endl;
-        vector <docu> c;
+        HashTable <int, docu> c;
         return c;
     }
 }
@@ -96,7 +97,7 @@ AVLIndex& AVLIndex::operator=(const AVLIndex& a){
 
 void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
 {
-    ifstream ifile ("../Index.txt");
+    ifstream ifile ("../../../FinalIndex.txt");
     streampos file_length = ifile.tellg();
     ifile.seekg(0, ios::end);
     file_length = ifile.tellg() - file_length;
@@ -125,18 +126,14 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
             j++;
         }
         j++;
-
-        wordCount = stoi(firstNumber, nullptr, 10);
-        docCount = stoi(secondNumber, nullptr, 10);
-
         for(int i = j; i<file_len; i++){
             while(str[i] != '|'){
-                thisWord = thisWord + str[i];
+                thisWord += str[i];
                 i++;
             }
             i++;
             while(str[i] != '|'){
-                prev = prev + str[i];
+                prev += str[i];
                 i++;
             }
             i = i + 3;
@@ -144,7 +141,7 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
             prev = "";
             thisWord = "";
             while(str[i] != '\n'){
-                docs = docs + str[i];
+                docs += str[i];
                 i++;
             }
             while(!docs.empty())
@@ -164,21 +161,25 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
 
             try{
                 AVLTree<word>::TreeNode<word>* temp = wordTree.findStar(currWord);
-                for (int i = 0; i < currWord.getNumDocs(); i++)
-                    temp->data.addDoc(currWord.getLitDoc(i));
+                for (int i = 0; i < currWord.getCapacity(); i++){
+                    for(int j = 0; j < currWord.getSizeCapacity(i); j++){
+                        temp->data.addDoc(currWord.getLitDoc(i, j));
+                    }
+                }
             }
             //if an object is not found with that word then add it to the tree
             catch(exception e){
                 wordTree.insert(currWord);
             }
-
         }
+        wordCount = stoi(firstNumber, nullptr, 10);
+        docCount = stoi(secondNumber, nullptr, 10);
     }
 
 
 void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
 {
-    ifstream ifile ("../Index.txt");
+    ifstream ifile ("../../../FinalIndex.txt");
     streampos file_length = ifile.tellg();
     ifile.seekg(0, ios::end);
     file_length = ifile.tellg() - file_length;
@@ -209,20 +210,20 @@ void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
         j++;
         for(int i = j; i<file_len; i++){
             while(str[i] != '|'){
-                thisWord = thisWord + str[i];
+                thisWord += str[i];
                 i++;
             }
             i++;
             while(str[i] != '|'){
-                prev = prev + str[i];
+                prev += str[i];
                 i++;
             }
             i = i + 3;
-            word currWord(thisWord, prev);
+            word currWord(prev, thisWord);
             prev = "";
             thisWord = "";
             while(str[i] != '\n'){
-                docs = docs + str[i];
+                docs += str[i];
                 i++;
             }
             while(!docs.empty())
@@ -241,15 +242,11 @@ void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
             wordCount = stoi(firstNumber, nullptr, 10);
 
             docCount = stoi(secondNumber, nullptr, 10);
-            try{
-                wordTree.find(currWord);
-                for (int i = 0; i < currWord.getNumDocs(); i++)
-                    wordTree.find(currWord).addDoc(currWord.getLitDoc(i));
-            }
+
             //if an object is not found with that word then add it to the tree
-            catch(exception e){
-                wordTree.insert(currWord);
-            }
+
+            wordTree.insert(currWord);
+
         }
 }
 

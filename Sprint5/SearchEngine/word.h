@@ -6,6 +6,8 @@
 #include "docu.h"
 #include <string>
 #include <iostream>
+#include "hashtable.h"
+#include <functional>
 
 using namespace std;
 
@@ -16,7 +18,9 @@ class word
 private:
     string thisWord; ///!< value of the word
     string previous; ///!< value of the previous word
-    vector<docu> documents; ///!< vector of documents the word appears in
+    //vector<docu> documents; ///!< vector of documents the word appears in
+    HashTable<int, docu> documents;
+    hash<string> str_hash;
 public:
     word();
     /**
@@ -81,8 +85,8 @@ public:
      * @param w - word to print
      * @return - returns the ostream to allow chained prints
      */
-    friend ostream& operator<<(ostream& out, const word& w);
-    int getNumDocs() const;
+    friend ostream& operator<<(ostream& out,  word& w);
+    int getNumDocs();
     string getPrev() const;
     string getWord() const;
     /**
@@ -90,13 +94,13 @@ public:
      * @param x - position to get document from
      * @return - retuns a const document copy
      */
-    docu getDoc(int x) const;
+    docu getDoc(int a, int b) ;
     /**
      * @brief getLitDoc - gets a literal document from the vector to allow editing
      * @param x - position to get document from
      * @return  - returns a literal document
      */
-    docu& getLitDoc(int x);
+    docu& getLitDoc(int x, int y);
     /**
      * @brief addDoc - adds a document to the word from its name, if alread contained the
      * use count of the document is incremented
@@ -114,7 +118,7 @@ public:
      * @brief returnDocVector - returns the entire document vector
      * @return - returns the documents vector
      */
-    vector<docu> returnDocVector();
+    HashTable<int, docu>& returnDocVector();
     /**
      * @brief operator & - logical AND that combines two words' document vectors
      * only keeping documents contained in both words
@@ -136,6 +140,8 @@ public:
      * @return  - reutnrs a word literal to allow chaining
      */
     word& logicalNot(const word& val);
+    int getCapacity();
+    int getSizeCapacity(int a);
     int getNumUses();
 };
 

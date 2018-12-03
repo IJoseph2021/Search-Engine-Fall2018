@@ -45,7 +45,7 @@ void HashIndex::insert(string val, string prev, string docname){
     }
 }
 
-vector <docu> HashIndex::findDocWithWord(string a){
+HashTable<int, docu> HashIndex::findDocWithWord(string a){
     //make temp object to allow search in tree
     word b(a, "Fontenot");
     hash<string>str_hash;
@@ -60,7 +60,7 @@ vector <docu> HashIndex::findDocWithWord(string a){
     //else return an empty vector
     catch (exception e){
         cout<<"Value not in tree [in find()]"<<endl;
-        vector <docu> c;
+        HashTable<int, docu> c;
         return c;
     }
 }
@@ -170,8 +170,11 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
             }
             try{
                 word* temp = wordTable.findStar(x, currWord);
-                for (int i = 0; i < currWord.getNumDocs(); i++)
-                    (*temp).addDoc(currWord.getLitDoc(i));
+                for (int i = 0; i < currWord.getCapacity(); i++){
+                    for(int j = 0; j < currWord.getSizeCapacity(i); j++){
+                        (*temp).addDoc(currWord.getLitDoc(i, j));
+                    }
+                }
             }
             //if an object is not found with that word then add it to the tree
             catch(exception e){
@@ -249,9 +252,12 @@ void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
                 x = -1*x;
             }
             try{
-                wordTable.find(x, currWord);
-                for (int i = 0; i < currWord.getNumDocs(); i++)
-                    wordTable.find(x, currWord).addDoc(currWord.getLitDoc(i));
+                //wordTable.find(x, currWord);
+                for (int i = 0; i < currWord.getCapacity(); i++){
+                    for(int j = 0; j < currWord.getSizeCapacity(i); j++){
+                        wordTable.find(x, currWord).addDoc(currWord.getLitDoc(i, j));
+                    }
+                }
             }
             //if an object is not found with that word then add it to the tree
             catch(exception e){

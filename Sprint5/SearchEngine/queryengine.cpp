@@ -307,7 +307,7 @@ void QueryEngine::printResults( word &wordTracker)
 
 void QueryEngine::calculateTop(word &wordTracker, docu documents[15])
 {
-    for (int i = 0; i < wordTracker.getNumDocs() -1; i++)
+    /*for (int i = 0; i < wordTracker.getNumDocs() -1; i++)
     {
         for (int j = 0; j < wordTracker.getNumDocs() - i - 1; j++)
         {
@@ -321,7 +321,7 @@ void QueryEngine::calculateTop(word &wordTracker, docu documents[15])
     {
         if (i < wordTracker.getNumDocs())
             documents[i] = wordTracker.getDoc(i);
-    }
+    }*/
 }
 
 void QueryEngine::swapDocs(docu& x, docu& y)

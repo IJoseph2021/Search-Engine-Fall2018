@@ -43,6 +43,13 @@ public:
     fontenot& returnValue(){
         return value;
     }
+    mark returnKey() const{
+        return key;
+    }
+
+    fontenot returnValue() const{
+        return value;
+    }
 };
 
 template<typename mark, typename fontenot>
@@ -69,11 +76,18 @@ public:
     int returnSize();
     void stats();
     void reSize(int a);
+    vector<HashNode<mark,fontenot>>& operator[](int a) ;
+    vector<HashNode<mark,fontenot>> operator[](int a) const;
+    fontenot& returnObject(int a, int b) ;
+    int returnCapacity() const;
+    bool contains(mark &key, fontenot &value) const ;
+    vector<vector<HashNode<mark, fontenot>>>& returnTable();
 };
 
 template<typename mark, typename fontenot>
 HashTable<mark, fontenot>::HashTable(){
-
+    capacity = 0;
+    size = 0;
 }
 
 template<typename mark, typename fontenot>
@@ -87,26 +101,38 @@ template<typename mark, typename fontenot>
 HashTable<mark, fontenot>::HashTable(int a){
     capacity = a;
     table.resize(capacity);
-    size = 0;
 }
 template<typename mark, typename fontenot>
 HashTable<mark, fontenot>::HashTable(const HashTable<mark, fontenot>& a){
-    this->capacity = a.capacity;
+    capacity = a.returnCapacity();
+    this->reSize(capacity);
+    this->size = a.size;
     for(int i =0; i<a.capacity; i++){
-        for(int j = 0; j<a.table[i].size(); j++){
-            this->table[i][j] = a.table[i][j];
-            this->size++;
+        int p = a.table[i].size();
+        for(unsigned int j = 0; j<a.table[i].size(); j++){
+            HashNode<mark, fontenot> *temp = new HashNode<mark, fontenot>(a.table[i][j].returnKey(), a.table[i][j].returnValue());
+            this->table[i].push_back(*temp);
+            //this->size++;
+            delete temp;
         }
     }
 }
 
 template<typename mark, typename fontenot>
+vector<vector<HashNode<mark, fontenot>>>& HashTable<mark, fontenot>:: returnTable(){
+    return table;
+}
+
+template<typename mark, typename fontenot>
 HashTable<mark, fontenot>& HashTable<mark, fontenot>::operator =(const HashTable<mark, fontenot>& a){
-    this->capacity = a.capacity;
+    capacity = a.returnCapacity();
+    this->reSize(a.returnCapacity());
+    this->size = a.size;
     for(int i =0; i<a.capacity; i++){
+        int p = a.returnCapacity();
         for(unsigned int j = 0; j<a.table[i].size(); j++){
-            this->table[i][j] = a.table[i][j];
-            this->size++;
+            HashNode<mark, fontenot> temp = HashNode<mark, fontenot>(a.table[i][j].returnKey(), a.table[i][j].returnValue());
+            this->table[i].push_back(temp);
         }
     }
     return *this;
@@ -128,16 +154,16 @@ int HashTable<mark, fontenot>::hashResize(mark &key){
 template<typename mark, typename fontenot>
 void HashTable<mark, fontenot>::insertNode(mark key, fontenot &value){
     //cout<<"key: "<<key<<endl;
-    HashNode<mark, fontenot>* temp = new HashNode<mark, fontenot>(key, value);
+    HashNode<mark, fontenot> temp = HashNode<mark, fontenot>(key, value);
     int index = hashResize(key);
     bool check = false;
     for(unsigned int i = 0; i<table[index].size(); i++){
-        if(temp->returnValue() == (table[index][i]).returnValue()){
+        if(temp.returnValue() == (table[index][i]).returnValue()){
             check = true;
         }
     }
     if(check == false){
-        table[index].push_back(*temp);
+        table[index].push_back(temp);
         size++;
     }
     else{
@@ -240,5 +266,37 @@ fontenot* HashTable<mark, fontenot>::findStar(mark& key, fontenot& value){
         }
     }
     throw logic_error("Value not in tree [in find()]");
+}
+
+template<typename mark, typename fontenot>
+vector<HashNode<mark,fontenot>>& HashTable<mark, fontenot>::operator[](int a) {
+    return table[a];
+}
+
+template<typename mark, typename fontenot>
+vector<HashNode<mark,fontenot>> HashTable<mark, fontenot>::operator[](int a) const{
+    return table[a];
+}
+
+
+template<typename mark, typename fontenot>
+fontenot& HashTable<mark, fontenot>::returnObject(int a, int b) {
+    return table[a][b].returnValue();
+}
+
+template<typename mark, typename fontenot>
+int HashTable<mark, fontenot>::returnCapacity() const{
+    return capacity;
+}
+
+template<typename mark, typename fontenot>
+bool HashTable<mark, fontenot>::contains(mark& key, fontenot& value) const {
+    int index = hashResize(key);
+    for(int i = 0; i<table[index].size(); i++){
+        if(value == table[index][i].returnValue()){
+            return true;
+        }
+    }
+    return false;
 }
 #endif // HASHTABLE_H

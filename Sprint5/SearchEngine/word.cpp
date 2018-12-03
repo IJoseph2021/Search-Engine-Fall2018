@@ -14,6 +14,7 @@ word::word(string curr)
 {
     previous = curr;
     thisWord = curr;
+    documents.reSize(30000);
 }
 
 //create a word with both words and the document filename
@@ -22,12 +23,18 @@ word::word(string prev, string curr, string doc)
     previous = prev;
     thisWord = curr;
     docu tempDoc(doc);
-    documents.push_back(tempDoc);
+    documents.reSize(30000);
+    int x = str_hash(doc);
+    if(x<0){
+        x *=-1;
+    }
+    documents.insertNode(x, tempDoc);
 }
 
 word::word(string prev, string curr){
     thisWord = curr;
     previous = prev;
+    documents.reSize(30000);
 }
 
 //copy constructor
@@ -36,6 +43,7 @@ word::word(const word& val)
     thisWord = val.thisWord;
     previous = val.previous;
     //create a temporary vector with the contents of val's vector and swap them into documents
+
     documents = val.documents;
 }
 
@@ -49,14 +57,15 @@ word& word::operator=(const word& val)
 
 word::~word()
 {
-    documents.clear();
+    //documents.clear();
+    documents.clearTable();
 }
 
 //overloaded + operator which simply merges two words by combining their document vectors,
 //adding any new documents and incrementing existing document's use counts
 word& word::operator +(const word& val)
 {
-    //loop through all docs in the rhs word and see if they are already contained
+    /*//loop through all docs in the rhs word and see if they are already contained
     //set found flag and location if found
     for (int i = 0; i < val.getNumDocs(); i++)
     {
@@ -81,7 +90,7 @@ word& word::operator +(const word& val)
         {
             documents.push_back(val.getDoc(i));
         }
-    }
+    }*/
     return *this;
 }
 
@@ -119,21 +128,37 @@ bool word::operator==(const word& val)
 }
 
 //print the previous word, this word, and document vector to ostream out
-ostream& operator<<(ostream& out, const word& w)
+ostream& operator<<(ostream& out, word& w)
 {
     out << w.getWord() << '|' << w.getPrev() << "|";
+    for(int i = 0; i<w.getCapacity(); i++){
+        for(int j = 0; j<w.getSizeCapacity(i); j++){
+            out << "-|";
+            docu tempDoc = w.getDoc(i, j);
+            out << tempDoc;
+        }
+    }
+    /*out << w.getWord() << '|' << w.getPrev() << "|";
     for (int i = 0; i < w.getNumDocs(); i++)
     {
         out << "-|";
         docu tempDoc = w.getDoc(i);
         out << tempDoc;
-    }
+    }*/
     return out;
 }
 
-int word::getNumDocs() const
+int word::getSizeCapacity(int a) {
+    return documents[a].size();
+}
+
+int word::getCapacity() {
+    return documents.returnCapacity();
+}
+
+int word::getNumDocs()
 {
-    return documents.size();
+    return documents.returnSize();
 }
 
 string word::getPrev() const
@@ -146,7 +171,7 @@ string word::getWord() const
     return thisWord;
 }
 
-docu word::getDoc(int x) const
+/*docu word::getDoc(int x) const
 {
     return documents[x];
 }
@@ -154,13 +179,35 @@ docu word::getDoc(int x) const
 docu& word::getLitDoc(int x)
 {
     return documents[x];
+}*/
+
+docu word::getDoc(int a, int b)
+{
+    return documents.returnObject(a, b);
+}
+
+docu& word::getLitDoc(int x, int y)
+{
+    return documents.returnObject(x, y);
 }
 
 //add a new document to the word's document vector with the name of docName
 void word::addDoc(string docName)
 {
+    docu a(docName);
+    int x = str_hash(docName);
+    if(x<0){
+        x = -1*x;
+    }
+    try{
+        documents.find(x, a).useCount++;
+    }
+        //if an object is not found with that word then add it to the tree
+    catch(exception e){
+        documents.insertNode(x, a);
+    }
     //loop through documents to see if the document is already contained
-    bool found = false;
+    /*bool found = false;
     int loc = -1;
     for (int i = 0; i < documents.size(); i++)
     {
@@ -181,13 +228,24 @@ void word::addDoc(string docName)
     else
     {
         documents[loc].useCount++;
-    }
+    }*/
 }
 
 //add an existing document to the word's doc vector with same logic as string version
 void word::addDoc(docu& doc)
 {
-    bool found = false;
+    int x = str_hash(doc.fileName);
+        if(x<0){
+            x = -1*x;
+        }
+        try{
+            documents.find(x, doc).useCount++;
+        }
+        //if an object is not found with that word then add it to the tree
+        catch(exception e){
+            documents.insertNode(x, doc);
+    }
+    /*bool found = false;
     int loc;
     for (int i = 0; i < documents.size(); i++)
     {
@@ -205,16 +263,16 @@ void word::addDoc(docu& doc)
     else
     {
         documents[loc].useCount++;
-    }
+    }*/
 }
 
-vector<docu> word::returnDocVector(){
+HashTable<int, docu> &word::returnDocVector(){
     return documents;
 }
 
 word& word::operator &(const word& val)
 {
-    thisWord = thisWord + "&" + val.thisWord;
+    /*thisWord = thisWord + "&" + val.thisWord;
     for(int i = 0; i < documents.size(); i++)
     {
         bool found = false;
@@ -231,13 +289,13 @@ word& word::operator &(const word& val)
             documents.erase(documents.begin() + i);
             i--;
         }
-    }
+    }*/
     return *this;
 }
 
 word& word::operator |(const word& val)
 {
-    thisWord = thisWord + "|" + val.thisWord;
+    /*thisWord = thisWord + "|" + val.thisWord;
     for(int i = 0; i < val.documents.size(); i++)
     {
         bool found = false;
@@ -254,14 +312,14 @@ word& word::operator |(const word& val)
             docu temp = val.documents[i];
             documents.push_back(temp);
         }
-    }
+    }*/
     return *this;
 }
 
 word& word::logicalNot(const word& val)
 {
 
-    thisWord = thisWord + "~" + val.thisWord;
+    /*thisWord = thisWord + "~" + val.thisWord;
     for(int i = 0; i < documents.size(); i++)
     {
         bool found = false;
@@ -278,17 +336,25 @@ word& word::logicalNot(const word& val)
             documents.erase(documents.begin() + i);
             i--;
         }
-    }
+    }*/
     return *this;
 }
 
 int word::getNumUses()
 {
     int uses = 0;
+    for (int i = 0; i < documents.returnCapacity(); i++)
+    {
+        for(int j =0; j<documents[i].size(); i++){
+            uses+= documents.returnObject(i, j).getUseCount();
+        }
+    }
+    return uses;
+    /*int uses = 0;
     for (int i = 0; i < documents.size(); i++)
     {
         uses+= documents[i].getUseCount();
     }
-    return uses;
+    return uses;*/
 }
 

@@ -64,7 +64,12 @@ bool Stopper::isStopWord(string &a){
             return true;
         }
     }*/
-    return stopWord.contains(a);
+    if(a.length()<3){
+        return true;
+    }
+    else{
+        return stopWord.contains(a);
+    }
 //    if(stopWord.find(a) != stopWord.end())
 //        return true;
 //    else
