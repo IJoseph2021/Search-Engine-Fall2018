@@ -90,6 +90,10 @@ int main(int argc, char* argv[])
         } //end switch
     } //end while
     return 0;
+    avlSingle->clearStuff();
+    avlDouble->clearStuff();
+    hashTSingle->clearStuff();
+    hashTDouble->clearStuff();
 } //end main
 
 void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool& type, int &wordCount, int &fileCount) {
