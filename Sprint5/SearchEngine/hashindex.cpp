@@ -229,7 +229,7 @@ void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
                 i++;
             }
             i = i + 3;
-            word currWord(thisWord, prev);
+            word currWord(prev, thisWord);
             prev = "";
             thisWord = "";
             while(str[i] != '\n'){

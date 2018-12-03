@@ -75,7 +75,7 @@ void QueryEngine::takeQuery(IndexerFace*& avS, IndexerFace*& haS, IndexerFace*& 
             {
                 firstWord = queries[i].substr(1, queries[i].length() -1);
                 i++;
-                secondWord = queries[i].substr(0, queries[i].length() -2);
+                secondWord = queries[i].substr(0, queries[i].length() -1);
                 Porter2Stemmer::stem(secondWord);
             }
 
