@@ -41,6 +41,7 @@ private:
      * @param[in,out] index Data structure to insert words into
      */
     void parseHTML(string html, string fileN, int& count, map<string, string>& aStem, IndexerFace*& index);
+    void parseNewHTML(string html, string fileN, int& count, map<string, string>& aStem, IndexerFace*& d, IndexerFace*& s);
 
     /** Function to stem words
      * @brief stemWord
@@ -66,6 +67,7 @@ public:
     string getPath();
     string getExt();
     int parse(int& count, IndexerFace*& index);
+    int parseNew(int& count, IndexerFace*& d, IndexerFace*& s);
 
 };
 

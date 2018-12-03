@@ -89,11 +89,11 @@ int main(int argc, char* argv[])
             cout << "You entered an invalid number" << endl;
         } //end switch
     } //end while
-    return 0;
     avlSingle->clearStuff();
     avlDouble->clearStuff();
     hashTSingle->clearStuff();
     hashTDouble->clearStuff();
+    return 0;
 } //end main
 
 void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, IndexerFace* haD, bool& type, int &wordCount, int &fileCount) {
@@ -116,22 +116,22 @@ void maintenanceMode(IndexerFace* avS, IndexerFace* haS, IndexerFace* avD, Index
             Parser dirParser(path, "../StopWordList.txt");
             cout << "PARSING DOCS..." << endl;
             if(type) {
-                fileCount += dirParser.parse(wordCount, avD);           //print
+                fileCount += dirParser.parseNew(wordCount, avD, avS);           //print
                 ofstream oFile("../Index.txt"); //"../../../Index.txt"
                 //avD->setWords(wordCount);
                 //avD->setDocs(fileCount);
                 avD->printIndex(oFile, wordCount, fileCount);
-                avS->clearStuff();
-                avS->readIndexNoPrev(wordCount, fileCount);
+                //avS->clearStuff();
+                //avS->readIndexNoPrev(wordCount, fileCount);
                 oFile.close();
             } else {
-                fileCount += dirParser.parse(wordCount, haD);
+                fileCount += dirParser.parseNew(wordCount, haD, haS);
                 ofstream oFile("../Index.txt"); //"../../../Index.txt"
                 //haD->setWords(wordCount);
                 //haD->setDocs(fileCount);
                 haD->printIndex(oFile, wordCount, fileCount);
-                haS->clearStuff();
-                haS->readIndexNoPrev(wordCount, fileCount);
+                //haS->clearStuff();
+                //haS->readIndexNoPrev(wordCount, fileCount);
                 oFile.close();
             }
             break;

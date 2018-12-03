@@ -51,7 +51,7 @@ int Parser::parse(int& count, IndexerFace*& index) {        //count used solely 
         cout << "Incorrect file path selected" << endl;
 
 
-    for(unsigned int j = 0; j < 100/*files.size()*/; j++) {
+    for(unsigned int j = 0; j < files.size(); j++) {
         iFile.open(this->getPath()+ "/" + files[j]);
         if(iFile.is_open()) {
             Document doc;
@@ -119,6 +119,80 @@ void Parser::parseHTML(string html, string fileN, int& count, map<string, string
         }  //finding complete word
     }  //end for loop through buffer
 } //end parseHTML
+
+int Parser::parseNew(int &count, IndexerFace *&d, IndexerFace *&s) {
+    ifstream iFile;
+    string openPath;
+    //typedef map<string, string> mapType;
+    map<string, string> stemmap;
+
+    vector<string> files = get_files_at_path_with_extn();
+    if(files.size() == 0)
+        cout << "Incorrect file path selected" << endl;
+
+
+    for(unsigned int j = 0; j < files.size(); j++) {
+        iFile.open(this->getPath()+ "/" + files[j]);
+        if(iFile.is_open()) {
+            Document doc;
+            streampos file_length = iFile.tellg();
+            iFile.seekg(0, ios::end);
+            file_length = iFile.tellg() - file_length;
+            long file_len = (long)file_length;
+            //cout<<"file length:"<<file_length<<endl;
+            iFile.clear();
+            iFile.seekg(0, ios::beg);
+            char str[file_len];
+            iFile.read(str, file_len);
+            doc.Parse<kParseStopWhenDoneFlag>(str);                 //reads string buffer into a DOM tree separated by JSON tags
+            if(doc["html"].IsString()) {      //All files have html member but some are written as NULL
+                parseNewHTML(doc["html"].GetString(), this->getPath() +"/" + files[j], count, stemmap, d, s);    //pass HTML off to separate parser, along with document name
+            }                                                           //and counter for words parsed
+            iFile.close();
+
+        } //end iFile is_open
+        else {
+            cout << "File Path not correct: " << this->getPath()+"/"+files[j] << endl;
+        }
+    } //end for loop
+    return files.size();
+}
+
+void Parser::parseNewHTML(string html, string fileN, int& count, map<string, string>& aStem, IndexerFace*& d, IndexerFace*& s) {
+    int find;
+    string word = "";
+    string previousString = "";
+    for(unsigned int j = 0; j < html.length(); j++) {
+        if(isspace((int)html[j]) == 0) {
+            if(checkPunct(html[j]))
+                word += html[j];
+        } else {
+            //only do stuff if string is != ""
+            if(!word.empty()) {
+                find = word.find_last_of(">");
+                if(find != -1)
+                    word = word.substr(find+1, word.length()-find);
+
+                find = word.find_first_of("<");
+                if(find == -1 && !word.empty()) {
+                    if(!stahp.isStopWord(word)) {
+                        count++;
+                        word = stemWord(word, aStem);//Porter2Stemmer::stem(word);
+                        d->insert(word, previousString, fileN);
+                        s->insert(word, previousString, fileN);
+                         previousString = word;
+                        //cout << word <<endl;
+                        //make word object
+                        //update previousString
+                    }
+                }
+
+                word = "";
+            }
+
+        }  //finding complete word
+    }  //end for loop through buffer
+}
 
 inline string Parser::stemWord(string word, map<string, string> &aStem) {
     if(aStem.find(word) != aStem.end()) {
