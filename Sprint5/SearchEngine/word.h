@@ -6,6 +6,8 @@
 #include "docu.h"
 #include <string>
 #include <iostream>
+#include "avltree.h"
+#include "hashtable.h"
 
 using namespace std;
 
@@ -16,7 +18,9 @@ class word
 private:
     string thisWord;
     string previous;
-    vector<docu> documents;
+    //vector<docu> documents;
+    //AVLTree<docu> documents;
+    HashTable<int, key> documents;
 public:
     word();
     word(const word& val);

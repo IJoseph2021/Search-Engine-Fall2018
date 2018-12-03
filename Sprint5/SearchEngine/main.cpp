@@ -32,11 +32,12 @@ int main(int argc, char* argv[])
     cout << "PARSING DOCS" << endl;
 
     int x = 0;
-    int numFiles;
+    //int numFiles;
     clock_t start;
     float duration;
+    int numFiles;
     start = clock();
-    Parser dirParser(argv[1], "../StopWordList.txt");
+    Parser dirParser(argv[1], "../../StopWordList.txt");
     ofstream oFile("../Index.txt");
     /*int fileCount = 0;
     int wordCount = 0;
@@ -50,8 +51,8 @@ int main(int argc, char* argv[])
 
     avlDouble->readIndexWithPrev(wordCount, fileCount);
     avlSingle->readIndexNoPrev(wordCount, fileCount);*/
-    IndexerFace* fr = new HashIndex(10000019);
-    //IndexerFace* fr = new AVLIndex();
+    //IndexerFace* fr = new HashIndex(10000019);
+    IndexerFace* fr = new AVLIndex();
     //int numFiles = dirParser.parse(x, fr);
     //duration = (clock() - start) / (float) CLOCKS_PER_SEC;
 
@@ -68,12 +69,13 @@ int main(int argc, char* argv[])
     //fr->printIndex(oFile, x, numFiles);
     //duration = (clock() - start) / (float) CLOCKS_PER_SEC;
     //cout<<"AVLtime: "<<duration<<endl;
-    fr->readIndexWithPrev(x, numFiles);
+    //fr->readIndexWithPrev(x, numFiles);
+    fr->readIndexNoPrev(x, numFiles);
     duration = (clock() - start) / (float) CLOCKS_PER_SEC;
-    cout<<"Hashtime: "<<duration<<endl;
-    fr->printIndex(oFile, x, numFiles);
-    duration = (clock() - start) / (float) CLOCKS_PER_SEC;
-    cout<<"Hashtime: "<<duration<<endl;
+    cout<<"AVLSingWordtime: "<<duration<<endl;
+    //fr->printIndex(oFile, x, numFiles);
+    //duration = (clock() - start) / (float) CLOCKS_PER_SEC;
+    //cout<<"Hashtime: "<<duration<<endl;
     fr->clearStuff();
     delete fr;
     /*int choice;

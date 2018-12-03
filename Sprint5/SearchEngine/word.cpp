@@ -22,7 +22,8 @@ word::word(string prev, string curr, string doc)
     previous = prev;
     thisWord = curr;
     docu tempDoc(doc);
-    documents.push_back(tempDoc);
+    //documents.push_back(tempDoc);
+    documents.insert(docu);
 }
 
 word::word(string prev, string curr){
@@ -56,7 +57,7 @@ word::~word()
 //adding any new documents and incrementing existing document's use counts
 word& word::operator +(const word& val)
 {
-    //loop through all docs in the rhs word and see if they are already contained
+    /*//loop through all docs in the rhs word and see if they are already contained
     //set found flag and location if found
     for (int i = 0; i < val.getNumDocs(); i++)
     {
@@ -82,7 +83,7 @@ word& word::operator +(const word& val)
             documents.push_back(val.getDoc(i));
         }
     }
-    return *this;
+    return *this;*/
 }
 
 //overloaded < operator which compares the value of the current word to the passed word
@@ -121,19 +122,19 @@ bool word::operator==(const word& val)
 //print the previous word, this word, and document vector to ostream out
 ostream& operator<<(ostream& out, const word& w)
 {
-    out << w.getWord() << '|' << w.getPrev() << "|";
+    /*out << w.getWord() << '|' << w.getPrev() << "|";
     for (int i = 0; i < w.getNumDocs(); i++)
     {
         out << "-|";
         docu tempDoc = w.getDoc(i);
         out << tempDoc;
     }
-    return out;
+    return out;*/
 }
 
 int word::getNumDocs() const
 {
-    return documents.size();
+    return documents.returnNumberNodes();
 }
 
 string word::getPrev() const
@@ -148,7 +149,7 @@ string word::getWord() const
 
 docu word::getDoc(int x) const
 {
-    return documents[x];
+    //return documents[x];
 }
 
 docu& word::getLitDoc(int x)

@@ -126,9 +126,6 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
         }
         j++;
 
-        wordCount = stoi(firstNumber, nullptr, 10);
-        docCount = stoi(secondNumber, nullptr, 10);
-
         for(int i = j; i<file_len; i++){
             while(str[i] != '|'){
                 thisWord = thisWord + str[i];
@@ -171,8 +168,9 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
             catch(exception e){
                 wordTree.insert(currWord);
             }
-
         }
+        wordCount = stoi(firstNumber, nullptr, 10);
+        docCount = stoi(secondNumber, nullptr, 10);
         delete []str;
     }
 

@@ -49,7 +49,7 @@ vector <docu> HashIndex::findDocWithWord(string a){
     //make temp object to allow search in tree
     word b(a, "Fontenot");
     hash<string>str_hash;
-    int x = str_hash(a); //% wordTable.returnCapacity();
+    int x = str_hash(a);
     if(x<0){
         x = -1*x;
     }
@@ -69,7 +69,7 @@ word& HashIndex::findWord(string a, string prev){
     //create temp object to allow search in tree
     word b(a, prev);
     hash<string>str_hash;
-    int x = str_hash(a + prev); //% wordTable.returnCapacity();
+    int x = str_hash(a + prev);
     if(x<0){
         x = -1*x;
     }
@@ -93,10 +93,10 @@ int HashIndex::returnSize(){
 //overloadd virtual function
 //print data structure
 void HashIndex::printIndex(ostream &out, int &wordCount, int &docCount){
-    //out << wordCount << endl;
-    //out << docCount << endl;
-    //wordTable.printOut(out);
-    wordTable.stats();
+    out << wordCount << endl;
+    out << docCount << endl;
+    wordTable.printOut(out);
+    //wordTable.stats();
 }
 
 void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
@@ -132,12 +132,12 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
         j++;
         for(int i = j; i<file_len; i++){
             while(str[i] != '|'){
-                thisWord = thisWord + str[i];
+                thisWord += thisWord + str[i];
                 i++;
             }
             i++;
             while(str[i] != '|'){
-                prev = prev + str[i];
+                prev += prev + str[i];
                 i++;
             }
             i = i + 3;
@@ -161,7 +161,7 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
                 pos = docs.find('|');
                 docs.erase(0, pos+1);
             }
-            int x = str_hash(currWord.getWord()); //% wordTable.returnCapacity();
+            int x = str_hash(currWord.getWord());
             if(x<0){
                 x = -1*x;
             }
