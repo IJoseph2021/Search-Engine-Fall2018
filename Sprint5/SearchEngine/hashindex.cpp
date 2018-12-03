@@ -121,12 +121,12 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
         string secondNumber = "";
         int j = 0;
         while(str[j] != '\n'){
-            firstNumber = firstNumber + str[j];
+            firstNumber += str[j];
             j++;
         }
         j++;
         while(str[j] != '\n'){
-            secondNumber = secondNumber + str[j];
+            secondNumber += str[j];
             j++;
         }
         j++;
@@ -137,20 +137,20 @@ void HashIndex::readIndexNoPrev(int &wordCount, int &docCount)
 
         for(int i = j; i<file_len; i++){
             while(str[i] != '|'){
-                thisWord = thisWord + str[i];
+                thisWord += str[i];
                 i++;
             }
             i++;
             while(str[i] != '|'){
-                prev = prev + str[i];
+                prev += str[i];
                 i++;
             }
-            i = i + 3;
+            i += 3;
             word currWord(thisWord);
             prev = "";
             thisWord = "";
             while(str[i] != '\n'){
-                docs = docs + str[i];
+                docs += str[i];
                 i++;
             }
             while(!docs.empty())
@@ -205,12 +205,12 @@ void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
         string secondNumber = "";
         int j = 0;
         while(str[j] != '\n'){
-            firstNumber = firstNumber + str[j];
+            firstNumber += str[j];
             j++;
         }
         j++;
         while(str[j] != '\n'){
-            secondNumber = secondNumber + str[j];
+            secondNumber += str[j];
             j++;
         }
         j++;
@@ -228,12 +228,12 @@ void HashIndex::readIndexWithPrev(int &wordCount, int &docCount)
                 prev = prev + str[i];
                 i++;
             }
-            i = i + 3;
+            i += 3;
             word currWord(prev, thisWord);
             prev = "";
             thisWord = "";
             while(str[i] != '\n'){
-                docs = docs + str[i];
+                docs += str[i];
                 i++;
             }
             while(!docs.empty())

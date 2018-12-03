@@ -117,12 +117,12 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
         string secondNumber = "";
         int j = 0;
         while(str[j] != '\n'){
-            firstNumber = firstNumber + str[j];
+            firstNumber += str[j];
             j++;
         }
         j++;
         while(str[j] != '\n'){
-            secondNumber = secondNumber + str[j];
+            secondNumber += str[j];
             j++;
         }
         j++;
@@ -132,20 +132,20 @@ void AVLIndex::readIndexNoPrev(int& wordCount, int& docCount)
 
         for(int i = j; i<file_len; i++){
             while(str[i] != '|'){
-                thisWord = thisWord + str[i];
+                thisWord += str[i];
                 i++;
             }
             i++;
             while(str[i] != '|'){
-                prev = prev + str[i];
+                prev += str[i];
                 i++;
             }
-            i = i + 3;
+            i += 3;
             word currWord(thisWord);
             prev = "";
             thisWord = "";
             while(str[i] != '\n'){
-                docs = docs + str[i];
+                docs += str[i];
                 i++;
             }
             while(!docs.empty())
@@ -200,23 +200,28 @@ void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
         string secondNumber = "";
         int j = 0;
         while(str[j] != '\n'){
-            firstNumber = firstNumber + str[j];
+            firstNumber += str[j];
             j++;
         }
         j++;
         while(str[j] != '\n'){
-            secondNumber = secondNumber + str[j];
+            secondNumber += str[j];
             j++;
         }
         j++;
+
+        wordCount = stoi(firstNumber, nullptr, 10);
+
+        docCount = stoi(secondNumber, nullptr, 10);
+
         for(int i = j; i<file_len; i++){
             while(str[i] != '|'){
-                thisWord = thisWord + str[i];
+                thisWord += str[i];
                 i++;
             }
             i++;
             while(str[i] != '|'){
-                prev = prev + str[i];
+                prev += str[i];
                 i++;
             }
             i = i + 3;
@@ -224,7 +229,7 @@ void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
             prev = "";
             thisWord = "";
             while(str[i] != '\n'){
-                docs = docs + str[i];
+                docs += str[i];
                 i++;
             }
             while(!docs.empty())
@@ -240,9 +245,7 @@ void AVLIndex::readIndexWithPrev(int& wordCount, int& docCount)
                 pos = docs.find('|');
                 docs.erase(0, pos+1);
             }
-            wordCount = stoi(firstNumber, nullptr, 10);
 
-            docCount = stoi(secondNumber, nullptr, 10);
             try{
                 wordTree.find(currWord);
                 for (int i = 0; i < currWord.getNumDocs(); i++)
